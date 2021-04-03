@@ -118,7 +118,7 @@ export default {
     baseUrl:
       process.env.NODE_ENV === 'development'
         ? 'http://oxygene-portal.test:3000'
-        : 'https://app.oxygene.co.ke',
+        : 'https://portal.oxygene.co.ke',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

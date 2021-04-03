@@ -28,6 +28,12 @@ export default function ({ $axios, $store }) {
           status: 'error',
         }
         return Promise.reject(values)
+      } else if (error.response.status === 400) {
+        const values = {
+          message: error.response.data.message,
+          status: 'error',
+        }
+        return Promise.reject(values)
       } else if (error.response.status === 404) {
         const values = {
           message: "It look's like the link doesn't exist!",
