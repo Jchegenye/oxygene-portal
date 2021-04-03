@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Jchegenye/oxygene-portal/master/cover.png" alt="Nuxt & Laravel Application">
+    <img src="https://github.com/Jchegenye/oxygene-portal/blob/main/cover.png" alt="Nuxt & Laravel Application">
 </p>
 
 > This implements Nuxt app as a first-party client and Laravel Passport as the backend API. It supports Passport-password grant out of the box which allows your other first-party clients, such as a mobile application, to obtain an access token using an e-mail address and password.
