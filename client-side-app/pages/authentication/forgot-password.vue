@@ -39,7 +39,7 @@
             :loading="loading"
             @click.prevent="login('ruleForm')"
           >
-            {{ loading ? 'Resetting ...' : 'Forgot Password' }}
+            {{ loading ? 'Processing ...' : 'Forgot Password' }}
           </a-button>
           Or
           <NuxtLink to="/authentication/login">login!</NuxtLink>
@@ -73,8 +73,7 @@ export default {
     }
     return {
       ruleForm: {
-        // _token: this.csrf,
-        email: 'jtechinfo3@gmail.com', // jtechinfo3@gmail.com
+        email: '', // jtechinfo3@gmail.com
       },
       rules: {
         password: [{ validator: validatePass, trigger: 'change' }],
@@ -89,7 +88,6 @@ export default {
           },
         ],
       },
-      // csrf: '',
       loading: false,
       checked: true,
       error: {},
@@ -104,15 +102,6 @@ export default {
       }
     },
   },
-  beforeCreate() {
-    this.form = this.$form.createForm(this, { name: 'normal_login' })
-  },
-  mounted() {
-    const Laravel = {
-      csrfToken: '{{csrf_token()}}',
-    }
-    this.csrf = Laravel.csrfToken
-  },
   methods: {
     async login(formName) {
       try {
@@ -123,21 +112,48 @@ export default {
 
         const result = await this.$refs[formName].validate()
         if (result)
-          await this.$axios
-            .$post('/password/forgot', this.ruleForm)
-            .then((response) => {
-              this.error = response
+          if (this.error.status !== 'success') {
+            //
+            this.$notification.warning({
+              message: 'Notification',
+              description: 'Processing, kindly wait ...',
+              placement: 'bottom',
+            })
+          }
+        if (this.error.status === 'error') {
+          setTimeout(() => {
+            this.$notification.error({
+              message: 'Notification',
+              description:
+                'Looks like your form has errors, check and try again!',
+              placement: 'bottom',
+            })
+          }, 800)
+          //
+          setTimeout(() => {
+            this.error.status = ''
+            this.error.formErrors = {}
+          }, 2000)
+        }
+        await this.$axios
+          .$post('forgot-password', this.ruleForm)
+          .then((response) => {
+            this.error = response
 
-              setTimeout(() => {
-                this.error = {
-                  status: 'success',
-                  message: 'Kindly check your email ...',
-                }
-              }, 1500)
-            })
-            .catch((err) => {
-              this.errorFormAlerts(err)
-            })
+            setTimeout(() => {
+              this.error = {
+                status: 'success',
+                message: 'Kindly check your email ...',
+              }
+            }, 3000)
+            //
+            setTimeout(() => {
+              this.$router.push('/authentication/login')
+            }, 5500)
+          })
+          .catch((err) => {
+            this.errorFormAlerts(err)
+          })
       } catch (error) {}
     },
     // Error

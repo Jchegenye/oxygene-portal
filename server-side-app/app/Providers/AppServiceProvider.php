@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         ResetPassword::createUrlUsing(function ($notifiable, string $token) {
-            return config('app.url').'/reset-password?token='.$token.'&email='.urlencode($notifiable->email);
+            return config('app.url').'/authentication/reset-password?token='.$token.'&email='.urlencode($notifiable->email);
         });
     }
 }

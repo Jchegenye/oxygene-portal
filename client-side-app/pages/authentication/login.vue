@@ -107,8 +107,8 @@ export default {
     }
     return {
       ruleForm: {
-        username: 'nelly@oxygene.co.ke', // jtechinfo3@gmail.com
-        password: '111111111',
+        username: '', // jtechinfo3@gmail.com
+        password: '',
         remember_me: true,
       },
       rules: {
@@ -138,9 +138,6 @@ export default {
       }
     },
   },
-  beforeCreate() {
-    this.form = this.$form.createForm(this, { name: 'normal_login' })
-  },
   methods: {
     async login(formName) {
       const result = await this.$refs[formName].validate()
@@ -150,8 +147,8 @@ export default {
             data: this.ruleForm,
           })
           .then(() => {
-            this.$notification.success({
-              message: 'Notification',
+            this.$notification.info({
+              message: 'Authenticating',
               description: 'Checking your details ...',
               placement: 'bottom',
             })
@@ -159,7 +156,7 @@ export default {
               if (this.$store.$auth.user.length !== 0) {
                 if (!this.$store.$auth.user.data.verified) {
                   this.$notification.error({
-                    message: 'Notification',
+                    message: 'Account Verification',
                     description: 'Kindly verify your account ...',
                     placement: 'bottom',
                   })
@@ -177,7 +174,7 @@ export default {
                   // success message
                   if (this.$auth.loggedIn) {
                     this.$notification.success({
-                      message: 'Notification',
+                      message: 'Authentication',
                       description:
                         'Successfully logged in as ' +
                         this.$store.$auth.user.data.nickname,
@@ -207,7 +204,7 @@ export default {
     async logout() {
       try {
         this.$notification.info({
-          message: 'Notification',
+          message: 'Authentication',
           description: 'Successfully logged out!',
           placement: 'bottom',
         })

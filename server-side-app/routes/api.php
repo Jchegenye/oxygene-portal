@@ -27,10 +27,10 @@ Route::prefix('v1')->group(function () {
 
     Route::post('register', [RegisterController::class, 'register']);
 
-    Route::get('verify-email/{id}/{hash}', [VerificationController::class, 'verify'])
+    Route::get('authentication/verify-email/{id}/{hash}', [VerificationController::class, 'verify'])
     ->name('verification.verify');
 
-    Route::post('verify-email/resend', [VerificationController::class, 'resend'])
+    Route::post('authentication/verify-email/resend', [VerificationController::class, 'resend'])
     ->name('verification.resend');
 
     Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])

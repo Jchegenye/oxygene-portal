@@ -3,30 +3,27 @@
     <div>
       <Logo />
       <Tagline />
-      <a-form
+      <FormAlerts :errors="error" />
+
+      <a-form-model
         id="components-form-demo-normal-login"
-        :form="form"
+        ref="ruleForm"
+        :model="ruleForm"
+        :rules="rules"
         class="login-form"
-        @submit="handleSubmit"
       >
-        <a-form-item>
+        <!-- email -->
+        <a-form-model-item
+          prop="email"
+          :help="validationErrors ? validationErrors.email : ''"
+          :validate-status="error.status"
+          has-feedback
+        >
           <a-input
-            v-decorator="[
-              'email',
-              {
-                rules: [
-                  {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                  },
-                  {
-                    required: true,
-                    message: 'Please input your E-mail!',
-                  },
-                ],
-              },
-            ]"
+            v-model="ruleForm.email"
+            type="email"
             placeholder="E-mail *"
+            :disabled="true"
           >
             <a-icon
               slot="prefix"
@@ -34,72 +31,80 @@
               style="color: rgba(0, 0, 0, 0.25)"
             />
           </a-input>
-        </a-form-item>
-        <a-form-item has-feedback>
-          <a-input
-            v-decorator="[
-              'password',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                  {
-                    validator: validateToNextPassword,
-                  },
-                ],
-              },
-            ]"
-            placeholder="Password *"
-            type="password"
-          >
-            <a-icon
-              slot="prefix"
-              type="lock"
-              style="color: rgba(0, 0, 0, 0.25)"
-            />
-          </a-input>
-        </a-form-item>
-        <a-form-item has-feedback class="mb-0">
-          <a-input
-            v-decorator="[
-              'confirm',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Please confirm your password!',
-                  },
-                  {
-                    validator: compareToFirstPassword,
-                  },
-                ],
-              },
-            ]"
-            placeholder="Confirm password *"
-            type="password"
-            @blur="handleConfirmBlur"
-          >
-            <a-icon
-              slot="prefix"
-              type="lock"
-              style="color: rgba(0, 0, 0, 0.25)"
-            />
-          </a-input>
-        </a-form-item>
+        </a-form-model-item>
 
-        <a-form-item class="mb-0">
-          <NuxtLink to="/authentication/registration" class="login-form-forgot"
-            >Register</NuxtLink
+        <!-- password & confirm -->
+        <a-form-model-item>
+          <a-form-model-item
+            prop="password"
+            :help="validationErrors ? validationErrors.password : ''"
+            :validate-status="error.status"
+            has-feedback
+            :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
+            class="mb-0"
           >
-          <a-button type="primary" html-type="submit" class="login-form-button">
-            Reset Password
-          </a-button>
-          Or
-          <NuxtLink to="/authentication">login!</NuxtLink>
-        </a-form-item>
-      </a-form>
+            <a-input
+              v-model="ruleForm.password"
+              placeholder="Password *"
+              type="password"
+              autocomplete="off"
+            >
+              <a-icon
+                slot="prefix"
+                type="lock"
+                style="color: rgba(0, 0, 0, 0.25)"
+              />
+            </a-input>
+          </a-form-model-item>
+          <span
+            :style="{
+              display: 'inline-block',
+              width: '24px',
+              textAlign: 'center',
+            }"
+          ></span>
+          <a-form-model-item
+            prop="password_confirmation"
+            has-feedback
+            :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
+            class="mb-0"
+          >
+            <a-input
+              v-model="ruleForm.password_confirmation"
+              placeholder="Confirm password *"
+              type="password"
+              autocomplete="off"
+            >
+              <a-icon
+                slot="prefix"
+                type="lock"
+                style="color: rgba(0, 0, 0, 0.25)"
+              />
+            </a-input>
+          </a-form-model-item>
+        </a-form-model-item>
+
+        <!-- action buttons -->
+        <a-form-model-item class="mb-0">
+          <NuxtLink to="/authentication/login" class="text-right d-block"
+            >login</NuxtLink
+          >
+          <a-form-model-item class="mb-0">
+            <a-button
+              html-type="submit"
+              :type="loading ? 'danger' : 'primary'"
+              :loading="loading"
+              @click.prevent="resetPassword('ruleForm')"
+            >
+              {{ loading ? 'Resetting ...' : 'Reset Password' }}
+            </a-button>
+            Or
+            <NuxtLink to="/authentication/forgot-password"
+              >Send another link!</NuxtLink
+            >
+          </a-form-model-item>
+        </a-form-model-item>
+      </a-form-model>
     </div>
   </div>
 </template>
@@ -108,9 +113,44 @@
 export default {
   name: 'ResetPassword',
   layout: 'base',
-  middleware: ['guest'], // auth
+  middleware: ['guest'],
   data() {
+    let checkPending
+    const validatePass = (rule, value, callback) => {
+      clearTimeout(checkPending)
+      if (value === '') {
+        callback(new Error('Please input your password'))
+      } else {
+        checkPending = setTimeout(() => {
+          if (this.ruleForm.password_confirmation !== '') {
+            if (this.$refs.ruleForm) {
+              this.$refs.ruleForm.validateField('password_confirmation')
+            }
+          } else if (value < 6) {
+            callback(new Error('Password must be greater than 6'))
+          } else {
+            callback()
+          }
+        }, 500)
+      }
+      callback()
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the password again'))
+      } else if (value !== this.ruleForm.password) {
+        callback(new Error('Two passwords that you enter is inconsistent!'))
+      } else {
+        callback()
+      }
+    }
     return {
+      ruleForm: {
+        token: this.$route.query.token,
+        email: this.$route.query.email,
+        password: '',
+        password_confirmation: '',
+      },
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
@@ -121,55 +161,135 @@ export default {
           sm: { span: 16 },
         },
       },
-      checked: false,
+      rules: {
+        password: [{ validator: validatePass, trigger: 'change' }],
+        password_confirmation: [
+          { validator: validatePass2, trigger: 'change' },
+        ],
+        email: [
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+          {
+            required: true,
+            message: 'Please input your E-mail!',
+          },
+        ],
+      },
+      layout: {
+        labelCol: { span: 4 },
+        wrapperCol: { span: 14 },
+      },
+      loading: false,
+      error: {},
     }
   },
-  beforeCreate() {
-    this.form = this.$form.createForm(this, { name: 'normal_login' })
+  computed: {
+    validationErrors() {
+      if (Object.keys(this.error).length !== 0) {
+        return this.error.formErrors
+      } else {
+        return {}
+      }
+    },
   },
   methods: {
-    handleSubmit(e) {
-      e.preventDefault()
-      this.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          // console.log('Received values of form: ', values)
+    async resetPassword(formName) {
+      try {
+        this.loading = true
+
+        setTimeout(() => {
+          this.loading = false
+        }, 800)
+
+        const result = await this.$refs[formName].validate()
+        if (result)
+          if (this.error.status !== 'success') {
+            //
+            this.$notification.warning({
+              message: 'Notification',
+              description: 'Attempting to reset password, kindly wait ...',
+              placement: 'bottom',
+            })
+          }
+        if (this.error.status === 'error') {
+          // setTimeout(() => {
+          //   this.$notification.error({
+          //     message: 'Notification',
+          //     description:
+          //       'Looks like your form has errors, check and try again!',
+          //     placement: 'bottom',
+          //   })
+          // }, 800)
+          //
+          setTimeout(() => {
+            this.error.status = ''
+            this.error.formErrors = {}
+          }, 2000)
         }
-      })
+
+        await this.$axios
+          .$post('reset-password', this.ruleForm)
+          .then((response) => {
+            this.error = response
+
+            this.error = {
+              status: 'success',
+              message: 'Password reset successful!',
+            }
+
+            // login user
+            this.$auth
+              .loginWith('laravelPassport', {
+                data: {
+                  username: this.ruleForm.email,
+                  password: this.ruleForm.password,
+                },
+              })
+              .then(() => {
+                setTimeout(() => {
+                  if (this.$store.$auth.user.length !== 0) {
+                    if (!this.$store.$auth.user.data.verified) {
+                      this.$notification.info({
+                        message: 'Account Verification',
+                        description: 'Kindly verify your account ...',
+                        placement: 'bottom',
+                      })
+                      this.$router.push('/profile')
+                    } else {
+                      if (this.$store.$auth.user.data.role_id === 2) {
+                        this.$router.push('/dashboard/admin')
+                      } else if (this.$store.$auth.user.data.role_id === 3) {
+                        this.$router.push('/dashboard/employee')
+                      } else if (this.$store.$auth.user.data.role_id === 4) {
+                        this.$router.push('/dashboard/client')
+                      } else {
+                        this.logout()
+                      }
+                      // success message
+                      if (this.$auth.loggedIn) {
+                        this.$notification.success({
+                          message: 'Authentication',
+                          description:
+                            'Successfully logged in as ' +
+                            this.$store.$auth.user.data.nickname,
+                          placement: 'bottom',
+                        })
+                      }
+                    }
+                  }
+                }, 3500)
+              })
+          })
+          .catch((err) => {
+            this.errorFormAlerts(err)
+          })
+      } catch (error) {}
     },
-    handleConfirmBlur(e) {
-      const value = e.target.value
-      this.confirmDirty = this.confirmDirty || !!value
-    },
-    compareToFirstPassword(rule, value, next) {
-      const form = this.form
-      if (value && value !== form.getFieldValue('password')) {
-        return next('Two passwords that you enter is inconsistent!')
-      } else {
-        return next()
-      }
-    },
-    validateToNextPassword(rule, value, next) {
-      const form = this.form
-      if (value && this.confirmDirty) {
-        form.validateFields(['confirm'], { force: true })
-      }
-      return next()
-    },
-    // MODAL AGREEMENT
-    agreementModal() {
-      this.$info({
-        title: 'Oxygene MCL User(s) Agreement',
-        // JSX support
-        content: (
-          <div>
-            <p>Coming soon!</p>
-          </div>
-        ),
-      })
-    },
-    // CHECK AGREEMENT,
-    toggleCheckedModal() {
-      this.checked = !this.checked
+    // Error
+    errorFormAlerts(response) {
+      this.error = response
     },
   },
 }

@@ -5,6 +5,7 @@ export default function ({ $axios, $store }) {
       if (
         success.status === 200 ||
         success.status === 201 ||
+        success.status === 202 ||
         success.status === 204
       ) {
         return Promise.resolve(success)

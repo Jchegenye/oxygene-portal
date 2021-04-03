@@ -20,11 +20,10 @@
         </a-menu>
       </a-layout-sider>
       <a-layout-content :style="{ padding: '0 24px', minHeight: '280px' }">
-        <div>
+        <div v-if="!loggedInUser.verified">
           <a-alert
-            v-if="!loggedInUser.verified"
-            message="Account Verification"
-            description="Before proceeding, please check your email for a verification link. If you did not receive the email,"
+            message="Account Verification Required"
+            description="Before proceeding, please check your email for a verification link. If you did not receive the email, kindly click below button to request for another link."
             type="info"
             show-icon
           />
@@ -33,7 +32,9 @@
             class="mt-2"
             @click="resendVerificationEmail"
           >
-            click here to request another
+            {{
+              loading ? 'Requesting ...' : 'Request another verification link'
+            }}
           </a-button>
         </div>
       </a-layout-content>
@@ -43,8 +44,26 @@
 <script>
 export default {
   name: 'Profile',
+  layout: 'default',
   middleware: ['auth'],
+  data() {
+    return {
+      loading: false,
+    }
+  },
   computed: {
+    loggedInUser() {
+      if (
+        Object.keys(this.$auth.$state.user).length !== 0 &&
+        this.$auth.$state.user.length !== 0
+      ) {
+        return this.$auth.$state.user.data
+      } else {
+        return []
+      }
+    },
+  },
+  watch: {
     loggedInUser() {
       if (
         Object.keys(this.$auth.$state.user).length !== 0 &&
@@ -58,18 +77,29 @@ export default {
   },
   methods: {
     async resendVerificationEmail() {
+      this.loading = true
       await this.$axios
-        .$post('verify-email/resend')
+        .$post('authentication/verify-email/resend')
         .then(() => {
-          this.$notification.info({
+          this.$notification.success({
             message: 'Notification',
             description:
               'A fresh verification link has been sent to your email address.',
             placement: 'bottom',
           })
+          setTimeout(() => {
+            this.loading = false
+          }, 1500)
         })
-        .catch((e) => {
-          this.$toast.error(e.response.data.message)
+        .catch((err) => {
+          this.$notification.error({
+            message: 'Notification',
+            description: err.response.data.message,
+            placement: 'bottom',
+          })
+          setTimeout(() => {
+            this.loading = false
+          }, 1500)
         })
     },
   },

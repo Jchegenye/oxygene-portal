@@ -188,10 +188,10 @@ export default {
     return {
       ruleForm: {
         email: '',
-        password: '111111111',
-        password_confirmation: '111111111',
-        first_name: 'Nelly C',
-        last_name: 'Asumu',
+        password: '',
+        password_confirmation: '',
+        first_name: '',
+        last_name: '',
         agreement: true,
       },
       formItemLayout: {
@@ -248,69 +248,94 @@ export default {
   methods: {
     async submitForm(formName) {
       try {
+        this.loading = true
+
         setTimeout(() => {
           this.loading = false
         }, 800)
-        this.loading = true
 
         const result = await this.$refs[formName].validate()
         if (result)
-          await this.$axios
-            .$post('register', this.ruleForm)
-            .then((response) => {
-              this.error = response
+          if (this.error.status !== 'success') {
+            //
+            this.$notification.warning({
+              message: 'Notification',
+              description: 'Attempting to register, kindly wait ...',
+              placement: 'bottom',
+            })
+          }
+        if (this.error.status === 'error') {
+          setTimeout(() => {
+            this.$notification.error({
+              message: 'Notification',
+              description:
+                'Looks like your form has errors, check and try again!',
+              placement: 'bottom',
+            })
+          }, 800)
+          //
+          setTimeout(() => {
+            this.error.status = ''
+            this.error.formErrors = {}
+          }, 2000)
+        }
 
-              this.error = {
-                status: 'success',
-                message: 'Your account was created successfully!',
-              }
+        await this.$axios
+          .$post('register', this.ruleForm)
+          .then((response) => {
+            this.error = response
 
-              // login user
-              this.$auth
-                .loginWith('laravelPassport', {
-                  data: {
-                    username: this.ruleForm.email,
-                    password: this.ruleForm.password,
-                  },
-                })
-                .then(() => {
-                  setTimeout(() => {
-                    if (this.$store.$auth.user.length !== 0) {
-                      if (!this.$store.$auth.user.data.verified) {
-                        this.$notification.error({
-                          message: 'Notification',
-                          description: 'Kindly verify your account ...',
+            this.error = {
+              status: 'success',
+              message: 'Your account was created successfully!',
+            }
+
+            // login user
+            this.$auth
+              .loginWith('laravelPassport', {
+                data: {
+                  username: this.ruleForm.email,
+                  password: this.ruleForm.password,
+                },
+              })
+              .then(() => {
+                setTimeout(() => {
+                  if (this.$store.$auth.user.length !== 0) {
+                    if (!this.$store.$auth.user.data.verified) {
+                      this.$notification.info({
+                        message: 'Account Verification',
+                        description: 'Kindly verify your account ...',
+                        placement: 'bottom',
+                      })
+                      this.$router.push('/profile')
+                    } else {
+                      if (this.$store.$auth.user.data.role_id === 2) {
+                        this.$router.push('/dashboard/admin')
+                      } else if (this.$store.$auth.user.data.role_id === 3) {
+                        this.$router.push('/dashboard/employee')
+                      } else if (this.$store.$auth.user.data.role_id === 4) {
+                        this.$router.push('/dashboard/client')
+                      } else {
+                        this.logout()
+                      }
+                      // success message
+                      if (this.$auth.loggedIn) {
+                        this.$notification.success({
+                          message: 'Authentication',
+                          description:
+                            'Successfully logged in as ' +
+                            this.$store.$auth.user.data.nickname,
                           placement: 'bottom',
                         })
-                        this.$router.push('/profile')
-                      } else {
-                        if (this.$store.$auth.user.data.role_id === 2) {
-                          this.$router.push('/dashboard/admin')
-                        } else if (this.$store.$auth.user.data.role_id === 3) {
-                          this.$router.push('/dashboard/employee')
-                        } else if (this.$store.$auth.user.data.role_id === 4) {
-                          this.$router.push('/dashboard/client')
-                        } else {
-                          this.logout()
-                        }
-                        // success message
-                        if (this.$auth.loggedIn) {
-                          this.$notification.success({
-                            message: 'Notification',
-                            description:
-                              'Successfully logged in as ' +
-                              this.$store.$auth.user.data.nickname,
-                            placement: 'bottom',
-                          })
-                        }
                       }
                     }
-                  }, 1500)
-                })
-            })
-            .catch((err) => {
-              this.errorFormAlerts(err)
-            })
+                  }
+                }, 1500)
+              })
+          })
+          .catch((err) => {
+            this.errorFormAlerts(err)
+          })
       } catch (error) {}
     },
     resetForm(formName) {
@@ -339,7 +364,7 @@ export default {
     async logout() {
       try {
         this.$notification.info({
-          message: 'Notification',
+          message: 'Authentication',
           description: 'Successfully logged out!',
           placement: 'bottom',
         })
