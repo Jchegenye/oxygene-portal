@@ -279,7 +279,7 @@ export default {
                       }
                     }
                   }
-                }, 3500)
+                }, 3000)
               })
           })
           .catch((err) => {

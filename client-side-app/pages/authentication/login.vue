@@ -43,7 +43,6 @@
             v-model="ruleForm.password"
             placeholder="Password *"
             type="password"
-            autocomplete="off"
           >
             <a-icon
               slot="prefix"

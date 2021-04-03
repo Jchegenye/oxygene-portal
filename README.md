@@ -10,9 +10,9 @@ Clone the repository
 
     git clone https://github.com/Jchegenye/oxygene-portal.git
 
-Switch to the laravel folder first
+Switch to the server-side-app folder first
 
-    cd oxygene-portal/laravel
+    cd oxygene-portal/server-side-app
 
 Install all the dependencies using composer
 
@@ -40,9 +40,9 @@ Start the local development server
 
 You can now access the server at http://localhost:8000
 
-Switch to the nuxt folder next
+Switch to the client-side-app folder next
 
-    cd ../nuxt/
+    cd ../client-side-app/
 
 Install all the dependencies using npm
 
