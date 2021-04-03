@@ -38,8 +38,8 @@ class UserSeeder extends Seeder
             ),
             1 => 
             array (
-                'first_name' => "Johnson Gitonga",
-                'last_name' => "Johnson Gitonga",
+                'first_name' => "Johnson",
+                'last_name' => "Gitonga",
                 'email' => "johnson.gitonga@oxygene.co.ke",
                 'password' =>  Hash::make('111'),
                 'nickname' => Str::lower(head(explode(' ', trim('johnson')))),
