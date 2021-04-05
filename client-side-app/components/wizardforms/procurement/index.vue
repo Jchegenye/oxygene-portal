@@ -27,7 +27,6 @@
             ref="ruleForm"
             :model="ruleForm"
             :rules="rules"
-            class="login-form"
           >
             <div class="steps-content">
               <FormAlerts :errors="error" />
@@ -40,10 +39,6 @@
                 :form-item-layout="formItemLayout"
                 :validation-errors="validationErrors"
                 :dragging="dragging"
-                :file-list="fileList"
-                :handle-remove="handleRemove"
-                :before-upload="beforeUpload"
-                :handle-file-upload-change="handleFileUploadChange"
               ></Component>
             </div>
             <!-- BUTTONS -->
@@ -89,16 +84,23 @@
 <script>
 export default {
   data() {
-    const validateFileUpload = (rule, value, callback) => {
+    const validateFileUploadYesNo = (rule, value, callback) => {
       // add more propertie here using || annotation e.g. ruleForm.step3.
-      if (value === null && this.ruleForm.step3.litigation === 'yes') {
+      if (value === '' && this.ruleForm.step3.litigation === 'yes') {
+        callback(new Error('Please attach file.'))
+      } else {
+        callback()
+      }
+    }
+    const validateFileUploadNormal = (rule, value, callback) => {
+      // add more propertie here using || annotation e.g. ruleForm.step3.
+      if (value.length === 0 || value === '') {
         callback(new Error('Please attach file.'))
       } else {
         callback()
       }
     }
     return {
-      fileList: [],
       ruleForm: {
         step1: {
           full_name_organization: 'Mwananchi Village Market',
@@ -115,7 +117,20 @@ export default {
         },
         step3: {
           litigation: 'no',
-          litigation_file: null,
+          litigation_file: '',
+        },
+        step4: {
+          evaluation: '',
+        },
+        step6: {
+          declaration: {
+            signed_sealed: '',
+            for_onbehalf_of: '',
+            position_in: '',
+            company: '',
+            date: '',
+            acknowledge: [],
+          },
         },
         // legal_entity_other: '',
         // postal_address: '',
@@ -198,33 +213,6 @@ export default {
         //     email_addr: '',
         //   },
         // ],
-        // evaluation: {
-        //   eval_1: '',
-        //   eval_2: '',
-        //   eval_3: '',
-        //   eval_4: '',
-        //   eval_5: '',
-        //   eval_6: '',
-        //   eval_7: '',
-        //   eval_8: '',
-        //   eval_9: '',
-        //   eval_10: '',
-        //   eval_11: '',
-        //   eval_12: '',
-        //   eval_13: '',
-        //   eval_14: '',
-        //   eval_15: '',
-        //   eval_16: '',
-        //   eval_17: '',
-        // },
-        // declaration: {
-        //   signed_sealed: '',
-        //   for_onbehalf_of: '',
-        //   position_in: '',
-        //   company: '',
-        //   date: '',
-        //   acknowledge: [],
-        // },
       },
       dragging: true,
       rules: {
@@ -262,7 +250,16 @@ export default {
           },
         },
         step3: {
-          litigation_file: { validator: validateFileUpload, trigger: 'change' },
+          litigation_file: {
+            validator: validateFileUploadYesNo,
+            trigger: 'change',
+          },
+        },
+        step4: {
+          evaluation: {
+            validator: validateFileUploadNormal,
+            trigger: 'change',
+          },
         },
         // postal_address: [
         //   {
@@ -377,15 +374,6 @@ export default {
       return 'ProcurementStep' + this.current
     },
   },
-  watch: {
-    fileList() {
-      if (Object.keys(this.fileList).length === 0) {
-        this.ruleForm.step3.litigation_file = null
-      } else {
-        this.ruleForm.step3.litigation_file = this.fileList
-      }
-    },
-  },
   methods: {
     async submitForm(formName) {
       try {
@@ -446,24 +434,6 @@ export default {
     // Error
     errorFormAlerts(response) {
       this.error = response
-    },
-    // FILEs
-    handleRemove(file) {
-      const index = this.fileList.indexOf(file)
-      const newFileList = this.fileList.slice()
-      newFileList.splice(index, 1)
-      this.fileList = newFileList
-    },
-    beforeUpload(file) {
-      this.fileList = [...this.fileList, file]
-      return false
-    },
-    handleFileUploadChange() {
-      // FILEs
-      // 1.attach file_1
-      if (Object.keys(this.fileList).length > 0) {
-        this.ruleForm.step3.litigation_file = this.fileList
-      }
     },
   },
 }

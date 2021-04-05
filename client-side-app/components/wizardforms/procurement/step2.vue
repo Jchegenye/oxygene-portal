@@ -31,9 +31,10 @@
       <a-upload-dragger
         v-model="formData.step3.litigation_file"
         :multiple="true"
-        :file-list="fileList"
+        :file-list="fileLitigationData"
         :remove="handleRemove"
         :before-upload="beforeUpload"
+        :disabled="fileLitigationData.length < 2 ? false : true"
         @change="handleFileUploadChange"
       >
         <p class="ant-upload-drag-icon">
@@ -68,26 +69,76 @@ export default {
       type: [Object],
       required: true,
     },
-    fileList: {
-      type: [Array],
-      required: true,
-    },
-    handleRemove: {
-      type: [Function],
-      required: true,
-    },
-    beforeUpload: {
-      type: [Function],
-      required: true,
-    },
-    handleFileUploadChange: {
-      type: [Function],
-      required: true,
-    },
   },
   data() {
-    return { formData: this.ruleForm }
+    return { formData: this.ruleForm, fileLitigationData: [] }
   },
-  methods: {},
+  watch: {
+    fileLitigationData() {
+      if (this.fileLitigationData.length !== 0) {
+        this.formData.step3.litigation_file = this.fileLitigationData
+      } else {
+        this.formData.step3.litigation_file = this.fileLitigationData
+      }
+    },
+    'formData.step3.litigation'() {
+      if (this.formData.step3.litigation === 'no') {
+        this.formData.step3.litigation_file = []
+      } else {
+        this.formData.step3.litigation_file = this.fileLitigationData
+      }
+    },
+  },
+  created() {
+    if (this.formData.step3.litigation_file !== '') {
+      this.fileLitigationData = this.formData.step3.litigation_file
+    }
+  },
+  methods: {
+    handleFileUploadChange() {
+      if (this.fileLitigationData.length !== 0) {
+        this.formData.step3.litigation_file = this.fileLitigationData
+      }
+    },
+    beforeUpload(file) {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/png' ||
+        file.type === 'application/pdf' ||
+        file.type === 'application/vnd.ms-excel' ||
+        file.type ===
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        file.type === 'application/msword' ||
+        file.type ===
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJpgOrPng) {
+        this.$notification.error({
+          message: 'File Upload',
+          description: 'Sorry that file type is NOT accepted!',
+          placement: 'bottomLeft',
+          duration: 6,
+        })
+      } else if (!isLt2M) {
+        this.$notification.warning({
+          message: 'File Upload',
+          description: 'Image must smaller than 2MB!',
+          placement: 'bottomLeft',
+          duration: 6,
+        })
+      } else {
+        this.fileLitigationData = [...this.fileLitigationData, file]
+      }
+      return isJpgOrPng && isLt2M
+    },
+    handleRemove(file) {
+      const index = this.fileLitigationData.indexOf(file)
+      const newFileList = this.fileLitigationData.slice()
+      newFileList.splice(index, 1)
+      this.fileLitigationData = newFileList
+    },
+  },
 }
 </script>

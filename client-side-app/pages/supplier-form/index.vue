@@ -2,7 +2,6 @@
   <div>
     <div id="container-wrapper" class="wizard o2forms mt-4">
       <div>
-        <Logo />
         <Tagline />
         <a-col :span="12" :offset="6">
           <a-row>

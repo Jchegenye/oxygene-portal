@@ -14,7 +14,7 @@
         placeholder="Bank name."
         autocomplete="off"
       >
-        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
   </div>

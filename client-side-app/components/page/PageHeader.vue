@@ -3,7 +3,7 @@
     class="header"
     :style="{ height: '55px', lineHeight: '55px' }"
   >
-    <div class="logo" />
+    <Logo />
     <a-menu
       v-if="$auth.loggedIn"
       theme="dark"
