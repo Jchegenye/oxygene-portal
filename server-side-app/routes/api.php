@@ -23,7 +23,6 @@ Route::prefix('v1')->group(function () {
     /*
      * Auth
      */
-
     Route::post('logout', [LogoutController::class, 'logout']);
 
     Route::post('register', [RegisterController::class, 'register']);
