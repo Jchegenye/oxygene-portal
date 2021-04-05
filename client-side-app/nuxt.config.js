@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'client-side-app',
+    title: 'Oxygene Portal',
     htmlAttrs: {
       lang: 'en',
     },
@@ -50,7 +50,7 @@ export default {
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
-    dirs: ['~/components'], // '~/components/wizardforms'
+    dirs: ['~/components','~/components/wizardforms'], // '~/components/wizardforms'
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -110,6 +110,7 @@ export default {
     redirect: {
       login: '/authentication/login',
       home: '/dashboard',
+      callback: '/auth/callback'
     },
   },
 

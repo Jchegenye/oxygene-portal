@@ -11,7 +11,7 @@
       class="mb-0"
     >
       <a-input v-model="formData.declaration.signed_sealed" autocomplete="off">
-        <a-icon type="" slot="prefix" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
     <a-form-model-item
@@ -28,7 +28,7 @@
         v-model="formData.declaration.for_onbehalf_of"
         autocomplete="off"
       >
-        <a-icon type="" slot="prefix" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
     <a-form-model-item
@@ -42,7 +42,7 @@
       class="mb-0"
     >
       <a-input v-model="formData.declaration.position_in" autocomplete="off">
-        <a-icon type="" slot="prefix" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
     <a-form-model-item
@@ -56,7 +56,7 @@
       class="mb-0"
     >
       <a-input v-model="formData.declaration.company" autocomplete="off">
-        <a-icon type="" slot="prefix" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
     <a-form-model-item
@@ -70,33 +70,33 @@
       class="mb-0"
     >
       <a-input v-model="formData.declaration.date" autocomplete="off">
-        <a-icon type="" slot="prefix" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
     <a-form-model-item>
       <a-form-model-item
-        :help="validationErrors ? validationErrors.achknowledge : ''"
+        :help="validationErrors ? validationErrors.acknowledge : ''"
         :validate-status="error.status"
         label=""
-        prop="achknowledge"
+        prop="acknowledge"
         class="mb-0"
       >
-        <a-checkbox-group v-model="formData.achknowledge">
-          <a-checkbox value="yes"> </a-checkbox>
+        <a-checkbox-group v-model="formData.declaration.acknowledge">
+          <a-checkbox value="1" name="type">
+            I/We declare that to the best of my/our knowledge the answers
+            submitted in this form and any supporting documentation attached
+            herewith are correct and can be substantiated if requested to do so.
+            I/We understand that any misrepresentations will be regarded as
+            fraudulent with intention to commit a fraudulent act against Oxygene
+            Limited. Such misrepresentation shall form grounds for termination
+            of the qualification process and/or blacklisting from Oxygene
+            suppliers register or an application of any legal means to safeguard
+            Oxygene interests. I/We further hereby give Limited or its Agents
+            authority to seek any references it may deem fit to carry out the
+            evaluation.
+          </a-checkbox>
         </a-checkbox-group>
       </a-form-model-item>
-      <p class="">
-        I/We declare that to the best of my/our knowledge the answers submitted
-        in this form and any supporting documentation attached herewith are
-        correct and can be substantiated if requested to do so. I/We understand
-        that any misrepresentations will be regarded as fraudulent with
-        intention to commit a fraudulent act against Oxygene Limited. Such
-        misrepresentation shall form grounds for termination of the
-        qualification process and/or blacklisting from Oxygene suppliers
-        register or an application of any legal means to safeguard Oxygene
-        interests. I/We further hereby give Limited or its Agents authority to
-        seek any references it may deem fit to carry out the evaluation.
-      </p>
     </a-form-model-item>
   </div>
 </template>
@@ -121,6 +121,10 @@ export default {
     },
     ruleForm: {
       type: [Object],
+      required: true,
+    },
+    loading: {
+      type: [Boolean],
       required: true,
     },
   },

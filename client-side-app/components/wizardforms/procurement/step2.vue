@@ -7,32 +7,34 @@
       matter in dispute and current status of suit
     </p>
     <a-form-model-item
-      :help="validationErrors ? validationErrors.litigation : ''"
+      :help="validationErrors ? validationErrors.step3 : ''"
       :validate-status="error.status"
       label=""
-      prop="litigation"
+      prop="step3.litigation"
       class="mb-0"
     >
-      <a-radio-group v-model="formData.litigation">
+      <a-radio-group v-model="formData.step3.litigation">
         <a-radio value="yes">Yes</a-radio>
         <a-radio value="no"> No </a-radio>
       </a-radio-group>
     </a-form-model-item>
     <a-form-model-item
-      :help="validationErrors ? validationErrors.legal_entity_other : ''"
+      :help="validationErrors ? validationErrors.step3 : ''"
       :validate-status="error.status"
-      prop="legal_entity_other"
-      has-feedback
+      prop="step3.litigation_file"
+      :has-feedback="formData.step3.litigation === 'yes' ? false : true"
       class="mb-0"
       label=""
-      :hidden="formData.litigation === 'yes' ? false : true"
+      :hidden="formData.step3.litigation === 'yes' ? false : true"
     >
       <!-- litigation_file -->
       <a-upload-dragger
-        name="file"
+        v-model="formData.step3.litigation_file"
         :multiple="true"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        @change="handleChange"
+        :file-list="fileList"
+        :remove="handleRemove"
+        :before-upload="beforeUpload"
+        @change="handleFileUploadChange"
       >
         <p class="ant-upload-drag-icon">
           <a-icon type="inbox" />
@@ -66,23 +68,26 @@ export default {
       type: [Object],
       required: true,
     },
+    fileList: {
+      type: [Array],
+      required: true,
+    },
+    handleRemove: {
+      type: [Function],
+      required: true,
+    },
+    beforeUpload: {
+      type: [Function],
+      required: true,
+    },
+    handleFileUploadChange: {
+      type: [Function],
+      required: true,
+    },
   },
   data() {
     return { formData: this.ruleForm }
   },
-  methods: {
-    handleChange(info) {
-      // litigation_file
-      const status = info.file.status
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (status === 'done') {
-        this.$message.success(`${info.file.name} file uploaded successfully.`)
-      } else if (status === 'error') {
-        this.$message.error(`${info.file.name} file upload failed.`)
-      }
-    },
-  },
+  methods: {},
 }
 </script>

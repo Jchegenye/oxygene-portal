@@ -50,20 +50,27 @@
 <script>
 export default {
   name: 'Header',
-  data() {
-    return {
-      loggedInUser: this.$auth.user.data,
-    }
-  },
-  async fetch() {
-    await this.$auth.fetchUser().then((response) => {
-      if (response !== undefined) {
-        this.loggedInUser = response.data.data
+  computed: {
+    loggedInUser() {
+      if (
+        Object.keys(this.$auth.$state.user).length !== 0 &&
+        this.$auth.$state.user.length !== 0
+      ) {
+        return this.$auth.$state.user.data
       } else {
-        return {}
+        return []
       }
-    })
+    },
   },
+  // async fetch() {
+  //   await this.$auth.fetchUser().then((response) => {
+  //     if (response !== undefined) {
+  //       this.loggedInUser = response.data.data
+  //     } else {
+  //       return {}
+  //     }
+  //   })
+  // },
   methods: {
     async logout() {
       try {

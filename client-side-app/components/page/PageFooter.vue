@@ -1,7 +1,6 @@
 <template>
   <a-layout-footer style="text-align: center">
-    Oxygene Portal ©{{ new Date().getFullYear() }} Developed by Oxygene Software
-    Developer's
+    Copyright ©{{ new Date().getFullYear() }} Oxyegene Creative Team
   </a-layout-footer>
 </template>
 <script>
