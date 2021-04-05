@@ -1,20 +1,20 @@
 <template>
   <div>
     <a-form-model-item
-      :help="validationErrors ? validationErrors.signed_sealed : ''"
+      :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
       v-bind="formItemLayout"
-      prop="signed_sealed"
+      prop="step6.signed_sealed"
       has-feedback
       :style="{ width: 'calc(50% - 12px)' }"
       label="Signed and Sealed: "
       class="mb-0"
     >
-      <a-input v-model="formData.declaration.signed_sealed" autocomplete="off">
-        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
+      <a-input v-model="formData.step6.signed_sealed" autocomplete="off">
+        <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
-    <a-form-model-item
+    <!-- <a-form-model-item
       :help="validationErrors ? validationErrors.for_onbehalf_of : ''"
       :validate-status="error.status"
       v-bind="formItemLayout"
@@ -25,7 +25,7 @@
       class="mb-0"
     >
       <a-input
-        v-model="formData.declaration.for_onbehalf_of"
+        v-model="formData.step6.for_onbehalf_of"
         autocomplete="off"
       >
         <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
@@ -41,7 +41,7 @@
       label="Position in "
       class="mb-0"
     >
-      <a-input v-model="formData.declaration.position_in" autocomplete="off">
+      <a-input v-model="formData.step6.position_in" autocomplete="off">
         <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
@@ -55,7 +55,7 @@
       label="Company"
       class="mb-0"
     >
-      <a-input v-model="formData.declaration.company" autocomplete="off">
+      <a-input v-model="formData.step6.company" autocomplete="off">
         <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
@@ -69,20 +69,20 @@
       label="Date"
       class="mb-0"
     >
-      <a-input v-model="formData.declaration.date" autocomplete="off">
+      <a-input v-model="formData.step6.date" autocomplete="off">
         <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
-    </a-form-model-item>
+    </a-form-model-item> -->
     <a-form-model-item>
       <a-form-model-item
-        :help="validationErrors ? validationErrors.acknowledge : ''"
+        :help="validationErrors ? validationErrors.step6 : ''"
         :validate-status="error.status"
         label=""
-        prop="acknowledge"
+        prop="step6.acknowledge"
         class="mb-0"
       >
-        <a-checkbox-group v-model="formData.declaration.acknowledge">
-          <a-checkbox value="1" name="type">
+        <a-checkbox-group v-model="formData.step6.acknowledge">
+          <a-checkbox name="type" value="0">
             I/We declare that to the best of my/our knowledge the answers
             submitted in this form and any supporting documentation attached
             herewith are correct and can be substantiated if requested to do so.
@@ -121,10 +121,6 @@ export default {
     },
     ruleForm: {
       type: [Object],
-      required: true,
-    },
-    loading: {
-      type: [Boolean],
       required: true,
     },
   },

@@ -61,6 +61,9 @@
                   size="small"
                   :type="loading ? 'danger' : 'primary'"
                   :loading="loading"
+                  :disabled="
+                    ruleForm.step6.acknowledge.length !== 0 ? false : true
+                  "
                   @click.prevent="submitForm('ruleForm')"
                 >
                   {{ loading ? 'Submitting ...' : 'Submit' }}
@@ -123,14 +126,12 @@ export default {
           evaluation: '',
         },
         step6: {
-          declaration: {
-            signed_sealed: '',
-            for_onbehalf_of: '',
-            position_in: '',
-            company: '',
-            date: '',
-            acknowledge: [],
-          },
+          signed_sealed: '',
+          // for_onbehalf_of: '',
+          // position_in: '',
+          // company: '',
+          // date: '',
+          acknowledge: ['0'],
         },
         // legal_entity_other: '',
         // postal_address: '',
@@ -259,6 +260,12 @@ export default {
           evaluation: {
             validator: validateFileUploadNormal,
             trigger: 'change',
+          },
+        },
+        step6: {
+          signed_sealed: {
+            required: true,
+            message: 'Please input your initials',
           },
         },
         // postal_address: [
