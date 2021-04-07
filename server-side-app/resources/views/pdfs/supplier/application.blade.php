@@ -74,7 +74,7 @@
                     <td>Postal Address</td>
                     <td>
                         <div class="answer">
-                            answer
+                            {{$data['step1']['postal_address']}}
                         </div>
                     </td>
                 </tr>
@@ -83,7 +83,7 @@
                     <td>Telephone Number</td>
                     <td>
                         <div class="answer">
-                            answer
+                            {{$data['step1']['telephone_number']}}
                         </div>
                     </td>
                 </tr>
@@ -92,7 +92,7 @@
                     <td>KRA PIN No.</td>
                     <td>
                         <div class="answer">
-                            answer
+                            {{$data['step1']['kra_pin_no']}}
                         </div>
                     </td>
                 </tr>
@@ -101,7 +101,7 @@
                     <td>Company registration number</td>
                     <td>
                         <div class="answer">
-                            answer
+                            {{$data['step1']['company_registration_no']}}
                         </div>
                     </td>
                 </tr>
@@ -121,19 +121,19 @@
                         <div class="mb-0">
                             <label>Name : </label>
                             <span class="answer">
-                                answer
+                                {{$data['step1']['finance_dept_name']}}
                             </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Email : </label>
                             <span class="answer">
-                                chegenyejackson@gmail.com
+                                {{$data['step1']['finance_dept_email']}}
                             </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Tel no: </label>
                             <span class="answer">
-                                answer
+                                {{$data['step1']['finance_dept_telno']}}
                             </span>
                         </div>
                     </td>
@@ -143,7 +143,11 @@
                     <td>Legal Entity: (a) Sole proprietor (b) Corporation (c) Partnership (d) Other</td>
                     <td>
                         <div class="answer">
-                            answer
+                            @if($data['step1']['legal_entity'] === 'other')
+                                {{$data['step1']['legal_entity_other']}}
+                            @else
+                                {{$data['step1']['legal_entity']}}
+                            @endif
                         </div>
                     </td>
                 </tr>
@@ -152,18 +156,20 @@
                     <td>Web Sites Address (if any)</td>
                     <td>
                         <div class="answer">
-                            answer
+                            {{$data['step1']['web_site_address']}}
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <div class="page-break"></div>
         
         <!-- Break 2 -->
         <table class="table table-bordered no-spacing" cellspacing="0" style="border-spacing: 0;">
             <thead class="">
-                <tr class="header td-none">
-                    <th class="tw-20px text-left" colspan="6">
+                <tr class="header">
+                    <th class="tw-20px text-left" colspan="7">
                         No.
                     </th>
                 </tr>
@@ -171,130 +177,152 @@
             <tbody>
                 <tr>
                     <td class="tw-20px">1.11</td>
-                    <td class="tw-280px" colspan="5">Directors contacts</td>
+                    <td class="tw-280px" colspan="6">Directors contacts</td>
                     <tr>
                         <td class=""></td>
                         <td class="">Names</td>
-                        <td class="tw-25">Email</td>
+                        <td class="ttw-25">Email</td>
                         <td>Identification No.</td>
+                        <td class="">Nationality</td>
                         <td class="">Postal Address</td>
                         <td class="">Percentage shareholding (%)</td>
                     </tr>
-                    @php 
-                        for($i = 1; $i <= 6; $i++) {  
-                            @endphp
-                                <tr>
-                                    <td class=""></td>
-                                    <td>
-                                        <div class="answer">
-                                            answer
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="answer">
-                                            answer
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="answer">
-                                            answer
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="answer">
-                                            answer
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="answer">
-                                            answer
-                                        </div>
-                                    </td>
-                                </tr>
-                            @php 
-                        }
-                    @endphp
+                    @foreach ($data['step1']['list'] as $list)
+                    <tr>
+                        <td class=""></td>
+                        <td>
+                            <div class="answer">
+                                {{$list['director_name']}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="answer">
+                                {{$list['director_email']}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="answer">
+                                {{$list['director_id_no']}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="answer">
+                                {{$list['director_nationality']}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="answer">
+                                {{$list['director_postal_address']}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="answer">
+                                {{$list['director_per_shareholder']}}
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
                 </tr>
                 <tr>
                     <td class="tw-20px">1.12</td>
-                    <td class="tw-75">
+                    <td colspan="3">
                         Have you changed your company name over the last 10 years? 
                         If so attach certificate of change of name. 
                         Also provide clear details outlining reasons and purpose of name change.
                     </td>
-                    <td colspan="4">
+                    <td colspan="3">
                         <div class="answer">
-                            answer
+                            @if($data['step1']['company_name_change'] === 'yes')
+                                <div>Attachement: Yes</div>
+                                <hr />
+                                {{$data['step1']['reason_of_namechange']}}
+                            @else
+                                N/A
+                            @endif
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tw-20px">1.13</td>
-                    <td class="tw-75">
+                    <td>1.13</td>
+                    <td colspan="3">
                         Have you changed your company Directors or ownership in the last 10 years? 
                         If so, attach certificate of registration and/or latest annual returns. 
                         Also provide clear details outlining reasons and purpose of change of Directors
                     </td>
-                    <td colspan="4">
+                    <td colspan="3">
                         <div class="answer">
-                            answer
+                            @if($data['step1']['company_directors'] === 'yes')
+                                <div>Attachement: Yes</div>
+                                <hr />
+                                {{$data['step1']['reason_of_directorschange']}}
+                            @else
+                                N/A
+                            @endif
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tw-20px">1.14</td>
-                    <td class="tw-75">
+                    <td>1.14</td>
+                    <td colspan="3">
                         Period in which you have been in business for which you wish to supply us with goods/services
                     </td>
-                    <td colspan="4">
+                    <td colspan="3">
                         <div class="answer">
-                            answer
+                            {{$data['step1']['business_period']}}
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tw-20px">1.15</td>
-                    <td class="tw-75">
+                    <td>1.15</td>
+                    <td colspan="3">
                         Are any of the Directors, Partners, Shareholders or employees, employed by or have relatives 
                         who are currently employed by Oxygene Limited? If so declare name and position
                     </td>
-                    <td colspan="4">
+                    <td colspan="3">
                         <div class="answer">
-                            answer
+                            @if($data['step1']['has_oxygene_employee'] === 'yes')
+                                {{$data['step1']['name_position']}}
+                            @else
+                                N/A
+                            @endif
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tw-20px">1.16</td>
-                    <td class="tw-75">
+                    <td>1.16</td>
+                    <td colspan="3">
                         Do any of the Directors, Partners, Shareholders or employees have any other interest 
                         (other than what you are seeking to supply) with persons currently employed by Oxygene 
                         Limited or other suppliers, partners or Directors of Oxygene Limited? 
                         If yes, please provide full details of interest on a separate page.
                     </td>
-                    <td colspan="4">
+                    <td colspan="3">
                         <div class="answer">
-                            answer
+                            @if($data['step1']['has_interest_employee'] === 'yes')
+                                {{$data['step1']['details_of_interest']}}
+                            @else
+                                N/A
+                            @endif
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td class="tw-20px">1.17</td>
-                    <td class="tw-75">
+                    <td>1.17</td>
+                    <td colspan="3">
                         Contact persons within your Organization to whom enquiries about this application should be directed. 
                         (Provide two contact names)
                     </td>
-                    <td class="dotted_text input" colspan="4">
+                    <td  colspan="3" class="dotted_text input">
                         <div class="mb-0">
                             <label>Names (full names please) : </label>
                             <span class="answer">
-                                answer
+                                {{$data['step1']['contact_person_name']}}
                             </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Title : </label>
                             <span class="answer">
-                                answer
+                                {{$data['step1']['contact_person_title']}}
                             </span>
                         </div>
                     </td>
@@ -319,7 +347,7 @@
             <tbody>
                 <tr>
                     <td class="tw-20px">2.1</td>
-                    <td class="w-25">
+                    <td class="tw-25">
                         Your Bank References
                         <br/>
                         <br/>
@@ -328,33 +356,33 @@
                     <td>
                         <div class="mb-0">
                             <label>Bank name : </label>
-                            <div class="answer">
-                                answer
-                            </div>
+                            <span class="answer">
+                                {{$data['step2']['bank_references']['bank_name']}}
+                            </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Branch : </label>
-                            <div class="answer">
-                                answer
-                            </div>
+                            <span class="answer">
+                                {{$data['step2']['bank_references']['branch']}}
+                            </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>A/C NO. : </label>
-                            <div class="answer">
-                                answer
-                            </div>
+                            <span class="answer">
+                                {{$data['step2']['bank_references']['ac_no']}}
+                            </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Name & Title : </label>
-                            <div class="answer">
-                                answer
-                            </div>
+                            <span class="answer">
+                                {{$data['step2']['bank_references']['name_title']}}
+                            </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Email/telephone no. : </label>
-                            <div class="answer">
-                                answer
-                            </div>
+                            <span class="answer">
+                                {{$data['step2']['bank_references']['email_telno']}}
+                            </span>
                         </div>
                     </td>
                 </tr>
@@ -365,48 +393,49 @@
             <tbody>
                 <tr>
                     <td class="tw-20px">2.2</td>
-                    <td class="w-25">
+                    <td class="tw-25">
                         Trade References
                     </td>
-                    <td class="input ">
-                        <!-- loop -->
-                        <div class="mb-0">
-                            <label>Company Name & Address : </label>
-                            <div class="answer">
-                                answer
+                    @foreach($data['step2']['trade_references'] as $refs)
+                        <td class="input ">
+                            <div class="mb-0">
+                                <label>Company Name & Address : </label>
+                                <span class="answer">
+                                    {{$refs['company_name_addr']}}
+                                </span>
                             </div>
-                        </div>
-                        <div class="mb-0 pt-3">
-                            <label>Contact person (Full names) : </label>
-                            <div class="answer">
-                                answer
+                            <div class="mb-0 pt-3">
+                                <label>Contact person (Full names) : </label>
+                                <span class="answer">
+                                    {{$refs['contact_person']}}
+                                </span>
                             </div>
-                        </div>
-                        <div class="mb-0 pt-3">
-                            <label>Position : </label>
-                            <div class="answer">
-                                answer
+                            <div class="mb-0 pt-3">
+                                <label>Position : </label>
+                                <span class="answer">
+                                    {{$refs['position']}}
+                                </span>
                             </div>
-                        </div>
-                        <div class="mb-0 pt-3">
-                            <label>Office Tel No : </label>
-                            <div class="answer">
-                                answer
+                            <div class="mb-0 pt-3">
+                                <label>Office Tel No : </label>
+                                <span class="answer">
+                                    {{$refs['office_telno']}}
+                                </span>
                             </div>
-                        </div>
-                        <div class="mb-0 pt-3">
-                            <label>Mobile Tel No : </label>
-                            <div class="answer">
-                                answer
+                            <div class="mb-0 pt-3">
+                                <label>Mobile Tel No : </label>
+                                <span class="answer">
+                                    {{$refs['mobile_telno']}}
+                                </span>
                             </div>
-                        </div>
-                        <div class="mb-0 pt-3">
-                            <label>Email address : </label>
-                            <div class="answer">
-                                answer
+                            <div class="mb-0 pt-3">
+                                <label>Email address : </label>
+                                <span class="answer">
+                                    {{$refs['email_addr']}}
+                                </span>
                             </div>
-                        </div>
-                    </td>
+                        </td>
+                    @endforeach
                 </tr>
             </tbody>
         </table>
@@ -435,7 +464,11 @@
                     </td>
                     <td>
                         <div class="answer">
-                            answer
+                            @if($data['step3']['litigation'] === 'yes')
+                                Attachement: Yes
+                            @else
+                                N/A
+                            @endif
                         </div>
                     </td>
                 </tr>
@@ -491,37 +524,37 @@
                         <div class="signature">
                             <div class="mb-3">
                                 <label>Signed and Sealed : </label>
-                                <div class="answer">
-                                    answer
-                                </div>
+                                <span class="answer">
+                                    {{$data['step6']['signed_sealed']}}
+                                </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>For and on Behalf of : </label>
-                                <div class="answer">
-                                    answer
-                                </div>
+                                <span class="answer">
+                                    {{$data['step6']['signed_sealed']}}
+                                </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Position in : </label>
-                                <div class="answer">
-                                    answer
-                                </div>
+                                <span class="answer">
+                                    {{$data['step6']['signed_sealed']}}
+                                </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Company : </label>
-                                <div class="answer">
-                                    answer
-                                </div>
+                                <span class="answer">
+                                    {{$data['step6']['signed_sealed']}}
+                                </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Date : </label>
-                                <div class="answer">
-                                    answer
-                                </div>
+                                <span class="answer">
+                                    {{$data['step6']['signed_sealed']}}
+                                </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                         </div>

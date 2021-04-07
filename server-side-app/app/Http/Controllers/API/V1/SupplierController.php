@@ -59,7 +59,7 @@ class SupplierController extends Controller
         if (Supplier::where('supplier_number', '=', $request->supplier_number)->exists()) {
             return response()->json([
                 'status' => 'warning', 
-                'message'=> "Your application No. ".$request->supplier_number." is already submitted"
+                'message'=> "Application No. ".$request->supplier_number." is already submitted"
             ], 201);
         }
 
@@ -85,20 +85,20 @@ class SupplierController extends Controller
         // EMAILS
         $supplierEmail = \Mail::to($data->company_email_address)
             ->send(new ApplicationNotifier($data,$supplierPdf->output()));
-        // $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
-        //     ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
-        //     ->send(new AdminNotifier($data,$supplierPdf->output()));
+        $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
+            ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
+            ->send(new AdminNotifier($data,$supplierPdf->output()));
 
-        // if(!$data AND !$supplierEmail AND !$adminEmail){
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message'=> "Sorry, something went wrong!"
-        //     ], 500);
-        // }
+        if(!$data AND !$supplierEmail AND !$adminEmail){
+            return response()->json([
+                'status' => 'error',
+                'message'=> "Sorry, something went wrong!"
+            ], 500);
+        }
 
         return response()->json([
             'status' => 'success',
-            'message'=> "Your application No. ".$request->supplier_number." has been submitted."
+            'message'=> "Application No. ".$request->supplier_number." has been submitted."
         ], 201);
     }
 

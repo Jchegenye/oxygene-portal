@@ -416,7 +416,22 @@
                       <a-form-model-item
                         :help="validationErrors ? validationErrors.step1 : ''"
                         :validate-status="error.status"
-                        prop="step1.director_per_shareholder"
+                        prop="step1.director_postal_address"
+                        has-feedback
+                        class="mb-0"
+                      >
+                        <a-textarea
+                          v-model="element.director_postal_address"
+                          placeholder="Postal Address"
+                          :rows="3"
+                        />
+                      </a-form-model-item>
+                    </td>
+                    <td>
+                      <a-form-model-item
+                        :help="validationErrors ? validationErrors.step1 : ''"
+                        :validate-status="error.status"
+                        prop="step1.list.director_per_shareholder"
                         has-feedback
                         class="mb-0"
                       >
@@ -445,7 +460,6 @@
                     @click="removeAt(idx)"
                   >
                     <a-icon slot="prefix" type="close" />
-                    Cancel
                   </span>
                 </td>
               </tr>
@@ -842,6 +856,7 @@ export default {
         id,
         director_per_shareholder: '',
         director_nationality: '',
+        director_postal_address: '',
         director_id_no: '',
         director_email: '',
         director_name: '',

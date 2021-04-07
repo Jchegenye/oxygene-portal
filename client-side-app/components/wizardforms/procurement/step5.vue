@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- signed_sealed -->
     <a-form-model-item
       :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
@@ -14,65 +15,77 @@
         <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
-    <!-- <a-form-model-item
-      :help="validationErrors ? validationErrors.for_onbehalf_of : ''"
+
+    <!-- for_onbehalf_of -->
+    <a-form-model-item
+      :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
       v-bind="formItemLayout"
-      prop="for_onbehalf_of"
+      prop="step6.for_onbehalf_of"
       has-feedback
       :style="{ width: 'calc(50% - 12px)' }"
       label="For and on Behalf of "
       class="mb-0"
     >
-      <a-input
-        v-model="formData.step6.for_onbehalf_of"
-        autocomplete="off"
-      >
-        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
+      <a-input v-model="formData.step6.for_onbehalf_of" autocomplete="off">
+        <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
+
+    <!-- position_in -->
     <a-form-model-item
-      :help="validationErrors ? validationErrors.position_in : ''"
+      :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
       v-bind="formItemLayout"
-      prop="position_in"
+      prop="step6.position_in"
       has-feedback
       :style="{ width: 'calc(50% - 12px)' }"
       label="Position in "
       class="mb-0"
     >
       <a-input v-model="formData.step6.position_in" autocomplete="off">
-        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
+
+    <!-- company -->
     <a-form-model-item
-      :help="validationErrors ? validationErrors.company : ''"
+      :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
       v-bind="formItemLayout"
-      prop="company"
+      prop="step6.company"
       has-feedback
       :style="{ width: 'calc(50% - 12px)' }"
       label="Company"
       class="mb-0"
     >
       <a-input v-model="formData.step6.company" autocomplete="off">
-        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
+        <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
     </a-form-model-item>
+
+    <!-- date -->
     <a-form-model-item
-      :help="validationErrors ? validationErrors.date : ''"
+      :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
       v-bind="formItemLayout"
-      prop="date"
+      prop="step6.date"
       has-feedback
       :style="{ width: 'calc(50% - 12px)' }"
       label="Date"
       class="mb-0"
     >
-      <a-input v-model="formData.step6.date" autocomplete="off">
-        <a-icon slot="prefix" type="" style="color: rgba(0, 0, 0, 0.25)" />
-      </a-input>
-    </a-form-model-item> -->
+      <a-date-picker
+        v-model="formData.step6.date"
+        show-time
+        :disabled-date="disabledDate"
+        type="date"
+        placeholder="Pick a date"
+        style="width: 100%"
+      />
+    </a-form-model-item>
+
+    <!-- acknowledge -->
     <a-form-model-item>
       <a-form-model-item
         :help="validationErrors ? validationErrors.step6 : ''"
@@ -126,6 +139,12 @@ export default {
   },
   data() {
     return { formData: this.ruleForm }
+  },
+  methods: {
+    disabledDate(current) {
+      // Can not select days before today and today
+      return current && current < this.$moment().endOf('day')
+    },
   },
 }
 </script>
