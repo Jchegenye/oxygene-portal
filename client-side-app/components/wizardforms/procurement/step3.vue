@@ -2,7 +2,7 @@
   <div>
     <a-alert
       message="Intsructions:-"
-      description="Kindly upload a maximum of 17 attachments as show in the list below. Also make"
+      description="Kindly attach a maximum of 17 documents as show in the list below, in that order."
       type="info"
       show-icon
     />

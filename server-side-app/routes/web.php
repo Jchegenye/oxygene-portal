@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('generate-pdf', [SupplierController::class, 'index'])->name('generate-pdf');

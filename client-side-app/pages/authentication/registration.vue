@@ -258,7 +258,7 @@ export default {
         if (result)
           if (this.error.status !== 'success') {
             //
-            this.$notification.warning({
+            this.$notification.info({
               message: 'Notification',
               description: 'Attempting to register, kindly wait ...',
               placement: 'bottom',

@@ -399,3 +399,13 @@ hr {
   margin-top: 8px;
   color: #666;
 }
+.ant-form-item label{
+  margin-bottom: 0px;
+}
+
+#wizard-form .ant-form-item-label > label{
+  font-weight: 600;
+  white-space: normal;
+  line-height: normal;
+  text-align: left;
+}

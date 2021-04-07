@@ -6,6 +6,8 @@ use App\Http\Controllers\API\V1\Auth\RegisterController;
 use App\Http\Controllers\API\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\API\V1\Auth\VerificationController;
 use App\Http\Controllers\API\V1\UserController;
+
+use App\Http\Controllers\API\V1\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,4 +49,10 @@ Route::prefix('v1')->group(function () {
     Route::patch('user', [UserController::class, 'update']);
 
     Route::delete('user', [UserController::class, 'destroy']);
+
+    /*
+     * Supplier
+     */
+    Route::post('supplier-application', [SupplierController::class, 'store']);
+    Route::get('supplier/number', [SupplierController::class, 'supplierNumber']);
 });
