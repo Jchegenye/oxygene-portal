@@ -40,13 +40,15 @@ export default function ({ $axios, $store }) {
           status: 'error',
         }
         return Promise.reject(values)
-      } else if (error.response.status === 500) {
-        const values = {
-          message: error.message, // 'Something went wrong! Try again', // error.message,
-          status: 'error',
-        }
-        return Promise.reject(values)
-      } else {
+      }
+      // else if (error.response.status === 500) {
+      //   const values = {
+      //     message: error.message, // 'Something went wrong! Try again', // error.message,
+      //     status: 'error',
+      //   }
+      //   return Promise.reject(values)
+      // }
+      else {
         return Promise.reject(error)
       }
     }
