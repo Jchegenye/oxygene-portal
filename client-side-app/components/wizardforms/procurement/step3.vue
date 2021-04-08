@@ -159,7 +159,8 @@ export default {
         // Only to show two recent uploaded files, and old ones will be replaced by the new
         this.fileEvaluationData = this.fileEvaluationData.slice(-17)
       }
-      return isJpgOrPng && isLt2M
+      return false
+      // return isJpgOrPng && isLt2M
     },
     handleRemove(file) {
       const index = this.fileEvaluationData.indexOf(file)

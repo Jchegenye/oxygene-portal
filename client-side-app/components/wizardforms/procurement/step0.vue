@@ -911,7 +911,8 @@ export default {
       } else {
         this.certofChangeofNameData = [...this.certofChangeofNameData, file]
       }
-      return isJpgOrPng && isLt2M
+      return false
+      // return isJpgOrPng && isLt2M
     },
     beforeUpload2(file) {
       const isJpgOrPng =

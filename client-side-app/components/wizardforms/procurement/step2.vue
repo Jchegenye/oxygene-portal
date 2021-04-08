@@ -131,7 +131,8 @@ export default {
       } else {
         this.fileLitigationData = [...this.fileLitigationData, file]
       }
-      return isJpgOrPng && isLt2M
+      return false
+      // return isJpgOrPng && isLt2M
     },
     handleRemove(file) {
       const index = this.fileLitigationData.indexOf(file)
