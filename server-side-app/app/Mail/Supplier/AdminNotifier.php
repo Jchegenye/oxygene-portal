@@ -37,10 +37,18 @@ class AdminNotifier extends Mailable
         $createdAt = \Carbon\Carbon::parse($this->data->created_at);
         $createdAt->format('Y-m-d-h:i:s');
         
-        return $this->subject("Supplier Application No. $suplyNo | $company")
-            ->markdown('emails.supplier.admin', ['data', $this->data])
-            ->attachData(base64_decode($this->pdf), $this->data->supplier_number.'-'.'Supplier-Application'.'-'.$createdAt.'.pdf', [
-                'mime' => 'application/pdf',
-            ]);
+        // Send attached files
+        $response = $this->subject("Supplier Application No. $suplyNo | $company")
+        ->markdown('emails.supplier.admin', ['data', $this->data]);
+            $location = storage_path("app/public/");
+            foreach (json_decode($this->data->step4)->evolution as $key => $value) {
+                $response->attach($location . $value->path);
+            }
+        // Send application attachment
+        $response->attachData(base64_decode($this->pdf), $this->data->supplier_number.'-'.'Supplier-Application'.'-'.$createdAt.'.pdf', [
+            'mime' => 'application/pdf',
+        ]);
+
+        return $response;
     }
 }

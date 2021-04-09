@@ -529,66 +529,82 @@ export default {
   mounted() {
     this.ruleForm.supplier_number = this.supplierNo
   },
-  // async created() {
-  //   await this.$store.dispatch('supplier/fetchSupplierNumber')
-  // },
+  async created() {
+    await this.$store.dispatch('supplier/fetchSupplierNumber')
+  },
   methods: {
-    async submitForm(formName) {
+    async submitForm() {
+      // formName
       try {
-        setTimeout(() => {
-          this.loading = false
-        }, 800)
-        this.loading = true
+        // setTimeout(() => {
+        //   this.loading = false
+        // }, 800)
+        // this.loading = true
 
-        const result = await this.$refs[formName].validate()
-        if (result)
-          if (this.error.status !== 'success') {
-            this.$notification.info({
-              message: 'Supplier Application',
-              description:
-                'Attempting to submit your application, kindly wait ...',
-              placement: 'bottom',
+        // const result = await this.$refs[formName].validate()
+        // if (result)
+        // if (this.error.status !== 'success') {
+        //   this.$notification.info({
+        //     message: 'Supplier Application',
+        //     description:
+        //       'Attempting to submit your application, kindly wait ...',
+        //     placement: 'bottom',
+        //   })
+        // }
+
+        const formData = new FormData()
+
+        for (const key in this.ruleForm) {
+          if (key === 'step4') {
+            this.ruleForm[key].evaluation.forEach((file, key1) => {
+              formData.append(`step4_file${key1}`, file)
             })
+          } else if (key.startsWith('step')) {
+            formData.append(key, JSON.parse(this.ruleForm[key]))
+          } else {
+            formData.append(key, this.ruleForm[key])
           }
+        }
 
-        await this.$axios
-          .$post('supplier-application', this.ruleForm)
-          .then((response) => {
-            this.error = response
+        const response = await this.$axios.$post(
+          'supplier-application',
+          formData,
+          {
+            'Content-Type': 'multipart/form-data',
+          }
+        )
 
-            if (response.status === 'success') {
-              setTimeout(() => {
-                this.$notification.success({
-                  message: 'Supplier Application',
-                  description: response.message,
-                  placement: 'bottom',
-                  duration: 6,
-                })
-              }, 1500)
-            } else if (response.status === 'warning') {
-              setTimeout(() => {
-                this.$notification.warning({
-                  message: 'Supplier Application',
-                  description: response.message,
-                  placement: 'bottom',
-                  duration: 6,
-                })
-              }, 1500)
-            } else if (response.status === 'error') {
-              setTimeout(() => {
-                this.$notification.error({
-                  message: 'Supplier Application',
-                  description: response.message,
-                  placement: 'bottom',
-                  duration: 6,
-                })
-              }, 1500)
-            }
-          })
-          .catch((err) => {
-            this.errorFormAlerts(err)
-          })
-      } catch (error) {}
+        if (response.status === 'success') {
+          setTimeout(() => {
+            this.$notification.success({
+              message: 'Supplier Application',
+              description: response.message,
+              placement: 'bottom',
+              duration: 6,
+            })
+          }, 1500)
+        } else if (response.status === 'warning') {
+          setTimeout(() => {
+            this.$notification.warning({
+              message: 'Supplier Application',
+              description: response.message,
+              placement: 'bottom',
+              duration: 6,
+            })
+          }, 1500)
+        } else if (response.status === 'error') {
+          setTimeout(() => {
+            this.$notification.error({
+              message: 'Supplier Application',
+              description: response.message,
+              placement: 'bottom',
+              duration: 6,
+            })
+          }, 1500)
+        }
+      } catch (error) {
+        this.errorFormAlerts(error)
+      }
     },
     async next(formName) {
       try {

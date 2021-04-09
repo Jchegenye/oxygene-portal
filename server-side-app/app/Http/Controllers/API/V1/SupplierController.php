@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mail\Supplier\ApplicationNotifier;
 use App\Mail\Supplier\AdminNotifier;
+use Illuminate\Support\Str;
 Use Exception;
 use App\Models\Supplier;
 use Helper;
@@ -49,6 +50,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
+
         // logo
         $path = env('APP_NORMAL_URL').'/images/oxygene-logo.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -63,6 +65,20 @@ class SupplierController extends Controller
             ], 201);
         }
 
+        // REQUEST STEP4 FILES
+        $step4_files = [];
+        $req = $request->all();
+        foreach ($req as $key => $value) {
+            if (Str::startsWith( $key, "step4_file")) {
+                $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                $filePath = $request->file($key)->storeAs('procurement', $fileName, 'public');
+                array_push($step4_files, [
+                    "name" => $fileName,
+                    "path" => $filePath
+                ]);
+            }
+        }
+
         // STORE
         $data = Supplier::updateOrCreate(
             ['supplier_number' => $request->supplier_number],
@@ -70,35 +86,37 @@ class SupplierController extends Controller
                 'company_email_address' => $request->company_email_address,
                 'user_id' => 0,
                 'supplier_number' => $request->supplier_number,
-                'step1' => $request->step1,
-                'step2' => $request->step2,
-                'step3' => $request->step3,
-                'step4' => $request->step4,
-                'step6' => $request->step6,
+                'step1' =>$request->step1,
+                'step2' =>$request->step2,
+                'step3' =>$request->step3,
+                'step4' => json_encode([
+                    "evolution" => $step4_files
+                ]),
+                'step6' => $request->step6
             ]
         );
         
         // PDF
-        $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
-            ->setOptions(['defaultFont' => 'Montserrat']);
+        // $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
+        //     ->setOptions(['defaultFont' => 'Montserrat']);
 
-        // EMAILS
-        $supplierEmail = \Mail::to($data->company_email_address)
-            ->send(new ApplicationNotifier($data,$supplierPdf->output()));
-        $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
-            ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
-            ->send(new AdminNotifier($data,$supplierPdf->output()));
+        // // EMAILS
+        // $supplierEmail = \Mail::to($data->company_email_address)
+        //     ->send(new ApplicationNotifier($data,$supplierPdf->output()));
+        // $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
+        //     ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
+        //     ->send(new AdminNotifier($data, $supplierPdf->output()));
 
-        if(!$data AND !$supplierEmail AND !$adminEmail){
-            return response()->json([
-                'status' => 'error',
-                'message'=> "Sorry, something went wrong!"
-            ], 500);
-        }
+        // if(!$data AND !$supplierEmail AND !$adminEmail){
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message'=> "Sorry, something went wrong!"
+        //     ], 500);
+        // }
 
         return response()->json([
             'status' => 'success',
-            'message'=> "Application No. ".$request->supplier_number." has been submitted."
+            'message'=> "Application No. ".$request->supplier_number." has been submitted.",
         ], 201);
     }
 
