@@ -100,7 +100,7 @@ class SupplierController extends Controller
         $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
             ->setOptions(['defaultFont' => 'Montserrat']);
 
-        // // EMAILS
+        // EMAILS
         $supplierEmail = \Mail::to($data->company_email_address)
             ->send(new ApplicationNotifier($data,$supplierPdf->output()));
         $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
@@ -117,7 +117,6 @@ class SupplierController extends Controller
         return response()->json([
             'status' => 'success',
             'message'=> "Application No. ".$request->supplier_number." has been submitted.",
-            'dat' => stripslashes($data)
         ], 201);
     }
 

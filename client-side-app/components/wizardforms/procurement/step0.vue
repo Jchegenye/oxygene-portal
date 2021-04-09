@@ -324,7 +324,7 @@
 
                 <td class="p-0">
                   <tr>
-                    <td class="w-25">
+                    <td class="" style="width: 45%">
                       <a-form-model-item
                         :help="validationErrors ? validationErrors.step1 : ''"
                         :validate-status="error.status"
@@ -344,8 +344,28 @@
                           />
                         </a-input>
                       </a-form-model-item>
+                      <a-form-model-item
+                        :help="validationErrors ? validationErrors.step1 : ''"
+                        :validate-status="error.status"
+                        prop="step1.director_nationality"
+                        has-feedback
+                        class="mb-0"
+                      >
+                        <a-input
+                          v-model="element.director_nationality"
+                          placeholder="Nationality"
+                          min="0"
+                          autocomplete="off"
+                        >
+                          <a-icon
+                            slot="prefix"
+                            style="color: rgba(0, 0, 0, 0.25)"
+                            type="flag"
+                          />
+                        </a-input>
+                      </a-form-model-item>
                     </td>
-                    <td class="w-25">
+                    <td class="" style="width: 30%">
                       <a-form-model-item
                         :help="validationErrors ? validationErrors.step1 : ''"
                         :validate-status="error.status"
@@ -365,6 +385,19 @@
                             type="red-envelope"
                           />
                         </a-input>
+                      </a-form-model-item>
+                      <a-form-model-item
+                        :help="validationErrors ? validationErrors.step1 : ''"
+                        :validate-status="error.status"
+                        prop="step1.director_postal_address"
+                        has-feedback
+                        class="mb-0"
+                      >
+                        <a-textarea
+                          v-model="element.director_postal_address"
+                          placeholder="Postal Address"
+                          :rows="3"
+                        />
                       </a-form-model-item>
                     </td>
                     <td>
@@ -389,45 +422,6 @@
                           />
                         </a-input>
                       </a-form-model-item>
-                    </td>
-                    <td>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_nationality"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.director_nationality"
-                          placeholder="Nationality"
-                          min="0"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="flag"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                    </td>
-                    <td>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_postal_address"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-textarea
-                          v-model="element.director_postal_address"
-                          placeholder="Postal Address"
-                          :rows="3"
-                        />
-                      </a-form-model-item>
-                    </td>
-                    <td>
                       <a-form-model-item
                         :help="validationErrors ? validationErrors.step1 : ''"
                         :validate-status="error.status"

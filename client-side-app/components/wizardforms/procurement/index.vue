@@ -224,8 +224,8 @@ export default {
               director_email: 'email@gmail.com',
               director_id_no: '1231231',
               director_postal_address: 'postAdd',
-              director_nationality: 'PO. BOX 2923-02182',
-              director_per_shareholder: 'Shareasdasda',
+              director_nationality: 'Kenyan',
+              director_per_shareholder: 40,
             },
           ],
           //
@@ -529,9 +529,9 @@ export default {
   mounted() {
     this.ruleForm.supplier_number = this.supplierNo
   },
-  async created() {
-    await this.$store.dispatch('supplier/fetchSupplierNumber')
-  },
+  // async created() {
+  //   await this.$store.dispatch('supplier/fetchSupplierNumber')
+  // },
   methods: {
     async submitForm(formName) {
       try {
@@ -570,6 +570,8 @@ export default {
             'Content-Type': 'multipart/form-data',
           }
         )
+        //
+        this.error = response
 
         if (response.status === 'success') {
           setTimeout(() => {
