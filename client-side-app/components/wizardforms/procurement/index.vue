@@ -281,7 +281,7 @@ export default {
           for_onbehalf_of: 'JJ',
           position_in: 'Dev',
           company: 'O2',
-          date: '',
+          date: '2021-01-01',
           acknowledge: ['0'],
         },
       },
@@ -533,24 +533,23 @@ export default {
     await this.$store.dispatch('supplier/fetchSupplierNumber')
   },
   methods: {
-    async submitForm() {
-      // formName
+    async submitForm(formName) {
       try {
-        // setTimeout(() => {
-        //   this.loading = false
-        // }, 800)
-        // this.loading = true
+        setTimeout(() => {
+          this.loading = false
+        }, 800)
+        this.loading = true
 
-        // const result = await this.$refs[formName].validate()
-        // if (result)
-        // if (this.error.status !== 'success') {
-        //   this.$notification.info({
-        //     message: 'Supplier Application',
-        //     description:
-        //       'Attempting to submit your application, kindly wait ...',
-        //     placement: 'bottom',
-        //   })
-        // }
+        const result = await this.$refs[formName].validate()
+        if (result)
+          if (this.error.status !== 'success') {
+            this.$notification.info({
+              message: 'Supplier Application',
+              description:
+                'Attempting to submit your application, kindly wait ...',
+              placement: 'bottom',
+            })
+          }
 
         const formData = new FormData()
 
@@ -559,10 +558,8 @@ export default {
             this.ruleForm[key].evaluation.forEach((file, key1) => {
               formData.append(`step4_file${key1}`, file)
             })
-          } else if (key.startsWith('step')) {
-            formData.append(key, JSON.parse(this.ruleForm[key]))
           } else {
-            formData.append(key, this.ruleForm[key])
+            formData.append(key, JSON.stringify(this.ruleForm[key]))
           }
         }
 

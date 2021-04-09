@@ -1,8 +1,8 @@
 @component('mail::message')
 Hello
-<!-- @empty(!$data['step1']['full_name_organization'])
+@empty(!$data['step1']['full_name_organization'])
     {{ucfirst($data['step1']['full_name_organization'])}},
-@endempty -->
+@endempty
 
 <p>Your submission is well received.</p>
 

@@ -83,40 +83,41 @@ class SupplierController extends Controller
         $data = Supplier::updateOrCreate(
             ['supplier_number' => $request->supplier_number],
             [
-                'company_email_address' => $request->company_email_address,
+                'company_email_address' => str_replace('"', '', $request->company_email_address),
                 'user_id' => 0,
-                'supplier_number' => $request->supplier_number,
-                'step1' =>$request->step1,
-                'step2' =>$request->step2,
-                'step3' =>$request->step3,
+                'supplier_number' => str_replace('"', '', $request->supplier_number),
+                'step1' =>json_decode($request->step1, true),
+                'step2' =>json_decode($request->step2, true),
+                'step3' =>json_decode($request->step3, true),
                 'step4' => json_encode([
                     "evolution" => $step4_files
                 ]),
-                'step6' => $request->step6
+                'step6' => json_decode($request->step6, true)
             ]
         );
         
         // PDF
-        // $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
-        //     ->setOptions(['defaultFont' => 'Montserrat']);
+        $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
+            ->setOptions(['defaultFont' => 'Montserrat']);
 
         // // EMAILS
-        // $supplierEmail = \Mail::to($data->company_email_address)
-        //     ->send(new ApplicationNotifier($data,$supplierPdf->output()));
-        // $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
-        //     ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
-        //     ->send(new AdminNotifier($data, $supplierPdf->output()));
+        $supplierEmail = \Mail::to($data->company_email_address)
+            ->send(new ApplicationNotifier($data,$supplierPdf->output()));
+        $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
+            ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
+            ->send(new AdminNotifier($data, $supplierPdf->output()));
 
-        // if(!$data AND !$supplierEmail AND !$adminEmail){
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message'=> "Sorry, something went wrong!"
-        //     ], 500);
-        // }
+        if(!$data AND !$supplierEmail AND !$adminEmail){
+            return response()->json([
+                'status' => 'error',
+                'message'=> "Sorry, something went wrong!"
+            ], 500);
+        }
 
         return response()->json([
             'status' => 'success',
             'message'=> "Application No. ".$request->supplier_number." has been submitted.",
+            'dat' => stripslashes($data)
         ], 201);
     }
 
