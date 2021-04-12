@@ -532,28 +532,28 @@
                             <div class="mb-3">
                                 <label>For and on Behalf of : </label>
                                 <span class="answer">
-                                    {{$data['step6']['signed_sealed']}}
+                                    {{$data['step6']['for_onbehalf_of']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Position in : </label>
                                 <span class="answer">
-                                    {{$data['step6']['signed_sealed']}}
+                                    {{$data['step6']['position_in']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Company : </label>
                                 <span class="answer">
-                                    {{$data['step6']['signed_sealed']}}
+                                    {{$data['step6']['company']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Date : </label>
                                 <span class="answer">
-                                    {{$data['step6']['signed_sealed']}}
+                                    {{$data['step6']['date']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
@@ -562,6 +562,12 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- TRADING AGREEMENT -->
+        @include('pdfs.supplier.trading-agreement')
+        <!-- CODE OF BUSINESS CONDUCT FOR SUPPLIERS -->
+        @include('pdfs.supplier.code-conduct')
+
     </div>
 
 @endsection

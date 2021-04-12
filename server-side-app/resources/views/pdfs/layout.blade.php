@@ -6,9 +6,9 @@
     <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,700;1,900&display=swap" rel="stylesheet">
     <style>
-        @page { margin-top: 120px; margin-bottom: 120px}
-        header { position: fixed; left: 0px; top: -90px; right: 0px; height: 150px; text-align: center; }
-        #footer { position: fixed; left: 0px; bottom: -145px; right: 0px; height: 150px; }
+        @page { margin-top: 90px; margin-bottom: 90px}
+        header { position: fixed; left: 0px; top: -50px; right: 0px; height: 60px; text-align: center; }
+        #footer { position: fixed; left: 0px; bottom: -155px; right: 0px; height: 150px; }
         body{
             font-family: 'Montserrat', sans-serif;
         }
@@ -136,6 +136,33 @@
         .signature .dotted-line{
             display:none;
         } */
+        .notes h6.heading6{
+            color: #ea5d27;
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 1rem;
+            margin: 0;
+        }
+        table.notes td {
+            border: 0px solid !important;
+            vertical-align: top !important;
+        }
+            .notes ol {
+                padding: 0;
+                margin: 0;
+            }
+            .notes ol li {
+                list-style-type: none;
+                padding-bottom: 10px;
+                font-size: 0.7rem !important;
+            }
+            .notes ol li .numbering{
+                font-weight: 600;
+                padding-right: 10px;
+            }
+            .notes p{
+                font-size: 0.7rem !important;
+            }
 
         /* HIDE CLASSES */
         @media .print {
@@ -190,11 +217,6 @@
             .tw-75{
                 width: 85% ;
             }
-            /* .signature .dotted-line{
-                display: inline-flex;
-                border-bottom: thin dashed #c9c9c9;
-                width: 50%;
-            } */
         }
     </style>
 </head>
