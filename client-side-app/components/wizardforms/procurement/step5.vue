@@ -77,8 +77,6 @@
     >
       <a-date-picker
         v-model="formData.step6.date"
-        show-time
-        :disabled-date="disabledDate"
         type="date"
         placeholder="Pick a date"
         style="width: 100%"

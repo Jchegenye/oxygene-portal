@@ -237,7 +237,7 @@ export default {
           cert_of_registration: '',
           reason_of_directorschange: '',
           //
-          business_period: '',
+          business_period: '3',
           //
           has_oxygene_employee: 'no',
           name_position: '',
@@ -343,10 +343,10 @@ export default {
             validator: validateFileUploadYesNoLegalEntity,
             trigger: 'change',
           },
-          web_site_address: {
-            required: true,
-            message: 'Please input Web Sites Address',
-          },
+          // web_site_address: {
+          //   required: true,
+          //   message: 'Please input Web Sites Address',
+          // },
           // // Director
           // list: {
           //   director_per_shareholder: {
@@ -529,9 +529,9 @@ export default {
   mounted() {
     this.ruleForm.supplier_number = this.supplierNo
   },
-  async created() {
-    await this.$store.dispatch('supplier/fetchSupplierNumber')
-  },
+  // async created() {
+  //   await this.$store.dispatch('supplier/fetchSupplierNumber')
+  // },
   methods: {
     async submitForm(formName) {
       try {

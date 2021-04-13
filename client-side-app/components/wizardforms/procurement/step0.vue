@@ -266,10 +266,7 @@
         </a-form-model-item>
         <!-- Web Sites Address (if any) -->
         <a-form-model-item
-          :help="validationErrors ? validationErrors.step1 : ''"
-          :validate-status="error.status"
           prop="step1.web_site_address"
-          has-feedback
           class="mb-0"
           label="Web Sites Address (if any)"
           ><a-auto-complete

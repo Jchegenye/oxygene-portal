@@ -98,7 +98,6 @@ class SupplierController extends Controller
                     'supplier_number' => str_replace('"', '', $request->supplier_number),
                     'step1' =>json_decode($request->step1, true),
                     'step2' =>json_decode($request->step2, true),
-                    //'step3' =>json_decode($request->step3, true),
                     'step3' => json_encode([
                         "litigation_file" => $step3_files,
                         'litigation' => $request->litigation
