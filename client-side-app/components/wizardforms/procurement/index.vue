@@ -529,9 +529,9 @@ export default {
   mounted() {
     this.ruleForm.supplier_number = this.supplierNo
   },
-  // async created() {
-  //   await this.$store.dispatch('supplier/fetchSupplierNumber')
-  // },
+  async created() {
+    await this.$store.dispatch('supplier/fetchSupplierNumber')
+  },
   methods: {
     async submitForm(formName) {
       try {
