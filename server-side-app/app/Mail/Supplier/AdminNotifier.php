@@ -41,7 +41,10 @@ class AdminNotifier extends Mailable
         $response = $this->subject("Supplier Application No. $suplyNo | $company")
         ->markdown('emails.supplier.admin', ['data', $this->data]);
             $location = storage_path("app/public/");
-            foreach (json_decode($this->data->step4)->evolution as $key => $value) {
+            foreach (json_decode($this->data->step4)->evaluation as $key => $value) {
+                $response->attach($location . $value->path);
+            }
+            foreach (json_decode($this->data->step3)->litigation_file as $key => $value) {
                 $response->attach($location . $value->path);
             }
         // Send application attachment

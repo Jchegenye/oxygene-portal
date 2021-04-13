@@ -464,7 +464,7 @@
                     </td>
                     <td>
                         <div class="answer">
-                            @if($data['step3']['litigation'] === 'yes')
+                            @if($data['litigation'] === 'yes')
                                 Attachement: Yes
                             @else
                                 N/A

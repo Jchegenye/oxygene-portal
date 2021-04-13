@@ -65,14 +65,24 @@ class SupplierController extends Controller
             ], 201);
         } else {
 
-            // REQUEST STEP4 FILES
+            // REQUEST STEPs FILES
             $step4_files = [];
+            $step3_files = [];
+
             $req = $request->all();
             foreach ($req as $key => $value) {
                 if (Str::startsWith( $key, "step4_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
                     $filePath = $request->file($key)->storeAs('procurement', $fileName, 'public');
                     array_push($step4_files, [
+                        "name" => $fileName,
+                        "path" => $filePath
+                    ]);
+                }
+                if(Str::startsWith( $key, "step3_file")) {
+                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                    $filePath = $request->file($key)->storeAs('litigation', $fileName, 'public');
+                    array_push($step3_files, [
                         "name" => $fileName,
                         "path" => $filePath
                     ]);
@@ -88,9 +98,13 @@ class SupplierController extends Controller
                     'supplier_number' => str_replace('"', '', $request->supplier_number),
                     'step1' =>json_decode($request->step1, true),
                     'step2' =>json_decode($request->step2, true),
-                    'step3' =>json_decode($request->step3, true),
+                    //'step3' =>json_decode($request->step3, true),
+                    'step3' => json_encode([
+                        "litigation_file" => $step3_files,
+                        'litigation' => $request->litigation
+                    ]),
                     'step4' => json_encode([
-                        "evolution" => $step4_files
+                        "evaluation" => $step4_files
                     ]),
                     'step6' => json_decode($request->step6, true)
                 ]
@@ -116,7 +130,7 @@ class SupplierController extends Controller
             
             return response()->json([
                 'status' => 'success',
-                'message'=> "Application No. ".$request->supplier_number." has been submitted.",
+                'message'=> "Application No. ".$request->supplier_number." has been submitted."
             ], 201);
         }
     }

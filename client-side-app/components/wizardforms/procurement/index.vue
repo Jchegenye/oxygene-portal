@@ -199,33 +199,33 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: '',
+        company_email_address: 'jtechinfo3@gmail.com',
         step1: {
-          full_name_organization: '',
-          physical_address: '',
+          full_name_organization: 'Mwananchi Village Market',
+          physical_address: 'Lenana Rd. 257 Street',
           //
-          postal_address: '',
-          telephone_number: '',
-          kra_pin_no: '',
-          company_registration_no: '',
+          postal_address: 'NON@ASAD.COM',
+          telephone_number: '112313',
+          kra_pin_no: '12SADA',
+          company_registration_no: 'ASDADA12',
           //
-          finance_dept_name: '',
-          finance_dept_email: '',
-          finance_dept_telno: '',
-          legal_entity: '',
-          legal_entity_other: '',
-          web_site_address: '',
+          finance_dept_name: 'eNOAcN',
+          finance_dept_email: 'NsOAN@asd.com',
+          finance_dept_telno: '123123',
+          legal_entity: 'Corporation',
+          legal_entity_other: 'AAS',
+          web_site_address: 'EWWEE.com',
           //
           list: [
             {
               id: 1,
               name: 'Director 1',
-              director_name: '',
-              director_email: '',
-              director_id_no: '',
-              director_postal_address: '',
-              director_nationality: '',
-              director_per_shareholder: 0,
+              director_name: 'NameAAsaSA',
+              director_email: 'email@gmail.com',
+              director_id_no: '1231231',
+              director_postal_address: 'postAdd',
+              director_nationality: 'Kenyan',
+              director_per_shareholder: 40,
             },
           ],
           //
@@ -237,7 +237,7 @@ export default {
           cert_of_registration: '',
           reason_of_directorschange: '',
           //
-          business_period: '',
+          business_period: '3',
           //
           has_oxygene_employee: 'no',
           name_position: '',
@@ -245,27 +245,27 @@ export default {
           has_interest_employee: 'no',
           details_of_interest: '',
           //
-          contact_person_name: '',
-          contact_person_title: '',
+          contact_person_name: 'asasadasd',
+          contact_person_title: 'asdasd',
         },
         step2: {
           bank_references: {
-            bank_name: '',
-            branch: '',
-            ac_no: '',
-            name_title: '',
-            email_telno: '',
+            bank_name: 'KCB Bank',
+            branch: 'Kimathi Street',
+            ac_no: '810203121091212',
+            name_title: 'Jackson Chegenye',
+            email_telno: '102931231823\nsdasdasd',
           },
           trade_references: [
             {
               id: 1,
               name: 'Reference 1',
-              company_name_addr: '',
-              contact_person: '',
-              position: '',
-              office_telno: '',
-              mobile_telno: '',
-              email_addr: '',
+              company_name_addr: 'asda',
+              contact_person: 'sdASD',
+              position: 'ASFASD',
+              office_telno: 'ASDA',
+              mobile_telno: 'DSGGD',
+              email_addr: 'ASDDAD',
             },
           ],
         },
@@ -277,11 +277,11 @@ export default {
           evaluation: '',
         },
         step6: {
-          signed_sealed: '',
-          for_onbehalf_of: '',
-          position_in: '',
-          company: '',
-          date: '',
+          signed_sealed: 'J.C',
+          for_onbehalf_of: 'JJ',
+          position_in: 'Dev',
+          company: 'O2',
+          date: '2021-01-01',
           acknowledge: ['0'],
         },
       },
@@ -557,6 +557,11 @@ export default {
           if (key === 'step4') {
             this.ruleForm[key].evaluation.forEach((file, key1) => {
               formData.append(`step4_file${key1}`, file)
+            })
+          } else if (key === 'step3') {
+            formData.append(`litigation`, this.ruleForm[key].litigation)
+            this.ruleForm[key].litigation_file.forEach((file, key1) => {
+              formData.append(`step3_file${key1}`, file)
             })
           } else {
             formData.append(key, JSON.stringify(this.ruleForm[key]))
