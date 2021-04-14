@@ -425,13 +425,14 @@
                         prop="step1.list.director_per_shareholder"
                         has-feedback
                         class="mb-0"
+                        label="Maximum shareholding percentage upto 100"
                       >
                         <a-input
                           v-model="element.director_per_shareholder"
                           placeholder="Percentage shareholding (%)"
-                          min="0"
+                          min="1"
+                          max="100"
                           type="number"
-                          autocomplete="off"
                         >
                           <a-icon
                             slot="prefix"

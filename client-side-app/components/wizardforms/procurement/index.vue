@@ -199,7 +199,7 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: '',
+        company_email_address: 'jtechinfo3@gmail.com',
         step1: {
           full_name_organization: '',
           physical_address: '',
@@ -225,7 +225,7 @@ export default {
               director_id_no: '',
               director_postal_address: '',
               director_nationality: '',
-              director_per_shareholder: 0,
+              director_per_shareholder: 1,
             },
           ],
           //
@@ -343,10 +343,6 @@ export default {
             validator: validateFileUploadYesNoLegalEntity,
             trigger: 'change',
           },
-          // web_site_address: {
-          //   required: true,
-          //   message: 'Please input Web Sites Address',
-          // },
           // // Director
           // list: {
           //   director_per_shareholder: {
@@ -354,9 +350,11 @@ export default {
           //     message: 'Please input Percentage Shareholding',
           //   },
           // },
-          // director_nationality: {
-          //   required: true,
-          //   message: 'Please input Nationality',
+          // list: {
+          //   director_nationality: {
+          //     required: true,
+          //     message: 'Please input Nationality',
+          //   },
           // },
           // director_id_no: { required: true, message: 'Please input ID No.' },
           // director_email: [
@@ -622,7 +620,7 @@ export default {
           //
           setTimeout(() => {
             this.error.status = ''
-            this.error.formErrors = {}
+            // this.error.formErrors = {}
           }, 2000)
           //
           this.current++
