@@ -51,9 +51,9 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         
-        $request->validate([
-            'director_per_shareholder' => 'required|min:1|max:100',
-        ]);
+        // $request->validate([
+        //     'director_per_shareholder' => 'required|min:1|max:100',
+        // ]);
 
         // logo
         $path = env('APP_NORMAL_URL').'/images/oxygene-logo.png';
