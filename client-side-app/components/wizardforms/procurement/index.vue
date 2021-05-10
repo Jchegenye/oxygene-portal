@@ -365,7 +365,6 @@ export default {
           //   },
           // ],
           // director_name: { required: true, message: 'Please input Name' },
-
           //
           cert_of_changeofname: {
             validator: validateFileUploadYesNoCompanyNameChange,
