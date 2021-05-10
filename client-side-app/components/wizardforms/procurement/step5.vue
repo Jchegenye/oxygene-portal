@@ -14,6 +14,7 @@
       <a-input v-model="formData.step6.signed_sealed" autocomplete="off">
         <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
       </a-input>
+      <small>Kindly input your initials</small>
     </a-form-model-item>
 
     <!-- for_onbehalf_of -->
