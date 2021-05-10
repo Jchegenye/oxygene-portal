@@ -122,7 +122,8 @@
           class="mb-0"
           label="Company E-Mail Address *"
         >
-        <small><strong>NOTE:</strong> We will use this email to communicate back to you.</small>
+          <strong>NOTE:</strong> We will use this email to communicate back to
+          you.
           <a-input
             v-model="formData.company_email_address"
             type="email"
