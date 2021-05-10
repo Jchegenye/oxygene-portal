@@ -199,7 +199,7 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: 'jtechinfo3@gmail.com',
+        company_email_address: '',
         step1: {
           full_name_organization: '',
           physical_address: '',
