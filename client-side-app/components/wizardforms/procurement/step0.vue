@@ -121,8 +121,8 @@
           :style="{ width: 'calc(100% - 12px)' }"
           class="mb-0"
           label="Company E-Mail Address *"
-          description="NOTE: We will use this email to communicate back to you."
         >
+        <small><strong>NOTE:</strong> We will use this email to communicate back to you.</small>
           <a-input
             v-model="formData.company_email_address"
             type="email"
