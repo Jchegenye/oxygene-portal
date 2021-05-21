@@ -3,6 +3,29 @@
     <!-- row 1 -->
     <a-row>
       <a-col :span="24">
+        <!-- company_email_address -->
+        <a-form-model-item
+          prop="company_email_address"
+          :help="validationErrors ? validationErrors.company_email_address : ''"
+          :validate-status="error.status"
+          v-bind="formItemLayout"
+          has-feedback
+          :style="{ width: 'calc(100% - 12px)' }"
+          class="mb-2"
+        >
+          <span class="text-danger w-100 text-uppercase"
+            ><strong>NOTE:</strong> We will use this email to communicate back
+            to you.</span
+          >
+          <span slot="label" title="jj">
+            Company E-Mail Address&nbsp;
+            <a-tooltip title="We will use this email to communicate back">
+              <a-icon type="question-circle-o" />
+            </a-tooltip>
+          </span>
+          <a-input v-model="formData.company_email_address" />
+        </a-form-model-item>
+
         <!-- Full Name of Organization -->
         <a-form-model-item
           prop="step1.full_name_organization"
@@ -46,15 +69,15 @@
           :validate-status="error.status"
           prop="step1.postal_address"
           has-feedback
-          :style="{ width: 'calc(100% - 12px)' }"
+          :style="{ width: 'calc(100% - 0px)' }"
           label="Postal Address"
           class="mb-0"
         >
           <a-textarea v-model="formData.step1.postal_address" :rows="3" />
         </a-form-model-item>
       </a-col>
-      <a-col :span="10">
-        <!-- Telephone Number -->
+      <a-col :span="18">
+        <!-- Mobile Number -->
         <a-form-model-item
           :help="validationErrors ? validationErrors.step1 : ''"
           :validate-status="error.status"
@@ -63,13 +86,16 @@
           has-feedback
           :style="{ width: 'calc(100% - 12px)' }"
           class="mb-0"
-          label="Telephone Number *"
+          label="Mobile Number *"
         >
+          <span class="text-danger text-uppercase"
+            ><strong>NOTE:</strong> We will use this phone number to communicate
+            back to you.</span
+          >
           <a-input
             v-model="formData.step1.telephone_number"
             type="number"
             min="0"
-            autocomplete="off"
           >
             <a-icon
               slot="prefix"
@@ -89,7 +115,7 @@
           class="mb-0"
           label="KRA PIN No. *"
         >
-          <a-input v-model="formData.step1.kra_pin_no" autocomplete="off">
+          <a-input v-model="formData.step1.kra_pin_no">
             <a-icon
               slot="prefix"
               type="file"
@@ -109,32 +135,6 @@
           class="mb-0"
         >
           <a-input v-model="formData.step1.company_registration_no" />
-        </a-form-model-item>
-      </a-col>
-      <a-col :span="8">
-        <!-- company_email_address -->
-        <a-form-model-item
-          :help="validationErrors ? validationErrors.company_email_address : ''"
-          :validate-status="error.status"
-          prop="company_email_address"
-          has-feedback
-          :style="{ width: 'calc(100% - 12px)' }"
-          class="mb-0"
-          label="Company E-Mail Address *"
-        >
-          <strong>NOTE:</strong> We will use this email to communicate back to
-          you.
-          <a-input
-            v-model="formData.company_email_address"
-            type="email"
-            autocomplete="off"
-          >
-            <a-icon
-              slot="prefix"
-              type="red-envelope"
-              style="color: rgba(0, 0, 0, 0.25)"
-            />
-          </a-input>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -169,7 +169,6 @@
             <a-input
               v-model="formData.step1.finance_dept_name"
               placeholder="Name"
-              autocomplete="off"
             >
               <a-icon
                 slot="prefix"
@@ -192,7 +191,6 @@
               v-model="formData.step1.finance_dept_email"
               placeholder="Email"
               type="email"
-              autocomplete="off"
             >
               <a-icon
                 slot="prefix"
@@ -216,7 +214,6 @@
               placeholder="Tel no"
               type="number"
               min="0"
-              autocomplete="off"
             >
               <a-icon
                 slot="prefix"
@@ -254,11 +251,7 @@
           label="Other Description"
           :hidden="formData.step1.legal_entity === 'other' ? false : true"
         >
-          <a-input
-            v-model="formData.step1.legal_entity_other"
-            type="textarea"
-            autocomplete="off"
-          >
+          <a-input v-model="formData.step1.legal_entity_other" type="textarea">
             <a-icon
               slot="prefix"
               type="file"
@@ -334,7 +327,6 @@
                         <a-input
                           v-model="element.director_name"
                           placeholder="Name"
-                          autocomplete="off"
                         >
                           <a-icon
                             slot="prefix"
@@ -354,7 +346,6 @@
                           v-model="element.director_nationality"
                           placeholder="Nationality"
                           min="0"
-                          autocomplete="off"
                         >
                           <a-icon
                             slot="prefix"
@@ -376,7 +367,6 @@
                           v-model="element.director_email"
                           placeholder="Email"
                           type="email"
-                          autocomplete="off"
                         >
                           <a-icon
                             slot="prefix"
@@ -412,7 +402,6 @@
                           placeholder="Identification No."
                           type="number"
                           min="0"
-                          autocomplete="off"
                         >
                           <a-icon
                             slot="prefix"
@@ -611,10 +600,7 @@
             class="mb-0"
             label="Period in which you have been in business for which you wish to supply us with goods/services"
           >
-            <a-input
-              v-model="formData.step1.business_period"
-              autocomplete="off"
-            >
+            <a-input v-model="formData.step1.business_period">
               <a-icon
                 slot="prefix"
                 type="file"

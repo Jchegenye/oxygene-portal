@@ -199,32 +199,32 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: '',
+        company_email_address: 'chegenyejackson@gmail.com',
         step1: {
-          full_name_organization: '',
-          physical_address: '',
+          full_name_organization: 'Mwananchi Village Market',
+          physical_address: 'Lenana Rd. 380 street, Kilimani',
           //
-          postal_address: '',
-          telephone_number: '',
-          kra_pin_no: '',
-          company_registration_no: '',
+          postal_address: 'P.O. BOX 355 - 50103',
+          telephone_number: '0711',
+          kra_pin_no: 'ASU7W0332203',
+          company_registration_no: 'CONY-29282',
           //
-          finance_dept_name: '',
-          finance_dept_email: '',
-          finance_dept_telno: '',
-          legal_entity: '',
-          legal_entity_other: '',
-          web_site_address: '',
+          finance_dept_name: 'Liz K.',
+          finance_dept_email: 'liz@mwananchi.com',
+          finance_dept_telno: '0700000000',
+          legal_entity: 'other',
+          legal_entity_other: 'N/A',
+          web_site_address: 'N/A',
           //
           list: [
             {
               id: 1,
               name: 'Director 1',
-              director_name: '',
-              director_email: '',
-              director_id_no: '',
-              director_postal_address: '',
-              director_nationality: '',
+              director_name: 'Johnson G.',
+              director_email: 'johnson@gmail.com',
+              director_id_no: '22093839',
+              director_postal_address: 'P.O BOX - 4950',
+              director_nationality: 'Kenyan',
               director_per_shareholder: 1,
             },
           ],
@@ -291,11 +291,11 @@ export default {
         company_email_address: [
           {
             type: 'email',
-            message: 'The input is not valid E-mail',
+            message: 'Looks like your E-mail address is invalid.',
           },
           {
             required: true,
-            message: 'Please input your E-mail',
+            message: 'Please make sure your E-mail address is correct.',
           },
         ],
         //
@@ -315,7 +315,7 @@ export default {
           },
           telephone_number: {
             required: true,
-            message: 'Please input Telephone Number',
+            message: 'Please make sure your Mobile Number in correct.',
           },
           kra_pin_no: { required: true, message: 'Please input KRA PIN No.' },
           company_registration_no: {
@@ -328,12 +328,12 @@ export default {
             { required: true, message: 'Please input Email' },
             {
               type: 'email',
-              message: 'The input is not valid E-mail',
+              message: 'Looks like your E-mail address is invalid.',
             },
           ],
           finance_dept_telno: {
             required: true,
-            message: 'Please input Tel no',
+            message: 'Please input Tel No.',
           },
           legal_entity: {
             required: true,
@@ -361,7 +361,7 @@ export default {
           //   { required: true, message: 'Please input Email' },
           //   {
           //     type: 'email',
-          //     message: 'The input is not valid E-mail',
+          //     message: 'Looks like your E-mail address is invalid.',
           //   },
           // ],
           // director_name: { required: true, message: 'Please input Name' },
