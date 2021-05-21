@@ -29,7 +29,7 @@
             :rules="rules"
           >
             <div class="steps-content">
-              <h6 class="text-right">
+              <h6 v-if="supplierNo" class="text-right">
                 Supplier No.: <span class="text-bold">{{ supplierNo }}</span>
               </h6>
               <hr />
@@ -102,6 +102,14 @@
 </template>
 <script>
 export default {
+  async asyncData(context) {
+    if (context.store.state.nationalities.list.length === 0) {
+      await context.store.dispatch('nationalities/fetchNationalities')
+    }
+    if (context.store.state.supplier.number === '') {
+      await context.store.dispatch('supplier/fetchSupplierNumber')
+    }
+  },
   data() {
     const validateFileUploadYesNo = (rule, value, callback) => {
       // add more propertie here using || annotation e.g. ruleForm.step3.
@@ -205,9 +213,9 @@ export default {
           physical_address: 'Lenana Rd. 380 street, Kilimani',
           //
           postal_address: 'P.O. BOX 355 - 50103',
-          telephone_number: '0711',
+          telephone_number: '0711494289',
           kra_pin_no: 'ASU7W0332203',
-          company_registration_no: 'CONY-29282',
+          company_registration_no: 'COMPNY-29282',
           //
           finance_dept_name: 'Liz K.',
           finance_dept_email: 'liz@mwananchi.com',
@@ -222,7 +230,7 @@ export default {
               name: 'Director 1',
               director_name: 'Johnson G.',
               director_email: 'johnson@gmail.com',
-              director_id_no: '22093839',
+              director_id_no: 1,
               director_postal_address: 'P.O BOX - 4950',
               director_nationality: 'Kenyan',
               director_per_shareholder: 1,
@@ -516,7 +524,7 @@ export default {
       return 'ProcurementStep' + this.current
     },
     supplierNo() {
-      return this.$store.state.supplier.supplierNumber
+      return this.$store.state.supplier.number
     },
   },
   watch: {
@@ -525,11 +533,11 @@ export default {
     },
   },
   mounted() {
+    if (this.$store.state.supplier.number === '') {
+      this.$store.dispatch('supplier/fetchSupplierNumber')
+    }
     this.ruleForm.supplier_number = this.supplierNo
   },
-  // async created() {
-  //   await this.$store.dispatch('supplier/fetchSupplierNumber')
-  // },
   methods: {
     async submitForm(formName) {
       try {

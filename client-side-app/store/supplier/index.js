@@ -1,10 +1,10 @@
 const state = () => ({
-  supplierNumber: '',
+  number: '',
 })
 
 const mutations = {
-  FETCH_SUPPLIER_NUMBER(state, supplierNumber) {
-    state.supplierNumber = supplierNumber
+  FETCH_SUPPLIER_NUMBER(state, number) {
+    state.number = number
   },
 }
 

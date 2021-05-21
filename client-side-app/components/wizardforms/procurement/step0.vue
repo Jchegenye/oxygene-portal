@@ -299,155 +299,145 @@
           >Add
         </a-button>
         <a-form-model-item class="mb-0">
-          <table id="mytable" class="table table-border items mt-0">
-            <draggable tag="tbody" :list="formData.step1.list" handle=".handle">
-              <tr
-                v-for="(element, idx) in formData.step1.list"
-                :key="idx"
-                class="p-0"
-              >
-                <!-- <td scope="row" class="drag-columns">
-                  <a-icon type="pic-left" />
-                </td> -->
+          <draggable tag="a-row" :list="formData.step1.list" handle=".handle">
+            <a-col
+              v-for="(element, idx) in formData.step1.list"
+              :key="idx"
+              :span="24"
+              class="row-underline"
+            >
+              <a-col v-if="idx != 0" :span="24"><hr /></a-col>
 
-                <td>
-                  <span class="text">{{ element.name }} </span>
-                </td>
+              <a-col :xs="24" :sm="24" :md="24" :lg="2" :xl="2">
+                <span class="text">{{ element.name }} </span>
+              </a-col>
 
-                <td class="p-0">
-                  <tr>
-                    <td class="" style="width: 45%">
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_name"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.director_name"
-                          placeholder="Name"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_nationality"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.director_nationality"
-                          placeholder="Nationality"
-                          min="0"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="flag"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                    </td>
-                    <td class="" style="width: 30%">
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_email"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.director_email"
-                          placeholder="Email"
-                          type="email"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="red-envelope"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_postal_address"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-textarea
-                          v-model="element.director_postal_address"
-                          placeholder="Postal Address"
-                          :rows="3"
-                        />
-                      </a-form-model-item>
-                    </td>
-                    <td>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.director_id_no"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.director_id_no"
-                          placeholder="Identification No."
-                          type="number"
-                          min="0"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="number"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step1 : ''"
-                        :validate-status="error.status"
-                        prop="step1.list.director_per_shareholder"
-                        has-feedback
-                        class="mb-0"
-                        label="Maximum shareholding percentage upto 100"
-                      >
-                        <a-input
-                          v-model="element.director_per_shareholder"
-                          placeholder="Percentage shareholding (%)"
-                          min="1"
-                          max="100"
-                          type="number"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="percentage"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                    </td>
-                  </tr>
-                </td>
-
-                <td>
-                  <span
-                    v-if="idx != 0"
-                    class="text-danger"
-                    @click="removeAt(idx)"
+              <a-col :xs="24" :sm="24" :md="24" :lg="21" :xl="21">
+                <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step1 : ''"
+                    :validate-status="error.status"
+                    prop="step1.director_name"
+                    has-feedback
+                    class="mb-0"
+                    label="Name"
+                    :style="{ width: 'calc(100% - 12px)' }"
                   >
-                    <a-icon slot="prefix" type="close" />
-                  </span>
-                </td>
-              </tr>
-            </draggable>
-          </table>
+                    <a-input v-model="element.director_name">
+                      <a-icon
+                        slot="prefix"
+                        style="color: rgba(0, 0, 0, 0.25)"
+                        type="file"
+                      />
+                    </a-input>
+                  </a-form-model-item>
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step1 : ''"
+                    :validate-status="error.status"
+                    prop="step1.director_nationality"
+                    has-feedback
+                    class="mb-0"
+                    label="Select Nationality"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-select
+                      v-model="element.director_nationality"
+                      show-search
+                      option-filter-prop="children"
+                      :filter-option="filterNationalities"
+                    >
+                      <a-select-option
+                        v-for="(nationality, index) in nationalities"
+                        :key="index"
+                        :value="nationality"
+                      >
+                        {{ nationality }}
+                      </a-select-option>
+                    </a-select>
+                  </a-form-model-item>
+                </a-col>
+                <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step1 : ''"
+                    :validate-status="error.status"
+                    prop="step1.director_email"
+                    has-feedback
+                    class="mb-0"
+                    label="Email"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input v-model="element.director_email" type="email">
+                      <a-icon
+                        slot="prefix"
+                        style="color: rgba(0, 0, 0, 0.25)"
+                        type="red-envelope"
+                      />
+                    </a-input>
+                  </a-form-model-item>
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step1 : ''"
+                    :validate-status="error.status"
+                    prop="step1.director_postal_address"
+                    has-feedback
+                    class="mb-0"
+                    label="Postal Address"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-textarea
+                      v-model="element.director_postal_address"
+                      :rows="3"
+                    />
+                  </a-form-model-item>
+                </a-col>
+                <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step1 : ''"
+                    :validate-status="error.status"
+                    prop="step1.director_id_no"
+                    has-feedback
+                    class="mb-0"
+                    label="Identification No."
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input-number
+                      v-model="element.director_id_no"
+                      :min="1"
+                      class="w-100"
+                    />
+                  </a-form-model-item>
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step1 : ''"
+                    :validate-status="error.status"
+                    prop="step1.list.director_per_shareholder"
+                    has-feedback
+                    class="mb-0"
+                    label="Percentage shareholding (%)"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input-number
+                      v-model="element.director_per_shareholder"
+                      :default-value="100"
+                      :min="1"
+                      :max="100"
+                      :formatter="(value) => `${value}%`"
+                      :parser="(value) => value.replace('%', '')"
+                      class="w-100"
+                    />
+                  </a-form-model-item>
+                </a-col>
+              </a-col>
+
+              <a-col :xs="24" :sm="24" :md="24" :lg="1" :xl="1">
+                <span
+                  v-if="idx != 0"
+                  class="text- cursor-pointer btn btn-warning"
+                  @click="removeAt(idx)"
+                >
+                  <a-icon slot="prefix" type="close" />
+                </span>
+              </a-col>
+            </a-col>
+          </draggable>
         </a-form-model-item>
       </a-col>
     </a-row>
@@ -775,6 +765,9 @@ export default {
     draggingInfo() {
       return this.dragging ? 'under drag' : ''
     },
+    nationalities() {
+      return this.$store.state.nationalities.list
+    },
   },
   watch: {
     //
@@ -815,6 +808,9 @@ export default {
     if (this.formData.step1.cert_of_registration !== '') {
       this.certofRegistration = this.formData.step1.cert_of_registration
     }
+    // if (this.$store.state.nationalities.list.length === 0) {
+    //   this.$store.dispatch('nationalities/fetchNationalities')
+    // }
   },
   methods: {
     handleFileUploadChange() {
@@ -940,6 +936,12 @@ export default {
       const newFileList = this.certofRegistration.slice()
       newFileList.splice(index, 1)
       this.certofRegistration = newFileList
+    },
+    //
+    filterNationalities(input, option) {
+      return option.componentOptions.children[0].text
+        .toLowerCase()
+        .includes(input.toLowerCase())
     },
   },
 }

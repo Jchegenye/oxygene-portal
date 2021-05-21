@@ -17,6 +17,9 @@
 .text-light {
   color: $color-white !important;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
 
 // FONT WEIGHT
 .font-weight-100 {
@@ -226,6 +229,7 @@
   display: inline-block;
   padding: 10px 20px;
   border-radius: 3px;
+  line-height: 0;
 }
 .ant-btn-primary-disabled,
 .ant-btn-primary.disabled,
