@@ -8,6 +8,7 @@ use App\Http\Controllers\API\V1\Auth\VerificationController;
 use App\Http\Controllers\API\V1\UserController;
 
 use App\Http\Controllers\API\V1\SupplierController;
+use App\Http\Controllers\API\V1\NationalityController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,4 +56,9 @@ Route::prefix('v1')->group(function () {
      */
     Route::post('supplier-application', [SupplierController::class, 'store']);
     Route::get('supplier/number', [SupplierController::class, 'supplierNumber']);
+
+    /*
+     * Nationalities
+     */
+    Route::get('nationalities', [NationalityController::class, 'nationals']);
 });

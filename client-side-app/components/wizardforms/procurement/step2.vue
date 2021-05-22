@@ -54,7 +54,7 @@ export default {
       required: true,
     },
     error: {
-      type: [Object],
+      type: [Object, Boolean],
       required: true,
     },
     formItemLayout: {

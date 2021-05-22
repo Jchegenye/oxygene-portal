@@ -37,7 +37,6 @@
               <Component
                 :is="stepFormComponent"
                 :current="current"
-                :get-checked="ruleForm.step6.acknowledge"
                 :error="error"
                 :rule-form="ruleForm"
                 :rules="rules"
@@ -304,7 +303,7 @@ export default {
           evaluation: '',
         },
         step6: {
-          signed_sealed: '',
+          signed_sealed: [],
           for_onbehalf_of: '',
           position_in: '',
           company: '',
@@ -650,7 +649,9 @@ export default {
         if (result) {
           //
           setTimeout(() => {
-            this.error.status = ''
+            if (this.error.status !== undefined) {
+              this.error.status = ''
+            }
             // this.error.formErrors = {}
           }, 2000)
           //

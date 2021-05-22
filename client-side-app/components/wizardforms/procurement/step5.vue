@@ -29,7 +29,7 @@
       prop="step6.signed_sealed"
       :style="{ width: 'calc(100% - 12px)' }"
       has-feedback
-      class="mb-0"
+      class="mb-4"
       label="Signature"
     >
       <a-upload-dragger
@@ -38,18 +38,18 @@
         :file-list="certofChangeofNameData"
         :remove="handleRemove1"
         :before-upload="beforeUpload1"
-        :disabled="certofChangeofNameData.length < 1 ? false : true"
+        :disabled="certofChangeofNameData.length < 2 ? false : true"
         @change="handleFileUploadChange"
       >
         <p class="ant-upload-drag-icon">
           <a-icon type="inbox" />
         </p>
-        <p class="ant-upload-text">
-          Take a screenshot of your signature and click or drag the image to
-          this area to upload
+        <p class="ant-upload-text text-danger">
+          Take a screenshot of your signature using your phone or using online
+          tools, click or drag it to this area to upload
         </p>
         <small class="ant-upload-hint"
-          >Supported file formats png, jgp, jpeg, excel. A maximum of 1 file
+          >Supported file formats include png, jgp, jpeg. A maximum of 1 file
           upload.</small
         >
       </a-upload-dragger>
@@ -124,7 +124,13 @@
     </a-form-model-item>
 
     <!-- acknowledge -->
-    <a-form-model-item prop="step6.acknowledge" class="mb-0" @click="onChecked">
+    <a-form-model-item
+      :help="validationErrors ? validationErrors.step6 : ''"
+      :validate-status="error.status"
+      prop="step6.acknowledge"
+      class="mb-0 mt-4"
+      @click="onChecked"
+    >
       <a-checkbox
         v-model="formData.step6.acknowledge"
         :checked="checked"
@@ -170,14 +176,10 @@ export default {
       type: [Object],
       required: true,
     },
-    getChecked: {
-      type: [Boolean],
-      required: true,
-    },
   },
   data() {
     return {
-      checked: this.getChecked,
+      checked: false,
       formData: this.ruleForm,
       certofChangeofNameData: [],
     }
@@ -216,14 +218,14 @@ export default {
           message: 'File Upload',
           description: 'Sorry that file type is NOT accepted!',
           placement: 'bottomLeft',
-          duration: 6,
+          duration: 5,
         })
       } else if (!isLt2M) {
         this.$notification.warning({
           message: 'File Upload',
           description: 'Image must smaller than 2MB!',
           placement: 'bottomLeft',
-          duration: 6,
+          duration: 5,
         })
       } else {
         this.certofChangeofNameData = [...this.certofChangeofNameData, file]
