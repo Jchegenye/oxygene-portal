@@ -12,12 +12,9 @@
           has-feedback
           :style="{ width: 'calc(100% - 12px)' }"
           class="mb-0"
+          label="Bank name"
         >
-          <a-input
-            v-model="formData.step2.bank_references.bank_name"
-            placeholder="Bank name."
-            autocomplete="off"
-          >
+          <a-input v-model="formData.step2.bank_references.bank_name">
             <a-icon
               slot="prefix"
               type="file"
@@ -34,12 +31,9 @@
           has-feedback
           :style="{ width: 'calc(100% - 12px)' }"
           class="mb-0"
+          label="Branch"
         >
-          <a-input
-            v-model="formData.step2.bank_references.branch"
-            placeholder="Branch"
-            autocomplete="off"
-          >
+          <a-input v-model="formData.step2.bank_references.branch">
             <a-icon
               slot="prefix"
               style="color: rgba(0, 0, 0, 0.25)"
@@ -56,13 +50,9 @@
           has-feedback
           :style="{ width: 'calc(100% - 12px)' }"
           class="mb-0"
+          label="A/C NO"
         >
-          <a-input
-            v-model="formData.step2.bank_references.ac_no"
-            placeholder="A/C NO."
-            type="number"
-            autocomplete="off"
-          >
+          <a-input v-model="formData.step2.bank_references.ac_no" type="number">
             <a-icon
               slot="prefix"
               style="color: rgba(0, 0, 0, 0.25)"
@@ -72,21 +62,22 @@
         </a-form-model-item>
 
         <!-- name_title -->
-        <a-form-model-item
-          :help="validationErrors ? validationErrors.step2 : ''"
-          :validate-status="error.status"
-          v-bind="formItemLayout"
-          prop="step2.bank_references.name_title"
-          has-feedback
-          label="Primary contact person:"
-          :style="{ width: 'calc(100% - 12px)' }"
-          class="mb-0"
-        >
-          <a-textarea
-            v-model="formData.step2.bank_references.name_title"
-            placeholder="Name & Title"
-            :rows="3"
-          />
+        <a-form-model-item label="Primary contact person:">
+          <a-form-model-item
+            :help="validationErrors ? validationErrors.step2 : ''"
+            :validate-status="error.status"
+            v-bind="formItemLayout"
+            prop="step2.bank_references.name_title"
+            has-feedback
+            :style="{ width: 'calc(100% - 12px)' }"
+            class="mb-0"
+            label="Name & Title"
+          >
+            <a-textarea
+              v-model="formData.step2.bank_references.name_title"
+              :rows="3"
+            />
+          </a-form-model-item>
         </a-form-model-item>
 
         <!-- email_telno -->
@@ -96,13 +87,12 @@
           v-bind="formItemLayout"
           prop="step2.bank_references.email_telno"
           has-feedback
-          label="."
           :style="{ width: 'calc(100% - 12px)' }"
           class="mb-0"
+          label="Email/telephoneno:"
         >
           <a-textarea
             v-model="formData.step2.bank_references.email_telno"
-            placeholder="Email/telephoneno:"
             :rows="3"
           />
         </a-form-model-item>
@@ -121,163 +111,135 @@
 
         <!-- trade_references -->
         <a-form-model-item class="mb-0">
-          <table id="mytable" class="table table-border mt-0">
-            <draggable
-              tag="tbody"
-              :trade_references="formData.step2.trade_references"
-              handle=".handle"
+          <draggable
+            tag="a-row"
+            :trade_references="formData.step2.trade_references"
+            handle=".handle"
+          >
+            <a-col
+              v-for="(element, idx) in formData.step2.trade_references"
+              :key="idx"
+              class="p-0"
+              :span="24"
             >
-              <tr
-                v-for="(element, idx) in formData.step2.trade_references"
-                :key="idx"
-                class="p-0"
-              >
-                <!-- <td scope="row" class="drag-columns">
-                  <a-icon type="pic-left" />
-                </td> -->
+              <a-col v-if="idx != 0" :span="24"><hr /></a-col>
 
-                <td>
-                  <span class="text">{{ element.name }} </span>
-                </td>
+              <a-col :xs="24" :sm="24" :md="24" :lg="2" :xl="2">
+                <span class="text">{{ element.name }} </span>
+              </a-col>
 
-                <td class="p-0">
-                  <tr>
-                    <td class="w-25">
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step2 : ''"
-                        :validate-status="error.status"
-                        prop="step2.trade_references.company_name_addr"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.company_name_addr"
-                          placeholder="Company Name & Address:"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step2 : ''"
-                        :validate-status="error.status"
-                        prop="step2.trade_references.office_telno"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.office_telno"
-                          placeholder="Office Tel No:"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                    </td>
-                    <td>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step2 : ''"
-                        :validate-status="error.status"
-                        prop="step2.trade_references.contact_person"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.contact_person"
-                          placeholder="Contact person (Full names)"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step2 : ''"
-                        :validate-status="error.status"
-                        prop="step2.trade_references.mobile_telno"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.mobile_telno"
-                          placeholder="Mobile Tel No:"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                    </td>
-                    <td>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step2 : ''"
-                        :validate-status="error.status"
-                        prop="step2.trade_references.position"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.position"
-                          placeholder="Position:"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                      <a-form-model-item
-                        :help="validationErrors ? validationErrors.step2 : ''"
-                        :validate-status="error.status"
-                        prop="step2.trade_references.email_addr"
-                        has-feedback
-                        class="mb-0"
-                      >
-                        <a-input
-                          v-model="element.email_addr"
-                          placeholder="Email address:"
-                          autocomplete="off"
-                        >
-                          <a-icon
-                            slot="prefix"
-                            style="color: rgba(0, 0, 0, 0.25)"
-                            type="file"
-                          />
-                        </a-input>
-                      </a-form-model-item>
-                    </td>
-                  </tr>
-                </td>
-
-                <td>
-                  <span
-                    v-if="idx != 0"
-                    class="text-danger"
-                    @click="removeAt(idx)"
+              <a-col :xs="24" :sm="24" :md="24" :lg="21" :xl="21">
+                <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step2 : ''"
+                    :validate-status="error.status"
+                    prop="step2.trade_references.company_name_addr"
+                    has-feedback
+                    class="mb-0"
+                    label="Company Name & Address:"
+                    :style="{ width: 'calc(100% - 12px)' }"
                   >
-                    <a-icon slot="prefix" type="close" />
-                    Cancel
-                  </span>
-                </td>
-              </tr>
-            </draggable>
-          </table>
+                    <a-textarea v-model="element.company_name_addr" :rows="2" />
+                  </a-form-model-item>
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step2 : ''"
+                    :validate-status="error.status"
+                    prop="step2.trade_references.office_telno"
+                    has-feedback
+                    class="mb-0"
+                    label="Office Tel. No:"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input-number
+                      v-model="element.office_telno"
+                      :min="0"
+                      class="w-100"
+                    />
+                  </a-form-model-item>
+                </a-col>
+                <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step2 : ''"
+                    :validate-status="error.status"
+                    prop="step2.trade_references.contact_person"
+                    has-feedback
+                    class="mb-0"
+                    label="Full Names (Contact Person)"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input v-model="element.contact_person">
+                      <a-icon
+                        slot="prefix"
+                        style="color: rgba(0, 0, 0, 0.25)"
+                        type="file"
+                      />
+                    </a-input>
+                  </a-form-model-item>
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step2 : ''"
+                    :validate-status="error.status"
+                    prop="step2.trade_references.mobile_telno"
+                    has-feedback
+                    class="mb-0"
+                    label="Mobile No:"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input-number
+                      v-model="element.mobile_telno"
+                      :min="0"
+                      class="w-100"
+                    />
+                  </a-form-model-item>
+                </a-col>
+                <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step2 : ''"
+                    :validate-status="error.status"
+                    prop="step2.trade_references.position"
+                    has-feedback
+                    class="mb-0"
+                    label="Position:"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input v-model="element.position">
+                      <a-icon
+                        slot="prefix"
+                        style="color: rgba(0, 0, 0, 0.25)"
+                        type="file"
+                      />
+                    </a-input>
+                  </a-form-model-item>
+                  <a-form-model-item
+                    :help="validationErrors ? validationErrors.step2 : ''"
+                    :validate-status="error.status"
+                    prop="step2.trade_references.email_addr"
+                    has-feedback
+                    class="mb-0"
+                    label="Email address:"
+                    :style="{ width: 'calc(100% - 12px)' }"
+                  >
+                    <a-input v-model="element.email_addr">
+                      <a-icon
+                        slot="prefix"
+                        style="color: rgba(0, 0, 0, 0.25)"
+                        type="file"
+                      />
+                    </a-input>
+                  </a-form-model-item>
+                </a-col>
+              </a-col>
+
+              <a-col :xs="24" :sm="24" :md="24" :lg="1" :xl="1">
+                <span
+                  v-if="idx != 0"
+                  class="text- cursor-pointer btn btn-warning"
+                  @click="removeAt(idx)"
+                >
+                  <a-icon slot="prefix" type="close" />
+                </span>
+              </a-col>
+            </a-col>
+          </draggable>
         </a-form-model-item>
       </a-col>
     </a-row>

@@ -1,20 +1,58 @@
 <template>
   <div>
     <!-- signed_sealed -->
+    <!-- <a-form-model-item :help="validationErrors ? validationErrors.step6 : ''">
+      <a-form-model-item
+        help="Kindly input your initials i.e J.D"
+        :validate-status="error.status"
+        v-bind="formItemLayout"
+        prop="step6.signed_sealed"
+        has-feedback
+        :style="{ width: 'calc(50% - 12px)' }"
+        label="Initials: "
+        class="mb-0"
+      >
+        <a-input v-model="formData.step6.signed_sealed" autocomplete="off">
+          <a-icon
+            slot="prefix"
+            type="file"
+            style="color: rgba(0, 0, 0, 0.25)"
+          />
+        </a-input>
+      </a-form-model-item>
+    </a-form-model-item> -->
+
+    <!-- signature -->
     <a-form-model-item
       :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
-      v-bind="formItemLayout"
       prop="step6.signed_sealed"
+      :style="{ width: 'calc(100% - 12px)' }"
       has-feedback
-      :style="{ width: 'calc(50% - 12px)' }"
-      label="Signed and Sealed: "
       class="mb-0"
+      label="Signature"
     >
-      <a-input v-model="formData.step6.signed_sealed" autocomplete="off">
-        <a-icon slot="prefix" type="file" style="color: rgba(0, 0, 0, 0.25)" />
-      </a-input>
-      <small>Kindly input your initials</small>
+      <a-upload-dragger
+        v-model="formData.step6.signed_sealed"
+        :multiple="false"
+        :file-list="certofChangeofNameData"
+        :remove="handleRemove1"
+        :before-upload="beforeUpload1"
+        :disabled="certofChangeofNameData.length < 1 ? false : true"
+        @change="handleFileUploadChange"
+      >
+        <p class="ant-upload-drag-icon">
+          <a-icon type="inbox" />
+        </p>
+        <p class="ant-upload-text">
+          Take a screenshot of your signature and click or drag the image to
+          this area to upload
+        </p>
+        <small class="ant-upload-hint"
+          >Supported file formats png, jgp, jpeg, excel. A maximum of 1 file
+          upload.</small
+        >
+      </a-upload-dragger>
     </a-form-model-item>
 
     <!-- for_onbehalf_of -->
@@ -81,34 +119,31 @@
         type="date"
         placeholder="Pick a date"
         style="width: 100%"
+        :disabled-date="disabledDate"
       />
     </a-form-model-item>
 
     <!-- acknowledge -->
-    <a-form-model-item>
-      <a-form-model-item
-        :help="validationErrors ? validationErrors.step6 : ''"
-        :validate-status="error.status"
-        label=""
-        prop="step6.acknowledge"
-        class="mb-0"
+    <a-form-model-item prop="step6.acknowledge" class="mb-0" @click="onChecked">
+      <a-checkbox
+        v-model="formData.step6.acknowledge"
+        :checked="checked"
+        class="d-flex"
+        @change="onChecked"
       >
-        <a-checkbox-group v-model="formData.step6.acknowledge">
-          <a-checkbox name="type" value="0">
-            I/We declare that to the best of my/our knowledge the answers
-            submitted in this form and any supporting documentation attached
-            herewith are correct and can be substantiated if requested to do so.
-            I/We understand that any misrepresentations will be regarded as
-            fraudulent with intention to commit a fraudulent act against Oxygene
-            Limited. Such misrepresentation shall form grounds for termination
-            of the qualification process and/or blacklisting from Oxygene
-            suppliers register or an application of any legal means to safeguard
-            Oxygene interests. I/We further hereby give Limited or its Agents
-            authority to seek any references it may deem fit to carry out the
-            evaluation.
-          </a-checkbox>
-        </a-checkbox-group>
-      </a-form-model-item>
+        <span class="d-block" style="line-height: normal">
+          I/We declare that to the best of my/our knowledge the answers
+          submitted in this form and any supporting documentation attached
+          herewith are correct and can be substantiated if requested to do so.
+          I/We understand that any misrepresentations will be regarded as
+          fraudulent with intention to commit a fraudulent act against Oxygene
+          Limited. Such misrepresentation shall form grounds for termination of
+          the qualification process and/or blacklisting from Oxygene suppliers
+          register or an application of any legal means to safeguard Oxygene
+          interests. I/We further hereby give Limited or its Agents authority to
+          seek any references it may deem fit to carry out the evaluation.
+        </span>
+      </a-checkbox>
     </a-form-model-item>
   </div>
 </template>
@@ -120,7 +155,7 @@ export default {
       required: true,
     },
     error: {
-      type: [Object],
+      type: [Object, Boolean],
       required: true,
     },
     formItemLayout: {
@@ -135,14 +170,82 @@ export default {
       type: [Object],
       required: true,
     },
+    getChecked: {
+      type: [Boolean],
+      required: true,
+    },
   },
   data() {
-    return { formData: this.ruleForm }
+    return {
+      checked: this.getChecked,
+      formData: this.ruleForm,
+      certofChangeofNameData: [],
+    }
+  },
+  watch: {
+    //
+    certofChangeofNameData() {
+      if (this.certofChangeofNameData.length !== 0) {
+        this.formData.step6.signed_sealed = this.certofChangeofNameData
+      } else {
+        this.formData.step6.signed_sealed = this.certofChangeofNameData
+      }
+    },
+  },
+  created() {
+    if (this.formData.step6.signed_sealed !== '') {
+      this.certofChangeofNameData = this.formData.step6.signed_sealed
+    }
   },
   methods: {
+    handleFileUploadChange() {
+      if (this.certofChangeofNameData.length !== 0) {
+        this.formData.step6.signed_sealed = this.certofChangeofNameData
+      }
+    },
+    beforeUpload1(file) {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/jpg' ||
+        file.type === 'image/png'
+
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJpgOrPng) {
+        this.$notification.error({
+          message: 'File Upload',
+          description: 'Sorry that file type is NOT accepted!',
+          placement: 'bottomLeft',
+          duration: 6,
+        })
+      } else if (!isLt2M) {
+        this.$notification.warning({
+          message: 'File Upload',
+          description: 'Image must smaller than 2MB!',
+          placement: 'bottomLeft',
+          duration: 6,
+        })
+      } else {
+        this.certofChangeofNameData = [...this.certofChangeofNameData, file]
+      }
+      return false
+      // return isJpgOrPng && isLt2M
+    },
+    handleRemove1(file) {
+      // 1
+      const index = this.certofChangeofNameData.indexOf(file)
+      const newFileList = this.certofChangeofNameData.slice()
+      newFileList.splice(index, 1)
+      this.certofChangeofNameData = newFileList
+    },
     disabledDate(current) {
-      // Can not select days before today and today
-      return current && current < this.$moment().endOf('day')
+      // Can not select days before today
+      return (
+        current && current - 1 < this.$moment().endOf('day').subtract(1, 'days')
+      )
+    },
+    onChecked(e) {
+      this.checked = e.target.checked
     },
   },
 }

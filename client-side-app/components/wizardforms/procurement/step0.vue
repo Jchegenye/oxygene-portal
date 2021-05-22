@@ -146,15 +146,13 @@
     <!-- row 3 -->
     <a-row>
       <a-col :span="12">
-        <!-- Contact for finance department(email, Name and Tel no:) * -->
+        <!-- Contact details for finance department * -->
         <a-form-model-item>
           <div
             class="mt-4 d-block ant-col ant-form-item-label"
             style="line-height: normal; text-align: center"
           >
-            <label>
-              Contact for finance department(email, Name and Tel no:) *
-            </label>
+            <label> Contact details for finance department * </label>
           </div>
           <a-form-model-item
             :help="validationErrors ? validationErrors.step1 : ''"
@@ -164,15 +162,15 @@
             has-feedback
             :style="{ width: 'calc(100% - 12px)' }"
             class="mb-0"
-            label="Name"
+            label="Full Names"
           >
             <a-input
               v-model="formData.step1.finance_dept_name"
-              placeholder="Name"
+              placeholder="Full Names"
             >
               <a-icon
                 slot="prefix"
-                type="file"
+                type="user"
                 style="color: rgba(0, 0, 0, 0.25)"
               />
             </a-input>
@@ -185,11 +183,11 @@
             v-bind="formItemLayout"
             :style="{ width: 'calc(100% - 12px)' }"
             class="mb-0"
-            label="Email"
+            label="Email Address"
           >
             <a-input
               v-model="formData.step1.finance_dept_email"
-              placeholder="Email"
+              placeholder="Email Address"
               type="email"
             >
               <a-icon
@@ -207,11 +205,11 @@
             v-bind="formItemLayout"
             :style="{ width: 'calc(100% - 12px)' }"
             class="mb-0"
-            label="Tel no:"
+            label="Tel/Phone Number:"
           >
             <a-input
               v-model="formData.step1.finance_dept_telno"
-              placeholder="Tel no"
+              placeholder="Tel/Phone Number"
               type="number"
               min="0"
             >
@@ -320,7 +318,7 @@
                     prop="step1.director_name"
                     has-feedback
                     class="mb-0"
-                    label="Name"
+                    label="Full Names"
                     :style="{ width: 'calc(100% - 12px)' }"
                   >
                     <a-input v-model="element.director_name">
@@ -337,7 +335,7 @@
                     prop="step1.director_nationality"
                     has-feedback
                     class="mb-0"
-                    label="Select Nationality"
+                    label="Nationality"
                     :style="{ width: 'calc(100% - 12px)' }"
                   >
                     <a-select
@@ -363,7 +361,7 @@
                     prop="step1.director_email"
                     has-feedback
                     class="mb-0"
-                    label="Email"
+                    label="Email Address"
                     :style="{ width: 'calc(100% - 12px)' }"
                   >
                     <a-input v-model="element.director_email" type="email">
@@ -385,7 +383,7 @@
                   >
                     <a-textarea
                       v-model="element.director_postal_address"
-                      :rows="3"
+                      :rows="2"
                     />
                   </a-form-model-item>
                 </a-col>
@@ -396,7 +394,7 @@
                     prop="step1.director_id_no"
                     has-feedback
                     class="mb-0"
-                    label="Identification No."
+                    label="ID/Passport No."
                     :style="{ width: 'calc(100% - 12px)' }"
                   >
                     <a-input-number
@@ -491,7 +489,10 @@
               <p class="ant-upload-text">
                 Click or drag file to this area to upload
               </p>
-              <p class="ant-upload-hint">Support for a single upload.</p>
+              <small class="ant-upload-hint"
+                >Supported file formats pdf, word, png, jgp, jpeg, excel. A
+                maximum of 2 files upload.</small
+              >
             </a-upload-dragger>
           </a-form-model-item>
           <!-- reason_of_namechange -->
@@ -555,7 +556,10 @@
               <p class="ant-upload-text">
                 Click or drag file to this area to upload
               </p>
-              <p class="ant-upload-hint">Support for a single upload.</p>
+              <small class="ant-upload-hint"
+                >Supported file formats pdf, word, png, jgp, jpeg, excel. A
+                maximum of 2 files upload.</small
+              >
             </a-upload-dragger>
           </a-form-model-item>
           <!-- reason_of_directorschange -->
@@ -580,7 +584,7 @@
       </a-col>
       <a-col :span="8">
         <!-- business_period -->
-        <a-form-model-item class="question-box">
+        <a-form-model-item class="question-box" help="E.g 1 Month or 10 Years">
           <a-form-model-item
             :help="validationErrors ? validationErrors.step1 : ''"
             :validate-status="error.status"
@@ -588,7 +592,7 @@
             :style="{ width: 'calc(100% - 12px)' }"
             has-feedback
             class="mb-0"
-            label="Period in which you have been in business for which you wish to supply us with goods/services"
+            label="Period in which you have been in business for which you wish to supply us with goods/services."
           >
             <a-input v-model="formData.step1.business_period">
               <a-icon
@@ -688,33 +692,41 @@
           </div>
           <!-- contact_person_name -->
           <a-form-model-item
-            :help="validationErrors ? validationErrors.step1 : ''"
-            :validate-status="error.status"
-            prop="step1.contact_person_name"
-            has-feedback
-            class="mb-0"
-            label="Names (full names):"
+            help="Separate the names with a comma e.g Joe Doe, Mary Dew"
           >
-            <a-textarea
-              v-model="formData.step1.contact_person_name"
-              :rows="4"
-            />
+            <a-form-model-item
+              :help="validationErrors ? validationErrors.step1 : ''"
+              :validate-status="error.status"
+              prop="step1.contact_person_name"
+              has-feedback
+              class="mb-0"
+              label="Names (full names):"
+            >
+              <a-textarea
+                v-model="formData.step1.contact_person_name"
+                :rows="4"
+              />
+            </a-form-model-item>
           </a-form-model-item>
           <!-- contact_person_title -->
           <a-form-model-item
-            :help="
-              validationErrors ? validationErrors.contact_person_title : ''
-            "
-            :validate-status="error.status"
-            prop="step1.contact_person_title"
-            has-feedback
-            class="mb-0"
-            label="Title:"
+            help="Separate the titles/designations with a comma e.g Accountant, Engineer in order of the names above."
           >
-            <a-textarea
-              v-model="formData.step1.contact_person_title"
-              :rows="4"
-            />
+            <a-form-model-item
+              :help="
+                validationErrors ? validationErrors.contact_person_title : ''
+              "
+              :validate-status="error.status"
+              prop="step1.contact_person_title"
+              has-feedback
+              class="mb-0"
+              label="Title:"
+            >
+              <a-textarea
+                v-model="formData.step1.contact_person_title"
+                :rows="4"
+              />
+            </a-form-model-item>
           </a-form-model-item>
         </a-form-model-item>
       </a-col>

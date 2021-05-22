@@ -37,6 +37,7 @@
               <Component
                 :is="stepFormComponent"
                 :current="current"
+                :get-checked="ruleForm.step6.acknowledge"
                 :error="error"
                 :rule-form="ruleForm"
                 :rules="rules"
@@ -65,9 +66,7 @@
                   size="small"
                   :type="loading ? 'danger' : 'primary'"
                   :loading="loading"
-                  :disabled="
-                    ruleForm.step6.acknowledge.length !== 0 ? false : true
-                  "
+                  :disabled="ruleForm.step6.acknowledge === true ? false : true"
                   @click.prevent="submitForm('ruleForm')"
                 >
                   {{ loading ? 'Submitting ...' : 'Submit' }}
@@ -221,8 +220,8 @@ export default {
           finance_dept_email: 'liz@mwananchi.com',
           finance_dept_telno: '0700000000',
           legal_entity: 'other',
-          legal_entity_other: 'N/A',
-          web_site_address: 'N/A',
+          legal_entity_other: 'N/A - Legal Entity',
+          web_site_address: 'N/A - Web Add',
           //
           list: [
             {
@@ -230,55 +229,75 @@ export default {
               name: 'Director 1',
               director_name: 'Johnson G.',
               director_email: 'johnson@gmail.com',
-              director_id_no: 1,
+              director_id_no: 20393883, // Numeric default value 1
               director_postal_address: 'P.O BOX - 4950',
               director_nationality: 'Kenyan',
-              director_per_shareholder: 1,
+              director_per_shareholder: 80, // Numeric default value 1
+            },
+            {
+              id: 2,
+              name: 'Director 2',
+              director_name: 'Vincent Ateya',
+              director_email: 'vinny29@gmail.com',
+              director_id_no: 28373839, // Numeric default value 1
+              director_postal_address: 'P.O BOX - 4950',
+              director_nationality: 'Kenyan',
+              director_per_shareholder: 20, // Numeric default value 1
             },
           ],
           //
-          company_name_change: 'no',
+          company_name_change: 'yes', // String default value 'no'
           cert_of_changeofname: '',
-          reason_of_namechange: '',
+          reason_of_namechange: 'N/A - reason name change',
           //
-          company_directors: 'no',
+          company_directors: 'yes', // String default value 'no'
           cert_of_registration: '',
-          reason_of_directorschange: '',
+          reason_of_directorschange: 'N/A - reason directors',
           //
-          business_period: '3',
+          business_period: '3 years',
           //
-          has_oxygene_employee: 'no',
-          name_position: '',
+          has_oxygene_employee: 'yes', // String default value 'no'
+          name_position: 'N/A - name position',
           //
-          has_interest_employee: 'no',
-          details_of_interest: '',
+          has_interest_employee: 'yes', // String default value 'no'
+          details_of_interest: 'N/A - details of interest',
           //
-          contact_person_name: '',
-          contact_person_title: '',
+          contact_person_name: 'Nelly Asumu',
+          contact_person_title: 'Procurment Manager',
         },
         step2: {
           bank_references: {
-            bank_name: '',
-            branch: '',
-            ac_no: '',
-            name_title: '',
-            email_telno: '',
+            bank_name: 'Kenya Commercial Bank',
+            branch: 'Kimathi Street',
+            ac_no: 1221212121212, // Numeric value default 1
+            name_title: 'Jackson Asumu',
+            email_telno: '0711494289',
           },
           trade_references: [
             {
               id: 1,
               name: 'Reference 1',
-              company_name_addr: '',
-              contact_person: '',
-              position: '',
-              office_telno: '',
-              mobile_telno: '',
-              email_addr: '',
+              company_name_addr: 'Brand Capital Africa ',
+              contact_person: 'Njuguna K.',
+              position: 'Manager',
+              office_telno: 1745000000, // Numeric value default 0
+              mobile_telno: 1172200001, // Numeric value default 0
+              email_addr: 'jugushk@brandcapital.co.ke',
+            },
+            {
+              id: 2,
+              name: 'Reference 2',
+              company_name_addr: 'Jumia Kenya',
+              contact_person: 'Mary Akida',
+              position: 'CEO',
+              office_telno: 722200045, // Numeric value default 0
+              mobile_telno: 721000030, // Numeric value default 0
+              email_addr: 'mary@jumia.com',
             },
           ],
         },
         step3: {
-          litigation: 'no',
+          litigation: 'yes', // Numeric value default no
           litigation_file: [],
         },
         step4: {
@@ -290,7 +309,7 @@ export default {
           position_in: '',
           company: '',
           date: '',
-          acknowledge: ['0'],
+          acknowledge: false,
         },
       },
       dragging: true,
@@ -452,9 +471,13 @@ export default {
         },
         //
         step6: {
+          // signed_sealed: {
+          //   required: true,
+          //   message: 'Please input your initials',
+          // },
           signed_sealed: {
-            required: true,
-            message: 'Please input your initials',
+            validator: validateFileUploadNormal,
+            trigger: 'change',
           },
           for_onbehalf_of: {
             required: true,
