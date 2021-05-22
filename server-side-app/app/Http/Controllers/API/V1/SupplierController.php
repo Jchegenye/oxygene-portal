@@ -51,6 +51,9 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
 
+        //supplier NO.
+        $supplierNo = json_decode($request->supplier_number);
+
         // logo
         $path = env('APP_NORMAL_URL').'/images/oxygene-logo.png';
         $type = pathinfo($path, PATHINFO_EXTENSION);
@@ -58,31 +61,74 @@ class SupplierController extends Controller
         $logo = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         // CHECK EXISTANCE
-        if (Supplier::where('supplier_number', '=', $request->supplier_number)->first()) {
+        if (Supplier::where('supplier_number', '=', $supplierNo)->first()) {
             return response()->json([
                 'status' => 'warning', 
-                'message'=> "Application No. ".$request->supplier_number." is already submitted"
+                'message'=> "Application No. ".$supplierNo." is already submitted"
             ], 201);
         } else {
 
+            // STEP 1 BASIC INFO
+            $basicinfo = json_decode($request->basicinfo);
+            //delete files data in step1 array
+            $arrBasicInfo = (array)$basicinfo;
+            unset($arrBasicInfo['cert_of_changeofname']);
+            unset($arrBasicInfo['cert_of_registration']);
+            
+            //STEP 6
+            $step6 = json_decode($request->declaration);
+            //delete files data in step1 array
+            $step6Data = (array)$step6;
+            unset($step6Data['signed_sealed']);
+            //formatted date
+            $step6Date = \Carbon\Carbon::parse($step6->date)->format('F j, Y');
+
             // REQUEST STEPs FILES
+            $step1by1_files = [];
+            $step1by2_files = [];
+            $step6_files = [];
+
             $step4_files = [];
             $step3_files = [];
 
             $req = $request->all();
             foreach ($req as $key => $value) {
-                if (Str::startsWith( $key, "step4_file")) {
+                if (Str::startsWith( $key, "step1by1_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs('procurement', $fileName, 'public');
-                    array_push($step4_files, [
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Change of Name', $fileName, 'public');
+                    array_push($step1by1_files, [
+                        "name" => $fileName,
+                        "path" => $filePath
+                    ]);
+                }
+                if (Str::startsWith( $key, "step1by2_file")) {
+                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Registration', $fileName, 'public');
+                    array_push($step1by2_files, [
                         "name" => $fileName,
                         "path" => $filePath
                     ]);
                 }
                 if(Str::startsWith( $key, "step3_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs('litigation', $fileName, 'public');
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Litigation', $fileName, 'public');
                     array_push($step3_files, [
+                        "name" => $fileName,
+                        "path" => $filePath
+                    ]);
+                }
+                if (Str::startsWith( $key, "step4_file")) {
+                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Evaluation', $fileName, 'public');
+                    array_push($step4_files, [
+                        "name" => $fileName,
+                        "path" => $filePath
+                    ]);
+                }
+                if (Str::startsWith( $key, "step6_file")) {
+                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Declaration', $fileName, 'public');
+                    array_push($step6_files, [
                         "name" => $fileName,
                         "path" => $filePath
                     ]);
@@ -91,12 +137,17 @@ class SupplierController extends Controller
 
             // STORE
             $data = Supplier::updateOrCreate(
-                ['supplier_number' => $request->supplier_number],
+                ['supplier_number' => $supplierNo],
                 [
                     'company_email_address' => str_replace('"', '', $request->company_email_address),
                     'user_id' => 0,
-                    'supplier_number' => str_replace('"', '', $request->supplier_number),
-                    'step1' =>json_decode($request->step1, true),
+                    'supplier_number' => str_replace('"', '', $supplierNo),
+
+                    'step1' => json_encode([
+                        "cert_of_changeofname" => $step1by1_files,
+                        "cert_of_registration" => $step1by2_files,
+                        'basicinfo' => $arrBasicInfo
+                    ]),
                     'step2' =>json_decode($request->step2, true),
                     'step3' => json_encode([
                         "litigation_file" => $step3_files,
@@ -105,32 +156,37 @@ class SupplierController extends Controller
                     'step4' => json_encode([
                         "evaluation" => $step4_files
                     ]),
-                    'step6' => json_decode($request->step6, true)
+                    'step6' => json_encode([
+                        "signed_sealed" => $step6_files,
+                        'declaration' => $step6Data
+                    ]),
                 ]
             );
         
             // PDF
-            $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
-                ->setOptions(['defaultFont' => 'Montserrat']);
+            // $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
+            //     ->setOptions(['defaultFont' => 'Montserrat']);
 
-            // EMAILS
-            $supplierEmail = \Mail::to($data->company_email_address)
-                ->send(new ApplicationNotifier($data,$supplierPdf->output()));
-            $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
-                ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
-                ->send(new AdminNotifier($data, $supplierPdf->output()));
+            // // EMAILS
+            // $supplierEmail = \Mail::to($data->company_email_address)
+            //     ->send(new ApplicationNotifier($data,$supplierPdf->output()));
+            // $adminEmail = \Mail::to(env('MAIL_FINANCE_ADDRESS'))
+            //     ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
+            //     ->send(new AdminNotifier($data, $supplierPdf->output()));
 
-            if(!$data AND !$supplierEmail AND !$adminEmail){
-                return response()->json([
-                    'status' => 'error',
-                    'message'=> "Sorry, something went wrong!"
-                ], 500);
-            }
+            // if(!$data AND !$supplierEmail AND !$adminEmail){
+            //     return response()->json([
+            //         'status' => 'error',
+            //         'message'=> "Sorry, something went wrong!"
+            //     ], 500);
+            // }
             
             return response()->json([
                 'status' => 'success',
-                'message'=> "Application No. ".$request->supplier_number." has been submitted."
+                'message'=> "Application No. ".$supplierNo." has been submitted."
             ], 201);
+
+            //return response()->json($supplierNo));
         }
     }
 

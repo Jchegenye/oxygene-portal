@@ -56,7 +56,7 @@
                     <td>Full Name of Organization</td>
                     <td >
                         <div class="answer">
-                            {{$data['step1']['full_name_organization']}}
+                            {{$data['step1']['basicinfo']['full_name_organization']}}
                         </div>
                     </td>
                 </tr>
@@ -65,7 +65,7 @@
                     <td>Physical Address/Principal Place of Business State plot No.</td>
                     <td >
                         <div class="answer">
-                            {{$data['step1']['physical_address']}}
+                            {{$data['step1']['basicinfo']['physical_address']}}
                         </div>
                     </td>
                 </tr>
@@ -74,7 +74,7 @@
                     <td>Postal Address</td>
                     <td>
                         <div class="answer">
-                            {{$data['step1']['postal_address']}}
+                            {{$data['step1']['basicinfo']['postal_address']}}
                         </div>
                     </td>
                 </tr>
@@ -83,7 +83,7 @@
                     <td>Telephone Number</td>
                     <td>
                         <div class="answer">
-                            {{$data['step1']['telephone_number']}}
+                            {{$data['step1']['basicinfo']['telephone_number']}}
                         </div>
                     </td>
                 </tr>
@@ -92,7 +92,7 @@
                     <td>KRA PIN No.</td>
                     <td>
                         <div class="answer">
-                            {{$data['step1']['kra_pin_no']}}
+                            {{$data['step1']['basicinfo']['kra_pin_no']}}
                         </div>
                     </td>
                 </tr>
@@ -101,7 +101,7 @@
                     <td>Company registration number</td>
                     <td>
                         <div class="answer">
-                            {{$data['step1']['company_registration_no']}}
+                            {{$data['step1']['basicinfo']['company_registration_no']}}
                         </div>
                     </td>
                 </tr>
@@ -121,19 +121,19 @@
                         <div class="mb-0">
                             <label>Name : </label>
                             <span class="answer">
-                                {{$data['step1']['finance_dept_name']}}
+                                {{$data['step1']['basicinfo']['finance_dept_name']}}
                             </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Email : </label>
                             <span class="answer">
-                                {{$data['step1']['finance_dept_email']}}
+                                {{$data['step1']['basicinfo']['finance_dept_email']}}
                             </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Tel no: </label>
                             <span class="answer">
-                                {{$data['step1']['finance_dept_telno']}}
+                                {{$data['step1']['basicinfo']['finance_dept_telno']}}
                             </span>
                         </div>
                     </td>
@@ -143,10 +143,10 @@
                     <td>Legal Entity: (a) Sole proprietor (b) Corporation (c) Partnership (d) Other</td>
                     <td>
                         <div class="answer">
-                            @if($data['step1']['legal_entity'] === 'other')
-                                {{$data['step1']['legal_entity_other']}}
+                            @if($data['step1']['basicinfo']['legal_entity'] === 'other')
+                                {{$data['step1']['basicinfo']['legal_entity_other']}}
                             @else
-                                {{$data['step1']['legal_entity']}}
+                                {{$data['step1']['basicinfo']['legal_entity']}}
                             @endif
                         </div>
                     </td>
@@ -156,7 +156,7 @@
                     <td>Web Sites Address (if any)</td>
                     <td>
                         <div class="answer">
-                            {{$data['step1']['web_site_address']}}
+                            {{$data['step1']['basicinfo']['web_site_address']}}
                         </div>
                     </td>
                 </tr>
@@ -187,7 +187,7 @@
                         <td class="">Postal Address</td>
                         <td class="">Percentage shareholding (%)</td>
                     </tr>
-                    @foreach ($data['step1']['list'] as $list)
+                    @foreach ($data['step1']['basicinfo']['list'] as $list)
                     <tr>
                         <td class=""></td>
                         <td>
@@ -232,10 +232,10 @@
                     </td>
                     <td colspan="3">
                         <div class="answer">
-                            @if($data['step1']['company_name_change'] === 'yes')
+                            @if($data['step1']['basicinfo']['company_name_change'] === 'yes')
                                 <div>Attachement: Yes</div>
                                 <hr />
-                                {{$data['step1']['reason_of_namechange']}}
+                                {{$data['step1']['basicinfo']['reason_of_namechange']}}
                             @else
                                 N/A
                             @endif
@@ -251,10 +251,10 @@
                     </td>
                     <td colspan="3">
                         <div class="answer">
-                            @if($data['step1']['company_directors'] === 'yes')
+                            @if($data['step1']['basicinfo']['company_directors'] === 'yes')
                                 <div>Attachement: Yes</div>
                                 <hr />
-                                {{$data['step1']['reason_of_directorschange']}}
+                                {{$data['step1']['basicinfo']['reason_of_directorschange']}}
                             @else
                                 N/A
                             @endif
@@ -268,7 +268,7 @@
                     </td>
                     <td colspan="3">
                         <div class="answer">
-                            {{$data['step1']['business_period']}}
+                            {{$data['step1']['basicinfo']['business_period']}}
                         </div>
                     </td>
                 </tr>
@@ -280,8 +280,8 @@
                     </td>
                     <td colspan="3">
                         <div class="answer">
-                            @if($data['step1']['has_oxygene_employee'] === 'yes')
-                                {{$data['step1']['name_position']}}
+                            @if($data['step1']['basicinfo']['has_oxygene_employee'] === 'yes')
+                                {{$data['step1']['basicinfo']['name_position']}}
                             @else
                                 N/A
                             @endif
@@ -298,8 +298,8 @@
                     </td>
                     <td colspan="3">
                         <div class="answer">
-                            @if($data['step1']['has_interest_employee'] === 'yes')
-                                {{$data['step1']['details_of_interest']}}
+                            @if($data['step1']['basicinfo']['has_interest_employee'] === 'yes')
+                                {{$data['step1']['basicinfo']['details_of_interest']}}
                             @else
                                 N/A
                             @endif
@@ -316,13 +316,13 @@
                         <div class="mb-0">
                             <label>Names (full names please) : </label>
                             <span class="answer">
-                                {{$data['step1']['contact_person_name']}}
+                                {{$data['step1']['basicinfo']['contact_person_name']}}
                             </span>
                         </div>
                         <div class="mb-0 pt-3">
                             <label>Title : </label>
                             <span class="answer">
-                                {{$data['step1']['contact_person_title']}}
+                                {{$data['step1']['basicinfo']['contact_person_title']}}
                             </span>
                         </div>
                     </td>
@@ -525,35 +525,35 @@
                             <div class="mb-3">
                                 <label>Signed and Sealed : </label>
                                 <span class="answer">
-                                    {{$data['step6']['signed_sealed']}}
+                                    ___________________
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>For and on Behalf of : </label>
                                 <span class="answer">
-                                    {{$data['step6']['for_onbehalf_of']}}
+                                    {{$data['step6']['declaration']['for_onbehalf_of']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Position in : </label>
                                 <span class="answer">
-                                    {{$data['step6']['position_in']}}
+                                    {{$data['step6']['declaration']['position_in']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Company : </label>
                                 <span class="answer">
-                                    {{$data['step6']['company']}}
+                                    {{$data['step6']['declaration']['company']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>
                             <div class="mb-3">
                                 <label>Date : </label>
                                 <span class="answer">
-                                    {{$data['step6']['date']}}
+                                    {{$data['step6']['declaration']['date']}}
                                 </span>
                                 <!-- <span class="dotted-line"></span> -->
                             </div>

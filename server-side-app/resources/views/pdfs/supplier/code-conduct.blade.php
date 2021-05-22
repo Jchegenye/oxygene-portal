@@ -55,14 +55,14 @@
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Name: </label>
                         <span class="">
-                            {{$data['step6']['signed_sealed']}}
+                            ___________________
                         </span>
                         <!-- <span class="dotted-line"></span> -->
                     </div>
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Date : </label>
                         <span class="">
-                            {{$data['step6']['date']}}
+                            {{$data['step6']['declaration']['date']}}
                         </span>
                         <!-- <span class="dotted-line"></span> -->
                     </div>
@@ -73,7 +73,7 @@
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Designation : </label>
                         <span class="">
-                            {{$data['step6']['position_in']}}
+                            {{$data['step6']['declaration']['position_in']}}
                         </span>
                         <!-- <span class="dotted-line"></span> -->
                     </div>
