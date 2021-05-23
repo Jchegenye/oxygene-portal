@@ -54,15 +54,15 @@
                 <div class="signature">
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Name: </label>
-                        <span class="">
+                        <!-- <span class="">
                             ___________________
-                        </span>
-                        <!-- <span class="dotted-line"></span> -->
+                        </span> -->
+                        <span class="dotted-line"></span>
                     </div>
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Date : </label>
                         <span class="">
-                            {{$data['step6']['declaration']['date']}}
+                            <strong>{{$step6Date}}</strong>
                         </span>
                         <!-- <span class="dotted-line"></span> -->
                     </div>
@@ -72,10 +72,10 @@
                 <div class="signature">
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Designation : </label>
-                        <span class="">
-                            {{$data['step6']['declaration']['position_in']}}
-                        </span>
-                        <!-- <span class="dotted-line"></span> -->
+                        <!-- <span class="">
+                            <strong>{{$step6->position_in}}</strong>
+                        </span> -->
+                        <span class="dotted-line"></span>
                     </div>
                     <div class="answer" style="margin-bottom:30px;">
                         <label>Signature : </label>

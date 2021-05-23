@@ -37,6 +37,11 @@ class RoleSeeder extends Seeder
                 'label' => "Client",
                 'description' => "An client has the ability to manage ...",
             ),
+            5 => 
+            array (
+                'label' => "Supplier",
+                'description' => "A supplier has the ability to manage ...",
+            ),
         ));
 
     }

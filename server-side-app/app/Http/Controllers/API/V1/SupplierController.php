@@ -13,6 +13,8 @@ use Helper;
 use PDF;
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SupplierController extends Controller
 {
@@ -53,15 +55,17 @@ class SupplierController extends Controller
 
         //supplier NO.
         $supplierNo = json_decode($request->supplier_number);
+        //email
+        $userEmail = json_decode($request->company_email_address);
 
         // logo
-        $path = env('APP_NORMAL_URL').'/images/oxygene-logo.png';
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $logo = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        // $path = env('APP_NORMAL_URL').'/images/oxygene-logo.png';
+        // $type = pathinfo($path, PATHINFO_EXTENSION);
+        // $data = file_get_contents($path);
+        // $logo = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         // CHECK EXISTANCE
-        if (Supplier::where('supplier_number', '=', $supplierNo)->first()) {
+        if (Supplier::where('supplier_number', '=', $supplierNo)->first()) { 
             return response()->json([
                 'status' => 'warning', 
                 'message'=> "Application No. ".$supplierNo." is already submitted"
@@ -87,81 +91,120 @@ class SupplierController extends Controller
             $step1by1_files = [];
             $step1by2_files = [];
             $step6_files = [];
-
             $step4_files = [];
             $step3_files = [];
 
+            // STORE FILES
             $req = $request->all();
             foreach ($req as $key => $value) {
-                if (Str::startsWith( $key, "step1by1_file")) {
-                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Change of Name', $fileName, 'public');
-                    array_push($step1by1_files, [
-                        "name" => $fileName,
-                        "path" => $filePath
-                    ]);
-                }
-                if (Str::startsWith( $key, "step1by2_file")) {
-                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Registration', $fileName, 'public');
-                    array_push($step1by2_files, [
-                        "name" => $fileName,
-                        "path" => $filePath
-                    ]);
-                }
-                if(Str::startsWith( $key, "step3_file")) {
-                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Litigation', $fileName, 'public');
-                    array_push($step3_files, [
-                        "name" => $fileName,
-                        "path" => $filePath
-                    ]);
-                }
-                if (Str::startsWith( $key, "step4_file")) {
-                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Evaluation', $fileName, 'public');
-                    array_push($step4_files, [
-                        "name" => $fileName,
-                        "path" => $filePath
-                    ]);
-                }
-                if (Str::startsWith( $key, "step6_file")) {
-                    $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Declaration', $fileName, 'public');
-                    array_push($step6_files, [
-                        "name" => $fileName,
-                        "path" => $filePath
-                    ]);
-                }
+                // if (Str::startsWith( $key, "step1by1_file")) {
+                //     // store files temporary in local & database
+                //     $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                //     $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Change of Name', $fileName, 'public');
+                //     array_push($step1by1_files, [
+                //         "name" => $fileName,
+                //         "path" => $filePath
+                //     ]);
+                //     // upload to dropbox
+                //     Storage::disk('dropbox')->put('Supplier Applications/'.$filePath, file_get_contents($request[$key]));
+
+                // }
+                // if (Str::startsWith( $key, "step1by2_file")) {
+                //     $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                //     $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Registration', $fileName, 'dropbox');
+                //     array_push($step1by2_files, [
+                //         "name" => $fileName,
+                //         "path" => $filePath
+                //     ]);
+                //     // upload to dropbox
+                //     Storage::disk('dropbox')->put('Supplier Applications/'.$filePath, file_get_contents($request[$key]));
+                // }
+                // if(Str::startsWith( $key, "step3_file")) {
+                //     $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                //     $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Litigation', $fileName, 'dropbox');
+                //     array_push($step3_files, [
+                //         "name" => $fileName,
+                //         "path" => $filePath
+                //     ]);
+                // }
+                // if (Str::startsWith( $key, "step4_file")) {
+                //     $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                //     $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Evaluation', $fileName, 'dropbox');
+                //     array_push($step4_files, [
+                //         "name" => $fileName,
+                //         "path" => $filePath
+                //     ]);
+                //     // upload to dropbox
+                //     Storage::disk('dropbox')->put('Supplier Applications/'.$filePath, file_get_contents($request[$key]));
+                // }
+                // if (Str::startsWith( $key, "step6_file")) {
+                //     $fileName = time().'_'.$request[$key]->getClientOriginalName();
+                //     $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Declaration', $fileName, 'dropbox');
+                //     array_push($step6_files, [
+                //         "name" => $fileName,
+                //         "path" => $filePath
+                //     ]);
+                //     // upload to dropbox
+                //     Storage::disk('dropbox')->put('Supplier Applications/'.$filePath, file_get_contents($request[$key]));
+                // }
             }
 
             // STORE
-            $data = Supplier::updateOrCreate(
-                ['supplier_number' => $supplierNo],
-                [
-                    'company_email_address' => str_replace('"', '', $request->company_email_address),
-                    'user_id' => 0,
-                    'supplier_number' => str_replace('"', '', $supplierNo),
+            // $data = Supplier::updateOrCreate(
+            //     ['supplier_number' => $supplierNo],
+            //     [
+            //         'company_email_address' => str_replace('"', '', $userEmail),
+            //         'user_id' => 0,
+            //         'supplier_number' => str_replace('"', '', $supplierNo),
 
-                    'step1' => json_encode([
-                        "cert_of_changeofname" => $step1by1_files,
-                        "cert_of_registration" => $step1by2_files,
-                        'basicinfo' => $arrBasicInfo
-                    ]),
-                    'step2' =>json_decode($request->step2, true),
-                    'step3' => json_encode([
-                        "litigation_file" => $step3_files,
-                        'litigation' => $request->litigation
-                    ]),
-                    'step4' => json_encode([
-                        "evaluation" => $step4_files
-                    ]),
-                    'step6' => json_encode([
-                        "signed_sealed" => $step6_files,
-                        'declaration' => $step6Data
-                    ]),
-                ]
-            );
+            //         'step1' => json_encode([
+            //             "cert_of_changeofname" => $step1by1_files,
+            //             "cert_of_registration" => $step1by2_files,
+            //             'basicinfo' => $arrBasicInfo
+            //         ]),
+            //         'step2' =>json_decode($request->step2, true),
+            //         'step3' => json_encode([
+            //             "litigation_file" => $step3_files,
+            //             'litigation' => $request->litigation
+            //         ]),
+            //         'step4' => json_encode([
+            //             "evaluation" => $step4_files
+            //         ]),
+            //         'step6' => json_encode([
+            //             "signed_sealed" => $step6_files,
+            //             'declaration' => $step6Data
+            //         ]),
+            //     ]
+            // );
+
+            // USER DETAILS
+            // $fullNames = $basicinfo->full_name_organization;
+            // $parts = explode(' ', $fullNames);
+            // $name_first = array_shift($parts);
+            // $name_last = array_pop($parts);
+            // $name_middle = trim(implode(' ', $parts));
+
+            // $date = \Carbon\Carbon::now();
+            // $stampDateTime = clone($date);
+
+            // $nickname = Str::lower($name_first);
+
+            // REGISTER USER
+            // DB::table('users')
+            //     ->updateOrInsert(
+            //         ['email' => $userEmail],
+            //         [
+            //             'first_name' => $name_first,
+            //             'last_name' => $name_last.' '.$name_middle,
+            //             'email' => $userEmail,
+            //             'password' => Hash::make($supplierNo),
+            //             'nickname' => $nickname,
+            //             'role_id' => 5,
+            //             'agreement' => 0,
+            //             'created_at' => $stampDateTime,
+            //             'updated_at' => $stampDateTime
+            //         ]
+            //     );
         
             // PDF
             // $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
@@ -174,6 +217,10 @@ class SupplierController extends Controller
             //     ->cc(env('MAIL_PROCUREMENT_ADDRESS'))
             //     ->send(new AdminNotifier($data, $supplierPdf->output()));
 
+            // DELETE LOCAL FILES
+            // Storage::disk('public')->deleteDirectory($fullNames);
+
+            // ERROR RESPONSE
             // if(!$data AND !$supplierEmail AND !$adminEmail){
             //     return response()->json([
             //         'status' => 'error',
@@ -181,12 +228,12 @@ class SupplierController extends Controller
             //     ], 500);
             // }
             
+            // SUCCESS RESPONSE
             return response()->json([
                 'status' => 'success',
                 'message'=> "Application No. ".$supplierNo." has been submitted."
             ], 201);
 
-            //return response()->json($supplierNo));
         }
     }
 

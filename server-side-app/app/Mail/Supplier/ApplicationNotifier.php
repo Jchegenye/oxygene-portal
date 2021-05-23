@@ -37,7 +37,7 @@ class ApplicationNotifier extends Mailable
         $createdAt = \Carbon\Carbon::parse($this->data->created_at);
         $createdAt->format('Y-m-d-h:i:s');
 
-        return $this->subject("Supplier Application No. $suplyNo | $company")
+        return $this->subject("Supplier Application | No. $suplyNo | $company")
             ->markdown('emails.supplier.application', ['data', $this->data])
             ->attachData(base64_decode($this->pdf), $this->data->supplier_number.'-'.'Supplier-Application'.'-'.$createdAt.'.pdf', [
                 'mime' => 'application/pdf',

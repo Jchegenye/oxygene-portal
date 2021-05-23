@@ -8,7 +8,7 @@ export default {
   name: 'FormAlerts',
   props: {
     errors: {
-      type: [Array, Object, Boolean],
+      type: [Array, Object, Boolean, Error],
       required: true,
     },
   },

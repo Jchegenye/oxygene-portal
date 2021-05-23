@@ -287,6 +287,9 @@
       <hr />
       <a-col :span="24">
         <h4 class="mt-2">Directors contacts</h4>
+        <p class="text-danger">
+          Please make sure you fill in all the fields for director(s) contacts.
+        </p>
         <a-button
           type="danger"
           icon="plus"
@@ -745,7 +748,7 @@ export default {
       required: true,
     },
     error: {
-      type: [Object, Boolean],
+      type: [Object, Boolean, Error],
       required: true,
     },
     formItemLayout: {
@@ -820,9 +823,9 @@ export default {
     if (this.formData.step1.cert_of_registration !== '') {
       this.certofRegistration = this.formData.step1.cert_of_registration
     }
-    // if (this.$store.state.nationalities.list.length === 0) {
-    //   this.$store.dispatch('nationalities/fetchNationalities')
-    // }
+    if (this.$store.state.nationalities.list.length === 0) {
+      this.$store.dispatch('nationalities/fetchNationalities')
+    }
   },
   methods: {
     handleFileUploadChange() {

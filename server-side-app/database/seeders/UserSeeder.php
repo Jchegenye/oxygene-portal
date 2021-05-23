@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
                 'first_name' => "Jackson",
                 'last_name' => "Chegenye",
                 'email' => "jackson.chegenye@oxygene.co.ke",
-                'password' =>  Hash::make('111'),
+                'password' =>  Hash::make('8303_Kasson'),
                 'nickname' => "jchegenye",
                 'role_id' => 1, //Super Admin
                 'agreement' => 1,
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 'first_name' => "Johnson",
                 'last_name' => "Gitonga",
                 'email' => "johnson.gitonga@oxygene.co.ke",
-                'password' =>  Hash::make('111'),
+                'password' =>  Hash::make('8303_Kasson'),
                 'nickname' => Str::lower(head(explode(' ', trim('johnson')))),
                 'role_id' => 2, //Admin
                 'agreement' => 1,
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
                 'first_name' => "Alfred",
                 'last_name' => "Maina",
                 'email' => "alfred.maina@oxygene.co.ke",
-                'password' =>  Hash::make('111'),
+                'password' =>  Hash::make('8303_Kasson'),
                 'nickname' => Str::lower(head(explode(' ', trim('alfie')))),
                 'role_id' => 3, //Employee
                 'agreement' => 1,
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
                 'first_name' => "Kyeti",
                 'last_name' => "C",
                 'email' => "jtechinfo3@gmail.com",
-                'password' =>  Hash::make('111'),
+                'password' =>  Hash::make('8303_Kasson'),
                 'nickname' => Str::lower(head(explode(' ', trim('kyeti')))),
                 'role_id' => 4, //Client
                 'agreement' => 1,

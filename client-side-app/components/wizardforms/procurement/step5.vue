@@ -23,7 +23,7 @@
     </a-form-model-item> -->
 
     <!-- signature -->
-    <a-form-model-item
+    <!-- <a-form-model-item
       :help="validationErrors ? validationErrors.step6 : ''"
       :validate-status="error.status"
       prop="step6.signed_sealed"
@@ -53,7 +53,7 @@
           upload.</small
         >
       </a-upload-dragger>
-    </a-form-model-item>
+    </a-form-model-item> -->
 
     <!-- for_onbehalf_of -->
     <a-form-model-item
@@ -161,7 +161,7 @@ export default {
       required: true,
     },
     error: {
-      type: [Object, Boolean],
+      type: [Object, Boolean, Error],
       required: true,
     },
     formItemLayout: {

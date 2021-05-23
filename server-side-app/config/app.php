@@ -179,6 +179,8 @@ return [
 
         Barryvdh\DomPDF\ServiceProvider::class,
 
+        BC\Laravel\DropboxDriver\ServiceProvider::class,
+
     ],
 
     /*

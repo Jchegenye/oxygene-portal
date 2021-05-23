@@ -44,6 +44,23 @@
                 :validation-errors="validationErrors"
                 :dragging="dragging"
               ></Component>
+              <hr />
+              <span class="text-danger">
+                <strong>NOTE:-</strong>
+                <ul>
+                  <li>
+                    Please make sure both your E-mail Address and Mobile Number
+                    are correct.
+                  </li>
+                  <li>
+                    We will attempt to store your data temporarily on your
+                    browser as you fill in the form, once you submit
+                    successfully, your data will be cleared. This will enable
+                    you to continue filling in the form, next time you visit
+                    this site from the same browser.
+                  </li>
+                </ul>
+              </span>
             </div>
             <!-- BUTTONS -->
             <div class="mt-3">
@@ -205,7 +222,7 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: 'chegenyejackson@gmail.com',
+        company_email_address: '',
         step1: {
           full_name_organization: 'Mwananchi Village Market',
           physical_address: 'Lenana Rd. 380 street, Kilimani',
@@ -245,12 +262,12 @@ export default {
             },
           ],
           //
-          company_name_change: 'yes', // String default value 'no'
-          cert_of_changeofname: '',
+          company_name_change: 'no', // String default value 'no'
+          cert_of_changeofname: [],
           reason_of_namechange: 'N/A - reason name change',
           //
-          company_directors: 'yes', // String default value 'no'
-          cert_of_registration: '',
+          company_directors: 'no', // String default value 'no'
+          cert_of_registration: [],
           reason_of_directorschange: 'N/A - reason directors',
           //
           business_period: '3 years',
@@ -296,17 +313,17 @@ export default {
           ],
         },
         step3: {
-          litigation: 'yes', // Numeric value default no
+          litigation: 'no', // Numeric value default no
           litigation_file: [],
         },
         step4: {
-          evaluation: '',
+          evaluation: [],
         },
         step6: {
           signed_sealed: [],
-          for_onbehalf_of: '',
-          position_in: '',
-          company: '',
+          for_onbehalf_of: 'John Doe',
+          position_in: 'Managing Director',
+          company: 'Mwananchi Village Market',
           date: '',
           acknowledge: false,
         },
@@ -470,10 +487,6 @@ export default {
         },
         //
         step6: {
-          // signed_sealed: {
-          //   required: true,
-          //   message: 'Please input your initials',
-          // },
           signed_sealed: {
             validator: validateFileUploadNormal,
             trigger: 'change',
@@ -559,6 +572,13 @@ export default {
       this.$store.dispatch('supplier/fetchSupplierNumber')
     }
     this.ruleForm.supplier_number = this.supplierNo
+
+    window.addEventListener('ruleForm-localstorage-changed', (event) => {
+      this.ruleForm = JSON.parse(event.detail.storage)
+    })
+    if (localStorage.getItem('ruleForm') !== null) {
+      this.ruleForm = JSON.parse(localStorage.getItem('ruleForm'))
+    }
   },
   methods: {
     async submitForm(formName) {
@@ -576,13 +596,26 @@ export default {
               description:
                 'Attempting to submit your application, kindly wait ...',
               placement: 'bottom',
+              duration: 8,
             })
           }
 
         const formData = new FormData()
 
+        // attach form data & files
         for (const key in this.ruleForm) {
-          if (key === 'step4') {
+          if (key === 'step1') {
+            // 1.1 get cert_of_changeofname file
+            this.ruleForm[key].cert_of_changeofname.forEach((file, key1) => {
+              formData.append(`step1by1_file${key1}`, file)
+            })
+            // 1.2 get cert_of_registration file
+            this.ruleForm[key].cert_of_registration.forEach((file, key1) => {
+              formData.append(`step1by2_file${key1}`, file)
+            })
+            // 2. get all data in step1
+            formData.append(`basicinfo`, JSON.stringify(this.ruleForm[key]))
+          } else if (key === 'step4') {
             this.ruleForm[key].evaluation.forEach((file, key1) => {
               formData.append(`step4_file${key1}`, file)
             })
@@ -591,6 +624,13 @@ export default {
             this.ruleForm[key].litigation_file.forEach((file, key1) => {
               formData.append(`step3_file${key1}`, file)
             })
+          } else if (key === 'step6') {
+            // 2.1 get signed_sealed file
+            this.ruleForm[key].signed_sealed.forEach((file, key1) => {
+              formData.append(`step6_file${key1}`, file)
+            })
+            // 3. get all data in step1
+            formData.append(`declaration`, JSON.stringify(this.ruleForm[key]))
           } else {
             formData.append(key, JSON.stringify(this.ruleForm[key]))
           }
@@ -615,6 +655,19 @@ export default {
               duration: 6,
             })
           }, 1500)
+          // Delete stored data on browser
+          localStorage.removeItem('ruleForm', this.ruleForm)
+          //
+          for (let index = 0; index < this.steps.length; index++) {
+            const indexMinus = index + 1
+            if (indexMinus === 6) {
+              const hide = this.$message.loading(
+                'All temporarily data has been cleared from your browser.',
+                0
+              )
+              setTimeout(hide, 3000)
+            }
+          }
         } else if (response.status === 'warning') {
           setTimeout(() => {
             this.$notification.warning({
@@ -650,7 +703,8 @@ export default {
           //
           setTimeout(() => {
             if (this.error.status !== undefined) {
-              this.error.status = ''
+              // this.error.status = ''
+              this.error = {}
             }
             // this.error.formErrors = {}
           }, 2000)
@@ -658,6 +712,28 @@ export default {
           this.current++
           //
           this.$store.dispatch('supplier/fetchSupplierNumber')
+
+          // Store data on browser
+          localStorage.setItem('ruleForm', JSON.stringify(this.ruleForm))
+          window.dispatchEvent(
+            new CustomEvent('ruleForm-localstorage-changed', {
+              detail: {
+                storage: localStorage.getItem('ruleForm'),
+              },
+            })
+          )
+
+          for (let index = 0; index < this.steps.length; index++) {
+            const title = this.steps[index].title
+            const indexMinus = index + 1
+            if (indexMinus === this.current) {
+              const hide = this.$message.loading(
+                'Temporarily saving ' + title + ' form data on your browser.',
+                0
+              )
+              setTimeout(hide, 3000)
+            }
+          }
         }
       } catch (error) {
         console.log(error)
@@ -665,6 +741,17 @@ export default {
     },
     prev() {
       this.current--
+      this.error = {}
+
+      // Store data on browser
+      localStorage.setItem('ruleForm', JSON.stringify(this.ruleForm))
+      window.dispatchEvent(
+        new CustomEvent('ruleForm-localstorage-changed', {
+          detail: {
+            storage: localStorage.getItem('ruleForm'),
+          },
+        })
+      )
     },
     exitApplication(formName) {
       this.current = 0

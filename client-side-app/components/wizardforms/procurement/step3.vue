@@ -36,7 +36,7 @@
       </li>
     </ol>
     <div class="border border-right-0 border-left-0 py-4 mb-4 clearfix">
-      <a-form-model-item
+      <!-- <a-form-model-item
         :help="validationErrors ? validationErrors.step2 : ''"
         :validate-status="error.status"
         prop="step4.evaluation"
@@ -56,7 +56,7 @@
             <a-icon type="upload" /> Click to Upload
           </a-button>
         </a-upload>
-      </a-form-model-item>
+      </a-form-model-item> -->
     </div>
     <h6 class="text-bold">
       PLEASE NOTE THE ABOVE DOCUMENTS ATTACHED FOLLOWING THE SEQUENCE ABOVE
@@ -83,7 +83,7 @@ export default {
       required: true,
     },
     error: {
-      type: [Object, Boolean],
+      type: [Object, Boolean, Error],
       required: true,
     },
     formItemLayout: {

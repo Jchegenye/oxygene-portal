@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Oxygene Portal',
+    title: 'Oxygene Portal | Supplier Form',
     htmlAttrs: {
       lang: 'en',
     },
