@@ -3,7 +3,7 @@
     <h4>Your Bank References</h4>
     <!-- row 1 -->
     <a-row>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <!-- bank_name -->
         <a-form-model-item
           :help="validationErrors ? validationErrors.step2 : ''"
@@ -97,8 +97,11 @@
           />
         </a-form-model-item>
       </a-col>
-      <a-col :span="16">
+      <a-col :xs="24" :sm="24" :md="24" :lg="16" :xl="16">
         <h4 class="mt-2">Trade References</h4>
+        <p class="text-danger">
+          Please make sure you fill in all the fields for Trade References.
+        </p>
         <a-button
           type="danger"
           icon="plus"

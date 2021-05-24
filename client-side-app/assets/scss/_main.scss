@@ -15,6 +15,7 @@ html,
 body {
   font-family: $fonts-family-raleway !important;
   color: $color-dark-blue !important;
+  overflow-x: hidden;
 }
 ul li,
 ol li,
@@ -130,10 +131,6 @@ h1.mb-0.font-weight-900 {
   padding-right: 15px;
   line-height: inherit;
   min-width: 150px;
-}
-#wizard-form .ant-btn .anticon {
-  line-height: initial !important;
-  font-size: 12px;
 }
 .ant-btn svg {
   vertical-align: initial;

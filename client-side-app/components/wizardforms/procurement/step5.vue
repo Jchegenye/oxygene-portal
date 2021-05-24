@@ -62,7 +62,7 @@
       v-bind="formItemLayout"
       prop="step6.for_onbehalf_of"
       has-feedback
-      :style="{ width: 'calc(50% - 12px)' }"
+      :style="{ width: 'calc(100% - 12px)' }"
       label="For and on Behalf of "
       class="mb-0"
     >
@@ -78,7 +78,7 @@
       v-bind="formItemLayout"
       prop="step6.position_in"
       has-feedback
-      :style="{ width: 'calc(50% - 12px)' }"
+      :style="{ width: 'calc(100% - 12px)' }"
       label="Position in "
       class="mb-0"
     >
@@ -94,7 +94,7 @@
       v-bind="formItemLayout"
       prop="step6.company"
       has-feedback
-      :style="{ width: 'calc(50% - 12px)' }"
+      :style="{ width: 'calc(100% - 12px)' }"
       label="Company"
       class="mb-0"
     >
@@ -110,7 +110,7 @@
       v-bind="formItemLayout"
       prop="step6.date"
       has-feedback
-      :style="{ width: 'calc(50% - 12px)' }"
+      :style="{ width: 'calc(100% - 12px)' }"
       label="Date"
       class="mb-0"
     >

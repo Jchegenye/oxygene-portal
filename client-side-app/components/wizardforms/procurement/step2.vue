@@ -41,7 +41,10 @@
           <a-icon type="inbox" />
         </p>
         <p class="ant-upload-text">Click or drag file to this area to upload</p>
-        <p class="ant-upload-hint">Support for a single upload.</p>
+        <p class="ant-upload-hint">
+          Supported file formats pdf, word, png, jgp, jpeg, excel. A maximum of
+          2 files upload..
+        </p>
       </a-upload-dragger>
     </a-form-model-item>
   </div>

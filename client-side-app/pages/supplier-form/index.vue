@@ -3,7 +3,13 @@
     <div id="container-wrapper" class="wizard o2forms mt-4">
       <div>
         <Tagline />
-        <a-col :span="12" :offset="6">
+        <a-col
+          :xs="{ span: 24 }"
+          :sm="{ span: 24 }"
+          :md="{ span: 24 }"
+          :lg="{ span: 12, offset: 6 }"
+          :xl="{ span: 12, offset: 6 }"
+        >
           <a-row>
             <h4 class="text-bold">SUPPLIER FORM</h4>
             <p>

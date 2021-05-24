@@ -4,7 +4,29 @@
 ////////// 1. DOWN
 // Small devices (landscape phones, 576px and down)
 @media (max-width: 576px) {
-  
+    .ant-steps-dot .ant-steps-item-icon, .ant-steps-dot.ant-steps-small .ant-steps-item-icon {
+        margin-left: 0 !important;
+    }
+    .ant-steps-dot .ant-steps-item-tail, .ant-steps-dot.ant-steps-small .ant-steps-item-tail {
+        margin: 0 0 0 10px !important;
+    }
+    .ant-steps-label-vertical .ant-steps-item-content {
+        margin-top: 8px !important;
+    }
+    .btn-grp-down{
+        padding-left: 10px;
+    }
+    // .float-to-right.btntt{
+    //     float: left !important;
+    // }
+    #wizard-form .ant-btn .anticon {
+      line-height: initial !important;
+      font-size: 12px;
+    }
+    #wizard-form .ant-steps{
+      display: block;
+      text-align: center;
+    }
 }
 
 // Medium devices (tablets, 768px and down)

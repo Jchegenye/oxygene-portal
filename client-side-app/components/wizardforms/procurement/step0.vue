@@ -59,10 +59,9 @@
         </a-form-model-item>
       </a-col>
     </a-row>
-
     <!-- row 2 -->
     <a-row>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
         <!-- Postal Address -->
         <a-form-model-item
           :help="validationErrors ? validationErrors.step1 : ''"
@@ -76,7 +75,7 @@
           <a-textarea v-model="formData.step1.postal_address" :rows="3" />
         </a-form-model-item>
       </a-col>
-      <a-col :span="18">
+      <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="16">
         <!-- Mobile Number -->
         <a-form-model-item
           :help="validationErrors ? validationErrors.step1 : ''"
@@ -449,7 +448,7 @@
 
     <!-- row 5 -->
     <a-row>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <a-form-model-item class="question-box">
           <!-- company_name_change -->
           <a-form-model-item
@@ -518,7 +517,7 @@
           </a-form-model-item>
         </a-form-model-item>
       </a-col>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <!-- company_directors -->
         <a-form-model-item class="question-box">
           <a-form-model-item
@@ -585,7 +584,7 @@
           </a-form-model-item>
         </a-form-model-item>
       </a-col>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <!-- business_period -->
         <a-form-model-item class="question-box" help="E.g 1 Month or 10 Years">
           <a-form-model-item
@@ -611,7 +610,7 @@
 
     <!-- row 5 -->
     <a-row>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <a-form-model-item class="question-box">
           <!-- has_oxygene_employee -->
           <a-form-model-item
@@ -645,7 +644,7 @@
           </a-form-model-item>
         </a-form-model-item>
       </a-col>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <a-form-model-item class="question-box">
           <!-- has_interest_employee -->
           <a-form-model-item
@@ -685,7 +684,7 @@
           </a-form-model-item>
         </a-form-model-item>
       </a-col>
-      <a-col :span="8">
+      <a-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
         <a-form-model-item class="question-box">
           <div class="ant-col ant-form-item-label">
             <label>

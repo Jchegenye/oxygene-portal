@@ -1,6 +1,12 @@
 <template>
   <div>
-    <a-col :span="20" :offset="2">
+    <a-col
+      :xs="{ span: 24 }"
+      :sm="{ span: 24 }"
+      :md="{ span: 24 }"
+      :lg="{ span: 20, offset: 2 }"
+      :xl="{ span: 20, offset: 2 }"
+    >
       <a-row>
         <div id="wizard-form" class="mb-6">
           <!-- STEPS -->
@@ -96,7 +102,10 @@
                   <a-icon type="left" /> Previous
                 </a-button>
               </a-button-group>
-              <span v-if="current == steps.length - 1" class="float-right">
+              <span
+                v-if="current == steps.length - 1"
+                class="float-right btntt"
+              >
                 <a-button
                   type="dashed"
                   size="small"
@@ -222,7 +231,7 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: '',
+        company_email_address: 'c@gmai.com',
         step1: {
           full_name_organization: 'Mwananchi Village Market',
           physical_address: 'Lenana Rd. 380 street, Kilimani',
@@ -262,7 +271,7 @@ export default {
             },
           ],
           //
-          company_name_change: 'no', // String default value 'no'
+          company_name_change: 'yes', // String default value 'no'
           cert_of_changeofname: [],
           reason_of_namechange: 'N/A - reason name change',
           //
@@ -545,6 +554,7 @@ export default {
         },
       ],
       duration: 0,
+      test: '',
     }
   },
   computed: {
@@ -600,9 +610,9 @@ export default {
             })
           }
 
+        // attach form data & files
         const formData = new FormData()
 
-        // attach form data & files
         for (const key in this.ruleForm) {
           if (key === 'step1') {
             // 1.1 get cert_of_changeofname file
@@ -714,7 +724,29 @@ export default {
           this.$store.dispatch('supplier/fetchSupplierNumber')
 
           // Store data on browser
-          localStorage.setItem('ruleForm', JSON.stringify(this.ruleForm))
+          const formDataArr = this.ruleForm
+
+          // convert files Object to Array
+          formDataArr.step1.cert_of_changeofname = this.stringifyFile(
+            this.ruleForm.step1.cert_of_changeofname
+          )
+          formDataArr.step1.cert_of_registration = this.stringifyFile(
+            this.ruleForm.step1.cert_of_registration
+          )
+
+          formDataArr.step3.litigation_file = this.stringifyFile(
+            this.ruleForm.step3.litigation_file
+          )
+          formDataArr.step4.evaluation = this.stringifyFile(
+            this.ruleForm.step4.evaluation
+          )
+          formDataArr.step6.signed_sealed = this.stringifyFile(
+            this.ruleForm.step6.signed_sealed
+          )
+
+          formDataArr.step6.date = null
+
+          localStorage.setItem('ruleForm', JSON.stringify(formDataArr))
           window.dispatchEvent(
             new CustomEvent('ruleForm-localstorage-changed', {
               detail: {
@@ -742,16 +774,22 @@ export default {
     prev() {
       this.current--
       this.error = {}
-
-      // Store data on browser
-      localStorage.setItem('ruleForm', JSON.stringify(this.ruleForm))
-      window.dispatchEvent(
-        new CustomEvent('ruleForm-localstorage-changed', {
-          detail: {
-            storage: localStorage.getItem('ruleForm'),
-          },
-        })
-      )
+    },
+    stringifyFile(originalFile) {
+      const arrData = []
+      for (let i = 0; i < originalFile.length; i++) {
+        const file = originalFile[i]
+        const obj = {
+          uid: file.uid,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          webkitRelativePath: file.webkitRelativePath,
+          lastModified: file.lastModified,
+        }
+        arrData.push(obj)
+      }
+      return arrData
     },
     exitApplication(formName) {
       this.current = 0
