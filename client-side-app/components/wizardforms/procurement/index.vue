@@ -776,15 +776,15 @@ export default {
       this.current--
       this.error = {}
     },
-    stringifyFile(originalFile) {
-      const arrData = []
-      for (let i = 0; i < originalFile.length; i++) {
-        const file = originalFile[i]
-        const obj = URL.createObjectURL(file)
-        arrData.push(obj)
-      }
-      return arrData
-    },
+    // stringifyFile(originalFile) {
+    //   const arrData = []
+    //   for (let i = 0; i < originalFile.length; i++) {
+    //     const file = originalFile[i]
+    //     const obj = URL.createObjectURL(file)
+    //     arrData.push(obj)
+    //   }
+    //   return arrData
+    // },
     exitApplication(formName) {
       this.current = 0
       this.$refs[formName].resetFields()

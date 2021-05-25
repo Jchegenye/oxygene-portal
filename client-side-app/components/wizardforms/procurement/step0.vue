@@ -902,7 +902,6 @@ export default {
         this.certofChangeofNameData = [...this.certofChangeofNameData, file]
       }
       return false
-      // return isJpgOrPng && isLt2M
     },
     beforeUpload2(file) {
       const isJpgOrPng =
@@ -935,7 +934,7 @@ export default {
       } else {
         this.certofRegistration = [...this.certofRegistration, file]
       }
-      return isJpgOrPng && isLt2M
+      return false
     },
     handleRemove1(file) {
       // 1
