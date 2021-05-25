@@ -109,10 +109,9 @@ class SupplierController extends Controller
                     // upload to dropbox
                     Storage::disk('dropbox')->put('Supplier Applications/'.$filePath, file_get_contents($request[$key]));
 
-                }
-                if (Str::startsWith( $key, "step1by2_file")) {
+                } if (Str::startsWith( $key, "step1by2_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Registration', $fileName, 'dropbox');
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Certificate of Registration', $fileName, 'public');
                     array_push($step1by2_files, [
                         "name" => $fileName,
                         "path" => $filePath
@@ -122,7 +121,7 @@ class SupplierController extends Controller
                 }
                 if(Str::startsWith( $key, "step3_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Litigation', $fileName, 'dropbox');
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Litigation', $fileName, 'public');
                     array_push($step3_files, [
                         "name" => $fileName,
                         "path" => $filePath
@@ -130,7 +129,7 @@ class SupplierController extends Controller
                 }
                 if (Str::startsWith( $key, "step4_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Evaluation', $fileName, 'dropbox');
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Evaluation', $fileName, 'public');
                     array_push($step4_files, [
                         "name" => $fileName,
                         "path" => $filePath
@@ -140,7 +139,7 @@ class SupplierController extends Controller
                 }
                 if (Str::startsWith( $key, "step6_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
-                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Declaration', $fileName, 'dropbox');
+                    $filePath = $request->file($key)->storeAs($basicinfo->full_name_organization.'/'.$step6Date.'/Declaration', $fileName, 'public');
                     array_push($step6_files, [
                         "name" => $fileName,
                         "path" => $filePath
@@ -178,7 +177,7 @@ class SupplierController extends Controller
                 ]
             );
 
-            // // USER DETAILS
+            // USER DETAILS
             $fullNames = $basicinfo->full_name_organization;
             $parts = explode(' ', $fullNames);
             $name_first = array_shift($parts);

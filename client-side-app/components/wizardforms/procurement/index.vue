@@ -271,7 +271,7 @@ export default {
             },
           ],
           //
-          company_name_change: 'yes', // String default value 'no'
+          company_name_change: 'no', // String default value 'no'
           cert_of_changeofname: [],
           reason_of_namechange: 'N/A - reason name change',
           //
@@ -334,7 +334,7 @@ export default {
           position_in: 'Managing Director',
           company: 'Mwananchi Village Market',
           date: '',
-          acknowledge: false,
+          acknowledge: true, // Default value: false
         },
       },
       dragging: true,
@@ -601,14 +601,19 @@ export default {
 
         const result = await this.$refs[formName].validate()
         if (result)
-          if (this.error.status !== 'success') {
+          if (
+            Object.keys(this.error).length === 0 &&
+            this.error.status !== 'success'
+          ) {
             this.$notification.info({
               message: 'Supplier Application',
               description:
-                'Attempting to submit your application, kindly wait ...',
+                'Attempting to submit your application. This might take a while uploading your files to our database, kindly be patient ...',
               placement: 'bottom',
-              duration: 22,
+              duration: 30,
             })
+            const hide = this.$message.loading('Processing your data...', 0)
+            setTimeout(hide, 60000)
           }
 
         // attach form data & files
@@ -654,6 +659,7 @@ export default {
             'Content-Type': 'multipart/form-data',
           }
         )
+
         //
         this.error = response
 
@@ -665,6 +671,10 @@ export default {
               placement: 'bottom',
               duration: 6,
             })
+          }, 2000)
+          setTimeout(() => {
+            this.$message.destroy()
+            this.$notification.destroy('info')
           }, 1500)
           // Delete stored data on browser
           // localStorage.removeItem('ruleForm', this.ruleForm)
@@ -687,6 +697,10 @@ export default {
               placement: 'bottom',
               duration: 6,
             })
+          }, 2000)
+          setTimeout(() => {
+            this.$message.destroy()
+            this.$notification.destroy('info')
           }, 1500)
         } else if (response.status === 'error') {
           setTimeout(() => {
@@ -696,10 +710,26 @@ export default {
               placement: 'bottom',
               duration: 6,
             })
+          }, 2000)
+          setTimeout(() => {
+            this.$message.destroy()
+            this.$notification.destroy('info')
           }, 1500)
         }
       } catch (error) {
         this.errorFormAlerts(error)
+        setTimeout(() => {
+          this.$notification.error({
+            message: 'Supplier Application',
+            description: 'A critical error occured!',
+            placement: 'bottom',
+            duration: 6,
+          })
+        }, 2000)
+        setTimeout(() => {
+          this.$message.destroy()
+          this.$notification.destroy('info')
+        }, 1500)
       }
     },
     async next(formName) {
