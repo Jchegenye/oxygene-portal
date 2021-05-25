@@ -271,11 +271,11 @@ export default {
             },
           ],
           //
-          company_name_change: 'no', // String default value 'no'
+          company_name_change: 'yes', // String default value 'no'
           cert_of_changeofname: [],
           reason_of_namechange: 'N/A - reason name change',
           //
-          company_directors: 'no', // String default value 'no'
+          company_directors: 'yes', // String default value 'no'
           cert_of_registration: [],
           reason_of_directorschange: 'N/A - reason directors',
           //
@@ -334,7 +334,7 @@ export default {
           position_in: 'Managing Director',
           company: 'Mwananchi Village Market',
           date: '',
-          acknowledge: true, // Default value: false
+          acknowledge: false, // Default value: false
         },
       },
       dragging: true,
