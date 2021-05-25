@@ -607,7 +607,7 @@ export default {
               description:
                 'Attempting to submit your application, kindly wait ...',
               placement: 'bottom',
-              duration: 14,
+              duration: 22,
             })
           }
 
