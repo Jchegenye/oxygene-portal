@@ -97,6 +97,7 @@ class SupplierController extends Controller
             // STORE FILES
             $req = $request->all();
             foreach ($req as $key => $value) {
+
                 if (Str::startsWith( $key, "step1by1_file")) {
                     // store files temporary in local & database
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
@@ -177,7 +178,7 @@ class SupplierController extends Controller
                 ]
             );
 
-            // USER DETAILS
+            // // USER DETAILS
             $fullNames = $basicinfo->full_name_organization;
             $parts = explode(' ', $fullNames);
             $name_first = array_shift($parts);
@@ -206,7 +207,7 @@ class SupplierController extends Controller
                     ]
                 );
         
-            // PDF
+            // // PDF
             $supplierPdf = PDF::loadView('pdfs.supplier.application', compact('data','logo'))
                 ->setOptions(['defaultFont' => 'Montserrat']);
 

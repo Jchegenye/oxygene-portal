@@ -58,13 +58,13 @@
                     Please make sure both your E-mail Address and Mobile Number
                     are correct.
                   </li>
-                  <li>
+                  <!-- <li>
                     We will attempt to store your data temporarily on your
                     browser as you fill in the form, once you submit
                     successfully, your data will be cleared. This will enable
                     you to continue filling in the form, next time you visit
                     this site from the same browser.
-                  </li>
+                  </li> -->
                 </ul>
               </span>
             </div>
@@ -231,7 +231,7 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: 'c@gmai.com',
+        company_email_address: 'chegenyejackson@gmai.com',
         step1: {
           full_name_organization: 'Mwananchi Village Market',
           physical_address: 'Lenana Rd. 380 street, Kilimani',
@@ -554,7 +554,6 @@ export default {
         },
       ],
       duration: 0,
-      test: '',
     }
   },
   computed: {
@@ -583,12 +582,14 @@ export default {
     }
     this.ruleForm.supplier_number = this.supplierNo
 
-    window.addEventListener('ruleForm-localstorage-changed', (event) => {
-      this.ruleForm = JSON.parse(event.detail.storage)
-    })
-    if (localStorage.getItem('ruleForm') !== null) {
-      this.ruleForm = JSON.parse(localStorage.getItem('ruleForm'))
-    }
+    // window.addEventListener('ruleForm-localstorage-changed', (event) => {
+    //   this.ruleForm = JSON.parse(event.detail.storage)
+    //   console.log('', this.ruleForm)
+    // })
+    // if (localStorage.getItem('ruleForm') !== null) {
+    //   this.ruleForm = JSON.parse(localStorage.getItem('ruleForm'))
+    //   console.log('b', this.ruleForm)
+    // }
   },
   methods: {
     async submitForm(formName) {
@@ -606,7 +607,7 @@ export default {
               description:
                 'Attempting to submit your application, kindly wait ...',
               placement: 'bottom',
-              duration: 8,
+              duration: 14,
             })
           }
 
@@ -666,18 +667,18 @@ export default {
             })
           }, 1500)
           // Delete stored data on browser
-          localStorage.removeItem('ruleForm', this.ruleForm)
+          // localStorage.removeItem('ruleForm', this.ruleForm)
           //
-          for (let index = 0; index < this.steps.length; index++) {
-            const indexMinus = index + 1
-            if (indexMinus === 6) {
-              const hide = this.$message.loading(
-                'All temporarily data has been cleared from your browser.',
-                0
-              )
-              setTimeout(hide, 3000)
-            }
-          }
+          // for (let index = 0; index < this.steps.length; index++) {
+          //   const indexMinus = index + 1
+          //   if (indexMinus === 6) {
+          //     const hide = this.$message.loading(
+          //       'All temporarily data has been cleared from your browser.',
+          //       0
+          //     )
+          //     setTimeout(hide, 3000)
+          //   }
+          // }
         } else if (response.status === 'warning') {
           setTimeout(() => {
             this.$notification.warning({
@@ -723,49 +724,49 @@ export default {
           //
           this.$store.dispatch('supplier/fetchSupplierNumber')
 
-          // Store data on browser
-          const formDataArr = this.ruleForm
+          // // Store data on browser
+          // const formDataArr = this.ruleForm
 
-          // convert files Object to Array
-          formDataArr.step1.cert_of_changeofname = this.stringifyFile(
-            this.ruleForm.step1.cert_of_changeofname
-          )
-          formDataArr.step1.cert_of_registration = this.stringifyFile(
-            this.ruleForm.step1.cert_of_registration
-          )
+          // // convert files Object to Array
+          // formDataArr.step1.cert_of_changeofname = this.stringifyFile(
+          //   this.ruleForm.step1.cert_of_changeofname
+          // )
+          // formDataArr.step1.cert_of_registration = this.stringifyFile(
+          //   this.ruleForm.step1.cert_of_registration
+          // )
 
-          formDataArr.step3.litigation_file = this.stringifyFile(
-            this.ruleForm.step3.litigation_file
-          )
-          formDataArr.step4.evaluation = this.stringifyFile(
-            this.ruleForm.step4.evaluation
-          )
-          formDataArr.step6.signed_sealed = this.stringifyFile(
-            this.ruleForm.step6.signed_sealed
-          )
+          // formDataArr.step3.litigation_file = this.stringifyFile(
+          //   this.ruleForm.step3.litigation_file
+          // )
+          // formDataArr.step4.evaluation = this.stringifyFile(
+          //   this.ruleForm.step4.evaluation
+          // )
+          // formDataArr.step6.signed_sealed = this.stringifyFile(
+          //   this.ruleForm.step6.signed_sealed
+          // )
 
-          formDataArr.step6.date = null
+          // formDataArr.step6.date = null
 
-          localStorage.setItem('ruleForm', JSON.stringify(formDataArr))
-          window.dispatchEvent(
-            new CustomEvent('ruleForm-localstorage-changed', {
-              detail: {
-                storage: localStorage.getItem('ruleForm'),
-              },
-            })
-          )
+          // localStorage.setItem('ruleForm', JSON.stringify(formDataArr))
+          // window.dispatchEvent(
+          //   new CustomEvent('ruleForm-localstorage-changed', {
+          //     detail: {
+          //       storage: localStorage.getItem('ruleForm'),
+          //     },
+          //   })
+          // )
 
-          for (let index = 0; index < this.steps.length; index++) {
-            const title = this.steps[index].title
-            const indexMinus = index + 1
-            if (indexMinus === this.current) {
-              const hide = this.$message.loading(
-                'Temporarily saving ' + title + ' form data on your browser.',
-                0
-              )
-              setTimeout(hide, 3000)
-            }
-          }
+          // for (let index = 0; index < this.steps.length; index++) {
+          //   const title = this.steps[index].title
+          //   const indexMinus = index + 1
+          //   if (indexMinus === this.current) {
+          //     const hide = this.$message.loading(
+          //       'Temporarily saving ' + title + ' form data on your browser.',
+          //       0
+          //     )
+          //     setTimeout(hide, 3000)
+          //   }
+          // }
         }
       } catch (error) {
         console.log(error)
@@ -779,14 +780,7 @@ export default {
       const arrData = []
       for (let i = 0; i < originalFile.length; i++) {
         const file = originalFile[i]
-        const obj = {
-          uid: file.uid,
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          webkitRelativePath: file.webkitRelativePath,
-          lastModified: file.lastModified,
-        }
+        const obj = URL.createObjectURL(file)
         arrData.push(obj)
       }
       return arrData
