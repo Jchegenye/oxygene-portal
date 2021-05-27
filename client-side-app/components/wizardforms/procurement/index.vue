@@ -72,7 +72,19 @@
             <div class="mt-3">
               <a-button-group>
                 <a-button
-                  v-if="current < steps.length - 1"
+                  v-if="current < steps.length - 1 && this.current === 4"
+                  html-type="submit"
+                  size="small"
+                  :type="loading ? 'danger' : 'primary'"
+                  :loading="loading"
+                  :disabled="ruleForm.step5.acknowledge === true ? false : true"
+                  @click.prevent="next('ruleForm')"
+                >
+                  {{ loading ? 'Processing' : 'Next' }}
+                  <a-icon type="right" />
+                </a-button>
+                <a-button
+                  v-else-if="current < steps.length - 1"
                   html-type="submit"
                   size="small"
                   :type="loading ? 'danger' : 'primary'"
@@ -82,6 +94,7 @@
                   {{ loading ? 'Processing' : 'Next' }}
                   <a-icon type="right" />
                 </a-button>
+
                 <a-button
                   v-if="current == steps.length - 1"
                   html-type="submit"
@@ -231,7 +244,7 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: 'chegenyejackson@gmai.com',
+        company_email_address: 'chegenyejackson@gmail.com',
         step1: {
           full_name_organization: 'Mwananchi Village Market',
           physical_address: 'Lenana Rd. 380 street, Kilimani',
@@ -271,20 +284,20 @@ export default {
             },
           ],
           //
-          company_name_change: 'yes', // String default value 'no'
+          company_name_change: 'no', // String default value 'no'
           cert_of_changeofname: [],
           reason_of_namechange: 'N/A - reason name change',
           //
-          company_directors: 'yes', // String default value 'no'
+          company_directors: 'no', // String default value 'no'
           cert_of_registration: [],
           reason_of_directorschange: 'N/A - reason directors',
           //
           business_period: '3 years',
           //
-          has_oxygene_employee: 'yes', // String default value 'no'
+          has_oxygene_employee: 'no', // String default value 'no'
           name_position: 'N/A - name position',
           //
-          has_interest_employee: 'yes', // String default value 'no'
+          has_interest_employee: 'no', // String default value 'no'
           details_of_interest: 'N/A - details of interest',
           //
           contact_person_name: 'Nelly Asumu',
@@ -327,6 +340,9 @@ export default {
         },
         step4: {
           evaluation: [],
+        },
+        step5: {
+          acknowledge: false, // Default value: false
         },
         step6: {
           signed_sealed: [],
@@ -721,7 +737,8 @@ export default {
         setTimeout(() => {
           this.$notification.error({
             message: 'Supplier Application',
-            description: 'A critical error occured!',
+            description:
+              'A critical error occured or one of your fields are empty!',
             placement: 'bottom',
             duration: 6,
           })
