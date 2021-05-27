@@ -46,11 +46,12 @@ export default {
     '~/plugins/axios',
     '~/plugins/draggable',
     '~/plugins/gravatar',
+    '~/plugins/vue-phone-number-input',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
-    dirs: ['~/components','~/components/wizardforms'], // '~/components/wizardforms'
+    dirs: ['~/components', '~/components/wizardforms'], // '~/components/wizardforms'
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -111,7 +112,7 @@ export default {
     redirect: {
       login: '/authentication/login',
       home: '/dashboard',
-      callback: '/auth/callback'
+      callback: '/auth/callback',
     },
   },
 

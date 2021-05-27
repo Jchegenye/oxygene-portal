@@ -49,6 +49,9 @@
                 :form-item-layout="formItemLayout"
                 :validation-errors="validationErrors"
                 :dragging="dragging"
+                :next="next"
+                :prev="prev"
+                :currentinnerstep="currentinnerstep"
               ></Component>
               <hr />
               <span class="text-danger">
@@ -72,7 +75,7 @@
             <div class="mt-3">
               <a-button-group>
                 <a-button
-                  v-if="current < steps.length - 1 && this.current === 4"
+                  v-if="current < steps.length - 1 && current === 4"
                   html-type="submit"
                   size="small"
                   :type="loading ? 'danger' : 'primary'"
@@ -84,7 +87,7 @@
                   <a-icon type="right" />
                 </a-button>
                 <a-button
-                  v-else-if="current < steps.length - 1"
+                  v-else-if="current < steps.length - 1 && current !== 0"
                   html-type="submit"
                   size="small"
                   :type="loading ? 'danger' : 'primary'"
@@ -548,6 +551,7 @@ export default {
       checked: true,
       error: {},
       current: 0,
+      currentinnerstep: 0,
       steps: [
         {
           title: 'Business/ Corporate Information',
@@ -591,6 +595,7 @@ export default {
     supplierNo() {
       this.ruleForm.supplier_number = this.supplierNo
     },
+    currentinnerstep() {},
   },
   mounted() {
     if (this.$store.state.supplier.number === '') {
@@ -749,7 +754,7 @@ export default {
         }, 1500)
       }
     },
-    async next(formName) {
+    async next(formName, innerSelect) {
       try {
         setTimeout(() => {
           this.loading = false
@@ -767,7 +772,11 @@ export default {
             // this.error.formErrors = {}
           }, 2000)
           //
-          this.current++
+          if (innerSelect === true) {
+            this.currentinnerstep++
+          } else {
+            this.current++
+          }
           //
           this.$store.dispatch('supplier/fetchSupplierNumber')
 
@@ -819,8 +828,12 @@ export default {
         console.log(error)
       }
     },
-    prev() {
-      this.current--
+    prev(innerSelect) {
+      if (innerSelect === true) {
+        this.currentinnerstep--
+      } else {
+        this.current--
+      }
       this.error = {}
     },
     // stringifyFile(originalFile) {

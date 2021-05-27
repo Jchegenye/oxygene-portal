@@ -19,6 +19,7 @@
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3",
     "vue-gravatar": "^1.4.1",
+    "vue-phone-number-input": "^1.1.10",
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
