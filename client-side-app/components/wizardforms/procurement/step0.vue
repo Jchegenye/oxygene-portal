@@ -20,7 +20,19 @@
     </div>
     <div class="steps-action mt-3">
       <a-button
-        v-if="currentInnerStep < stepsInner.length - 1"
+        v-if="
+          currentInnerStep < stepsInner.length - 1 && currentInnerStep === 1
+        "
+        html-type="submit"
+        type="primary"
+        size="small"
+        :disabled="formData.step1.validate_array === true ? false : true"
+        @click="nextStepsParent('ruleForm', true)"
+      >
+        Next
+      </a-button>
+      <a-button
+        v-else-if="currentInnerStep < stepsInner.length - 1"
         html-type="submit"
         type="primary"
         size="small"

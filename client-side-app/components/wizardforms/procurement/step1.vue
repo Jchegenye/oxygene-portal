@@ -245,6 +245,28 @@
           </draggable>
         </a-form-model-item>
       </a-col>
+      <a-col :span="24">
+        <!-- validate_array -->
+        <a-form-model-item
+          :help="validationErrors ? validationErrors.step1 : ''"
+          :validate-status="error.status"
+          prop="step1.validate_array"
+          class="mb-0 mt-4"
+          @click="onChecked"
+        >
+          <a-checkbox
+            v-model="formData.step2.validate_array"
+            :checked="checked"
+            class="d-flex"
+            @change="onChecked"
+          >
+            <span class="d-block text-danger" style="line-height: normal">
+              Please verify all the fields above are not empty and that all your
+              information is correct.
+            </span>
+          </a-checkbox>
+        </a-form-model-item>
+      </a-col>
     </a-row>
   </div>
 </template>
@@ -281,7 +303,10 @@ export default {
     },
   },
   data() {
-    return { formData: this.ruleForm }
+    return {
+      checked: false,
+      formData: this.ruleForm,
+    }
   },
   computed: {
     draggingInfo() {
@@ -319,6 +344,9 @@ export default {
       } else if (status === 'error') {
         this.$message.error(`${info.file.name} file upload failed.`)
       }
+    },
+    onChecked(e) {
+      this.checked = e.target.checked
     },
   },
 }

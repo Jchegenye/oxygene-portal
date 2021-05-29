@@ -162,8 +162,30 @@
     </a-row>
 
     <a-row
-      ><a-col :span="24"><hr /></a-col
-    ></a-row>
+      ><a-col :span="24">
+        <hr />
+        <!-- validate_array -->
+        <a-form-model-item
+          :help="validationErrors ? validationErrors.step1 : ''"
+          :validate-status="error.status"
+          prop="step1.validate_array"
+          class="mb-0 mt-4"
+          @click="onChecked"
+        >
+          <a-checkbox
+            v-model="formData.step1.validate_array"
+            :checked="checked"
+            class="d-flex"
+            @change="onChecked"
+          >
+            <span class="d-block text-danger" style="line-height: normal">
+              Please verify all the fields above are not empty and that all your
+              information is correct.
+            </span>
+          </a-checkbox>
+        </a-form-model-item>
+      </a-col></a-row
+    >
   </span>
 </template>
 <script>
@@ -200,6 +222,7 @@ export default {
   },
   data() {
     return {
+      checked: false,
       formData: this.ruleForm,
       currentInnerStep: this.currentinnerstep,
     }
@@ -239,6 +262,9 @@ export default {
       return option.componentOptions.children[0].text
         .toLowerCase()
         .includes(input.toLowerCase())
+    },
+    onChecked(e) {
+      this.checked = e.target.checked
     },
   },
 }

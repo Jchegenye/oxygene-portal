@@ -75,7 +75,21 @@
             <div class="mt-3">
               <a-button-group>
                 <a-button
-                  v-if="current < steps.length - 1 && current === 4"
+                  v-if="current < steps.length - 1 && current === 1"
+                  html-type="submit"
+                  size="small"
+                  :type="loading ? 'danger' : 'primary'"
+                  :loading="loading"
+                  :disabled="
+                    ruleForm.step2.validate_array === true ? false : true
+                  "
+                  @click.prevent="next('ruleForm')"
+                >
+                  {{ loading ? 'Processing' : 'Next' }}
+                  <a-icon type="right" />
+                </a-button>
+                <a-button
+                  v-else-if="current < steps.length - 1 && current === 4"
                   html-type="submit"
                   size="small"
                   :type="loading ? 'danger' : 'primary'"
@@ -247,54 +261,65 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: '',
+        company_email_address: 'chegenyejackson@gmail.com',
         step1: {
-          full_name_organization: '',
-          physical_address: '',
+          full_name_organization: 'Mwananchi Village Market',
+          physical_address: 'Lenana Rd. 380 street, Kilimani',
           //
-          postal_address: '',
-          telephone_number: '',
-          kra_pin_no: '',
-          company_registration_no: '',
+          postal_address: 'P.O. BOX 355 - 50103',
+          telephone_number: '0711494289',
+          kra_pin_no: 'ASU7W0332203',
+          company_registration_no: 'COMPNY-29282',
           //
-          finance_dept_name: '',
-          finance_dept_email: '',
-          finance_dept_telno: '',
-          legal_entity: '', //
-          legal_entity_other: '',
-          web_site_address: '',
+          finance_dept_name: 'Liz K.',
+          finance_dept_email: 'liz@mwananchi.com',
+          finance_dept_telno: '0700000000',
+          legal_entity: 'other',
+          legal_entity_other: 'N/A - Legal Entity',
+          web_site_address: 'N/A - Web Add',
           //
           list: [
             {
               id: 1,
-              name: 'Director 1', // default Director 1
-              director_name: '',
-              director_email: '',
-              director_id_no: 1, // Numeric default value 1
-              director_postal_address: '',
-              director_nationality: 'Kenyan', // default Kenyan
-              director_per_shareholder: 1, // Numeric default value 1
+              name: 'Director #1.',
+              director_name: 'Johnson G.',
+              director_email: 'johnson@gmail.com',
+              director_id_no: 20393883, // Numeric default value 1
+              director_postal_address: 'P.O BOX - 4950',
+              director_nationality: 'Kenyan',
+              director_per_shareholder: 80, // Numeric default value 1
+            },
+            {
+              id: 2,
+              name: 'Director #2.',
+              director_name: 'Vincent Ateya',
+              director_email: 'vinny29@gmail.com',
+              director_id_no: 28373839, // Numeric default value 1
+              director_postal_address: 'P.O BOX - 4950',
+              director_nationality: 'Kenyan',
+              director_per_shareholder: 20, // Numeric default value 1
             },
           ],
           //
           company_name_change: 'no', // String default value 'no'
           cert_of_changeofname: [],
-          reason_of_namechange: '',
+          reason_of_namechange: 'N/A - reason name change',
           //
           company_directors: 'no', // String default value 'no'
           cert_of_registration: [],
-          reason_of_directorschange: '',
+          reason_of_directorschange: 'N/A - reason directors',
           //
           business_period: '3 years',
           //
           has_oxygene_employee: 'no', // String default value 'no'
-          name_position: '',
+          name_position: 'N/A - name position',
           //
           has_interest_employee: 'no', // String default value 'no'
-          details_of_interest: '',
+          details_of_interest: 'N/A - details of interest',
           //
-          contact_person_name: '',
-          contact_person_title: '',
+          contact_person_name: 'Nelly Asumu',
+          contact_person_title: 'Procurment Manager',
+          validate_array: true, // Default value: false
         },
         step2: {
           bank_references: {
@@ -307,15 +332,26 @@ export default {
           trade_references: [
             {
               id: 1,
-              name: 'Reference 1', // default Reference 1
-              company_name_addr: '',
-              contact_person: '',
-              position: '',
-              office_telno: 0, // Numeric value default 0
-              mobile_telno: 0, // Numeric value default 0
-              email_addr: '',
+              name: 'Reference #1.',
+              company_name_addr: 'Brand Capital Africa ',
+              contact_person: 'Njuguna K.',
+              position: 'Manager',
+              office_telno: 1745000000, // Numeric value default 0
+              mobile_telno: 1172200001, // Numeric value default 0
+              email_addr: 'jugushk@brandcapital.co.ke',
+            },
+            {
+              id: 2,
+              name: 'Reference #2.',
+              company_name_addr: 'Jumia Kenya',
+              contact_person: 'Mary Akida',
+              position: 'CEO',
+              office_telno: 722200045, // Numeric value default 0
+              mobile_telno: 721000030, // Numeric value default 0
+              email_addr: 'mary@jumia.com',
             },
           ],
+          validate_array: true, // Default value: false
         },
         step3: {
           litigation: 'no', // Numeric value default no
@@ -325,15 +361,15 @@ export default {
           evaluation: [],
         },
         step5: {
-          acknowledge: false, // Default value: false
+          acknowledge: true, // Default value: false
         },
         step6: {
           signed_sealed: [],
-          for_onbehalf_of: '',
-          position_in: '',
-          company: '',
-          date: '',
-          acknowledge: false, // Default value: false
+          for_onbehalf_of: 'John Doe',
+          position_in: 'Managing Director',
+          company: 'Mwananchi Village Market',
+          date: null,
+          acknowledge: true, // Default value: false
         },
       },
       dragging: true,
