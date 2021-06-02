@@ -126,6 +126,8 @@ class SupplierController extends Controller
                         "name" => $fileName,
                         "path" => $filePath
                     ]);
+                    // upload to dropbox
+                    Storage::disk('dropbox')->put('Supplier Applications/'.$filePath, file_get_contents($request[$key]));
                 }
                 if (Str::startsWith( $key, "step4_file")) {
                     $fileName = time().'_'.$request[$key]->getClientOriginalName();
