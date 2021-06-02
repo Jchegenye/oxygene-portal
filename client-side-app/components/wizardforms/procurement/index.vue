@@ -261,97 +261,77 @@ export default {
     return {
       ruleForm: {
         supplier_number: '',
-        company_email_address: 'chegenyejackson@gmail.com',
+        company_email_address: '',
         step1: {
-          full_name_organization: 'Mwananchi Village Market',
-          physical_address: 'Lenana Rd. 380 street, Kilimani',
+          full_name_organization: '',
+          physical_address: '',
           //
-          postal_address: 'P.O. BOX 355 - 50103',
-          telephone_number: '0711494289',
-          kra_pin_no: 'ASU7W0332203',
-          company_registration_no: 'COMPNY-29282',
+          postal_address: '',
+          telephone_number: '',
+          kra_pin_no: '',
+          company_registration_no: '',
           //
-          finance_dept_name: 'Liz K.',
-          finance_dept_email: 'liz@mwananchi.com',
-          finance_dept_telno: '0700000000',
+          finance_dept_name: '',
+          finance_dept_email: '',
+          finance_dept_telno: '',
           legal_entity: 'other',
-          legal_entity_other: 'N/A - Legal Entity',
-          web_site_address: 'N/A - Web Add',
+          legal_entity_other: '',
+          web_site_address: '',
           //
           list: [
             {
               id: 1,
               name: 'Director #1.',
-              director_name: 'Johnson G.',
-              director_email: 'johnson@gmail.com',
-              director_id_no: 20393883, // Numeric default value 1
-              director_postal_address: 'P.O BOX - 4950',
-              director_nationality: 'Kenyan',
-              director_per_shareholder: 80, // Numeric default value 1
-            },
-            {
-              id: 2,
-              name: 'Director #2.',
-              director_name: 'Vincent Ateya',
-              director_email: 'vinny29@gmail.com',
-              director_id_no: 28373839, // Numeric default value 1
-              director_postal_address: 'P.O BOX - 4950',
-              director_nationality: 'Kenyan',
-              director_per_shareholder: 20, // Numeric default value 1
+              director_name: '',
+              director_email: '',
+              director_id_no: 1, // Numeric default value 1
+              director_postal_address: '',
+              director_nationality: '',
+              director_per_shareholder: 1, // Numeric default value 1
             },
           ],
           //
           company_name_change: 'no', // String default value 'no'
           cert_of_changeofname: [],
-          reason_of_namechange: 'N/A - reason name change',
+          reason_of_namechange: '',
           //
           company_directors: 'no', // String default value 'no'
           cert_of_registration: [],
-          reason_of_directorschange: 'N/A - reason directors',
+          reason_of_directorschange: '',
           //
-          business_period: '3 years',
+          business_period: '',
           //
           has_oxygene_employee: 'no', // String default value 'no'
-          name_position: 'N/A - name position',
+          name_position: '',
           //
           has_interest_employee: 'no', // String default value 'no'
-          details_of_interest: 'N/A - details of interest',
+          details_of_interest: '',
           //
-          contact_person_name: 'Nelly Asumu',
-          contact_person_title: 'Procurment Manager',
-          validate_array: true, // Default value: false
+          contact_person_name: '',
+          contact_person_title: '',
+          validate_array: false, // Default value: false
         },
         step2: {
           bank_references: {
-            bank_name: 'Kenya Commercial Bank',
-            branch: 'Kimathi Street',
-            ac_no: 1221212121212, // Numeric value default 1
-            name_title: 'Jackson Asumu',
-            email_telno: '0711494289',
+            bank_name: '',
+            branch: '',
+            ac_no: 1, // Numeric value default 1
+            name_title: '',
+            email_telno: '',
           },
           trade_references: [
             {
               id: 1,
               name: 'Reference #1.',
-              company_name_addr: 'Brand Capital Africa ',
-              contact_person: 'Njuguna K.',
-              position: 'Manager',
-              office_telno: 1745000000, // Numeric value default 0
-              mobile_telno: 1172200001, // Numeric value default 0
-              email_addr: 'jugushk@brandcapital.co.ke',
-            },
-            {
-              id: 2,
-              name: 'Reference #2.',
-              company_name_addr: 'Jumia Kenya',
-              contact_person: 'Mary Akida',
-              position: 'CEO',
-              office_telno: 722200045, // Numeric value default 0
-              mobile_telno: 721000030, // Numeric value default 0
-              email_addr: 'mary@jumia.com',
+              company_name_addr: '',
+              contact_person: '',
+              position: '',
+              office_telno: 1, // Numeric value default 0
+              mobile_telno: 1, // Numeric value default 0
+              email_addr: '',
             },
           ],
-          validate_array: true, // Default value: false
+          validate_array: false, // Default value: false
         },
         step3: {
           litigation: 'no', // Numeric value default no
@@ -361,15 +341,15 @@ export default {
           evaluation: [],
         },
         step5: {
-          acknowledge: true, // Default value: false
+          acknowledge: false, // Default value: false
         },
         step6: {
           signed_sealed: [],
-          for_onbehalf_of: 'John Doe',
-          position_in: 'Managing Director',
-          company: 'Mwananchi Village Market',
+          for_onbehalf_of: '',
+          position_in: '',
+          company: '',
           date: null,
-          acknowledge: true, // Default value: false
+          acknowledge: false, // Default value: false
         },
       },
       dragging: true,
